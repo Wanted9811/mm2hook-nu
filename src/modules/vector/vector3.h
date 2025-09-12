@@ -23,6 +23,7 @@ namespace MM2
         const static Vector3 XAXIS;
         const static Vector3 YAXIS;
         const static Vector3 ZAXIS;
+        const static Vector3 AXIS;
     public:
         AGE_API Vector3(void);
         AGE_API Vector3(float x, float y, float z);

@@ -10,6 +10,7 @@ namespace MM2
     const Vector3 Vector3::XAXIS = Vector3(1.0f, 0.0f, 0.0f);
     const Vector3 Vector3::YAXIS = Vector3(0.0f, 1.0f, 0.0f);
     const Vector3 Vector3::ZAXIS = Vector3(0.0f, 0.0f, 1.0f);
+    const Vector3 Vector3::AXIS = Vector3(1.0f, 1.0f, 1.0f);
 
     AGE_API float Vector3::InvMag(void) const {
         return 1.0f / this->Mag();
