@@ -8,7 +8,8 @@ public:
     void Draw(int a1);
     void DrawGlow();
     void DrawShadow();
-    void ModStaticDraw(MM2::modShader * a1);
+    void DrawReflectedParts(int lod);
+    void DrawReflected(float intensity);
     void ApplyImpact(MM2::vehDamageImpactInfo* a1);
     void SetVariant(int a1);
     const MM2::Matrix34& GetMatrix(MM2::Matrix34* a1);

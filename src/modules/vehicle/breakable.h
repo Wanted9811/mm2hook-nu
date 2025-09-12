@@ -63,6 +63,10 @@ namespace MM2
         AGE_API void Draw(const Matrix34& world, modShader* shaders, int lod);
         AGE_API vehBreakable* Get(int index);
 
+        AGE_API void Draw(const Matrix34& world, modShader* shaders, int lod, bool alphaState);
+        AGE_API void DrawReflected(const Matrix34& world, modShader* shaders, int lod, int room);
+        AGE_API void DrawShadowed(const Matrix34& world, modShader* shaders, float intensity);
+
         static void BindLua(LuaState L);
     };
 

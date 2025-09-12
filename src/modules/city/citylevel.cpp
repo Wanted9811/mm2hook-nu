@@ -5,11 +5,18 @@ namespace MM2
 {
     declfield(cityLevel::Sky)(0x628728);
     declfield(cityLevel::sm_EnablePVS)(0x62B070);
+    declfield(cityLevel::sm_RefAlpha)(0x5C5718);
+    declfield(cityLevel::sm_ShadowHFudge)(0x5C5714);
+    declfield(cityLevel::sm_Lighting)(0x629998);
     declfield(cityLevel::sm_PvsBuffer)(0x62AE68);
     declfield(cityLevel::SDL)(0x629928);
+    declfield(cityLevel::RainParticles)(0x62770C);
+    declfield(cityLevel::RainBirthRule)(0x629990);
 
     hook::Type<int> timeOfDay(0x62B068);
     hook::Type< cityTimeWeatherLighting[16]> timeWeathers(0x6299A8);
+
+    bool cityLevel::EnableMovingClouds = true;
 
     /*
         cityTimeWeatherLighting
@@ -160,13 +167,18 @@ namespace MM2
     }
 
     //should be protected but we use this in the hook
-    AGE_API void cityLevel::DrawRooms(const gfxViewport* a1, uint a2, LPVOID a3, int a4) {
-        hook::Thunk<0x445820>::Call<void>(this, a1, a2, a3, a4);
+    AGE_API void cityLevel::DrawRooms(const gfxViewport& a1, uint a2, const cityRoomRec* a3, int a4) {
+        hook::Thunk<0x445820>::Call<void>(this, &a1, a2, a3, a4);
     }
 
     AGE_API void cityLevel::SetupLighting(Vector3 const& multiplyColor)
     {
         hook::StaticThunk<0x4436A0>::Call<void>(&multiplyColor);
+    }
+
+    AGE_API void cityLevel::SetupPerRoomLighting(int roomId)
+    {
+        hook::Thunk<0x4457B0>::Call<void>(this, roomId);
     }
 
     /*
@@ -186,6 +198,31 @@ namespace MM2
     lvlSDL* cityLevel::GetSDL()
     {
         return SDL.ptr();
+    }
+
+    int cityLevel::GetRefAlpha()
+    {
+        return sm_RefAlpha.get();
+    }
+
+    float cityLevel::GetShadowHFudge()
+    {
+        return sm_ShadowHFudge.get();
+    }
+
+    Vector3 cityLevel::GetSmLighting()
+    {
+        return sm_Lighting.get();
+    }
+
+    asParticles* cityLevel::GetRainParticles()
+    {
+        return RainParticles.get();
+    }
+
+    asBirthRule* cityLevel::GetRainBirthRule()
+    {
+        return RainBirthRule.get();
     }
 
     cityTimeWeatherLighting* cityLevel::GetLighting(int index)

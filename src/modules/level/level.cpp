@@ -134,6 +134,11 @@ AGE_API void lvlLevel::LabelInstances(int room) {
     }
 }
 
+AGE_API void lvlLevel::CallCallbacks(int phase)
+{
+    hook::Thunk<0x465630>::Call<void>(this, phase);
+}
+
 /*
     lvlLevel properties
 */

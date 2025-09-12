@@ -80,6 +80,7 @@ namespace MM2
             this->CurrentRotation = rotation;
         }
     public:
+        AGE_API void SetupFog(float a1)                     { hook::Thunk<0x465270>::Call<void>(this, a1); }
 
         /*
             lvlSky Virtuals

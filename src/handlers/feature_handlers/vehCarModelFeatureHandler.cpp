@@ -6,37 +6,16 @@ static ConfigValue<bool> cfgMm1StyleTransmission("MM1StyleTransmission", false);
 static ConfigValue<bool> cfgMm1StyleDamage("MM1StyleDamage", true);
 static ConfigValue<bool> cfgEnable3DDamage("3DDamage", true);
 static ConfigValue<bool> cfgEnable3DDynamicDamage("3DDynamicDamage", false);
-static ConfigValue<bool> cfgCarShadows("3DShadows", false);
+static ConfigValue<int> cfgCarShadows("3DShadows", 0);
 
 /*
     vehCarModelFeatureHandler
 */
 
-void vehCarModelFeatureHandler::Draw(int a1) {
+void vehCarModelFeatureHandler::Draw(int a1)
+{
     auto model = reinterpret_cast<vehCarModel*>(this);
     model->vehCarModel::Draw(a1);
-}
-
-void vehCarModelFeatureHandler::ModStaticDraw(modShader* a1) {
-    auto mod = reinterpret_cast<modStatic*>(this);
-    hook::Type<gfxTexture *> g_ReflectionMap = 0x628914;
-    bool isSoftware = *(bool*)0x6830D4;
-
-    //convert world matrix for reflection drawing
-    Matrix44 worldMatrix = gfxRenderState::GetWorldMatrix();
-    Matrix34 envInput = Matrix34();
-    worldMatrix.ToMatrix34(envInput);
-
-    //draw breakable
-    mod->Draw(a1);
-
-    //draw reflections
-    auto state = &MMSTATE;
-    if (g_ReflectionMap != nullptr && !isSoftware && state->EnableReflections) {
-        modShader::BeginEnvMap(g_ReflectionMap, envInput);
-        mod->DrawEnvMapped(a1, g_ReflectionMap, 1.0f);
-        modShader::EndEnvMap();
-    }
 }
 
 void vehCarModelFeatureHandler::ApplyImpact(vehDamageImpactInfo* a1)
@@ -83,7 +62,20 @@ void vehCarModelFeatureHandler::DrawShadow()
     model->vehCarModel::DrawShadow();
 }
 
-void vehCarModelFeatureHandler::Install() {
+void vehCarModelFeatureHandler::DrawReflectedParts(int lod)
+{
+    auto model = reinterpret_cast<vehCarModel*>(this);
+    model->vehCarModel::DrawReflectedParts(lod);
+}
+
+void vehCarModelFeatureHandler::DrawReflected(float intensity)
+{
+    auto model = reinterpret_cast<vehCarModel*>(this);
+    model->vehCarModel::DrawReflected(intensity);
+}
+
+void vehCarModelFeatureHandler::Install()
+{
     // write new vehCarModel size
     mem::write(0x42BB6E + 1, sizeof(vehCarModel));
     mem::write(0x4CDFE0 + 1, sizeof(vehCarModel));
@@ -137,6 +129,18 @@ void vehCarModelFeatureHandler::Install() {
         }
     );
 
+    InstallVTableHook("vehCarModel::DrawReflectedParts",
+        &DrawReflectedParts, {
+            0x5B2CF0
+        }
+    );
+
+    InstallVTableHook("vehCarModel::DrawReflected",
+        &DrawReflected, {
+            0x5B2CEC
+        }
+    );
+
     InstallVTableHook("vehCarModel::GetMatrix",
         &GetMatrix, {
             0x5B2CBC
@@ -148,7 +152,6 @@ void vehCarModelFeatureHandler::Install() {
     ConfigValue<bool> cfgDamageReflections("ReflectionsOnDamagedParts", false);
     ConfigValue<bool> cfgHeadlightFlashing("EnableHeadlightFlashing", true);
     ConfigValue<bool> cfgNfsMwStyleTotaledCar("NFSMWStyleTotaledCar", false);
-    ConfigValue<bool> cfgBreakableRenderTweak("BreakableRenderTweak", false);
     ConfigValue<int> cfgSirenStyle("SirenStyle", 0);
     ConfigValue<int> cfgHeadlightStyle("HeadlightStyle", 0);
     ConfigValue<float> cfgSirenCycleRate("SirenCycle", 0.25f);
@@ -168,7 +171,6 @@ void vehCarModelFeatureHandler::Install() {
 
     vehCarModel::mm1StyleTransmission = cfgMm1StyleTransmission.Get();
     vehCarModel::mm1StyleDamage = cfgMm1StyleDamage.Get();
-    vehCarModel::breakableRenderTweak = cfgBreakableRenderTweak.Get();
     
     vehCarModel::Enable3DDamage = cfgEnable3DDamage.Get();
     vehCarModel::Enable3DDynamicDamage = cfgEnable3DDynamicDamage.Get();

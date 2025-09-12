@@ -92,6 +92,11 @@ namespace MM2
             return Vector4(static_cast<float>(m_Viewport.dwX), static_cast<float>(m_Viewport.dwY), static_cast<float>(m_Viewport.dwWidth), static_cast<float>(m_Viewport.dwHeight));
         }
 
+        float GetFar() const
+        {
+            return Far;
+        }
+
         static void BindLua(LuaState L) {
             LuaBinding(L).beginClass<gfxViewport>("gfxViewport")
                 .addPropertyReadOnly("CameraMatrix", &GetCameraMatrix)

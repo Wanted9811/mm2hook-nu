@@ -91,19 +91,83 @@ void vehBreakableMgr::Draw(const Matrix34& world, modShader* shaders, int lod)
                 gfxRenderState::SetWorldMatrix(drawMatrix);
 
                 lodModel->Draw(shaders);
+            }
+        }
+    }
+}
 
-                //reflection
-                if (EnableReflections)
+void vehBreakableMgr::Draw(const Matrix34& world, modShader* shaders, int lod, bool alphaState)
+{
+    for (auto i = this->first; i; i = i->next)
+    {
+        if (i->isAttached)
+        {
+            auto lodModel = i->model->GetLOD(lod);
+            if (lodModel != nullptr)
+            {
+                Matrix34 drawMatrix = Matrix34();
+                drawMatrix.Set(i->matrix);
+                drawMatrix.Dot(world);
+
+                //setup renderer
+                gfxRenderState::SetWorldMatrix(drawMatrix);
+
+                alphaState ? lodModel->DrawAlpha(shaders) : lodModel->DrawNoAlpha(shaders);
+            }
+        }
+    }
+}
+
+void vehBreakableMgr::DrawReflected(const Matrix34& world, modShader* shaders, int lod, int room)
+{
+    //reflection
+    if (!EnableReflections)
+        return;
+
+    for (auto i = this->first; i; i = i->next)
+    {
+        if (i->isAttached)
+        {
+            auto lodModel = i->model->GetLOD(lod);
+            if (lodModel != nullptr)
+            {
+                Matrix34 drawMatrix = Matrix34();
+                drawMatrix.Set(i->matrix);
+                drawMatrix.Dot(world);
+
+                //setup renderer
+                gfxRenderState::SetWorldMatrix(drawMatrix);
+
+                float reflectionIntensity;
+                auto reflectionMap = lvlLevel::GetSingleton()->GetEnvMap(room, drawMatrix.GetRow(3), reflectionIntensity);
+                if (lod == 3 && reflectionMap != nullptr)
                 {
-                    float reflectionIntensity;
-                    auto reflectionMap = lvlLevel::GetSingleton()->GetEnvMap(0, world.GetRow(3), reflectionIntensity);
-                    if (lod == 3 && reflectionMap != nullptr)
-                    {
-                        modShader::BeginEnvMap(reflectionMap, drawMatrix);
-                        lodModel->DrawEnvMapped(shaders, reflectionMap, reflectionIntensity);
-                        modShader::EndEnvMap();
-                    }
+                    modShader::BeginEnvMap(reflectionMap, drawMatrix);
+                    lodModel->DrawEnvMapped(shaders, reflectionMap, reflectionIntensity);
+                    modShader::EndEnvMap();
                 }
+            }
+        }
+    }
+}
+
+void vehBreakableMgr::DrawShadowed(const Matrix34& world, modShader* shaders, float intensity)
+{
+    for (auto i = this->first; i; i = i->next)
+    {
+        if (i->isAttached)
+        {
+            auto lodModel = i->model->GetLOD(3);
+            if (lodModel != nullptr)
+            {
+                Matrix34 drawMatrix = Matrix34();
+                drawMatrix.Set(i->matrix);
+                drawMatrix.Dot(world);
+
+                //setup renderer
+                gfxRenderState::SetWorldMatrix(drawMatrix);
+
+                lodModel->DrawShadowed(shaders, intensity);
             }
         }
     }

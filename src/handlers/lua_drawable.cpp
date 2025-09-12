@@ -67,7 +67,7 @@ int luaDrawableHandler::RegisterCallback(LuaRef self, LuaRef function, int phase
 void luaDrawableHandler::CallCallbacks(int phase)
 {
     //call original
-    hook::Thunk<0x465630>::Call<void>(this, phase);
+    reinterpret_cast<lvlLevel*>(this)->CallCallbacks(phase);
 
     //call lua callbacks
     auto& list = callbackLists[phase];

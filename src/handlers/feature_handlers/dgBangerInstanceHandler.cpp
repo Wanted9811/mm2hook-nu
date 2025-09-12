@@ -3,11 +3,12 @@
 
 using namespace MM2;
 
-static ConfigValue<bool> cfgPropShadows("3DShadows", false);
+static ConfigValue<int> cfgPropShadows("3DShadows", 0);
 
 /*
     dgBangerInstanceHandler
 */
+hook::Type<int> sm_RefAlpha = 0x5C55F4;
 hook::Type<gfxTexture*> glowTexture = 0x62767C;
 gfxTexture* redGlowTexture;
 bool glowLoaded = false;
@@ -22,8 +23,90 @@ void dgBangerInstanceHandler::tglDrawParticle(const Vector3& position, float siz
     tglDrawParticleClipAdjusted(position, size, color);
 }
 
+void dgBangerInstanceHandler::Draw(int lod)
+{
+    auto banger = reinterpret_cast<dgBangerInstance*>(this);
+    auto data = banger->GetData();
+
+    int LOD = lod;
+    if ((banger->GetFlags() & 4) != 0 && lod < 3)
+        LOD = lod + 1;
+
+    if ((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance())
+    {
+        dgTreeRenderer::GetInstance()->AddTree(banger, LOD);
+    }
+    else
+    {
+        Matrix34 dummyMatrix = Matrix34();
+        Matrix34 bangerMatrix = banger->GetMatrix(&dummyMatrix);
+        gfxRenderState::SetWorldMatrix(bangerMatrix);
+        gfxRenderState::SetBlendSet(0, 0x80);
+
+        auto model = banger->GetGeom(LOD, 0);
+        if (model != nullptr)
+        {
+            if (data->BillFlags >= 0)
+            {
+                model->DrawNoGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
+            }
+            else
+            {
+                byte alphaRef = gfxRenderState::GetAlphaRef();
+                gfxRenderState::SetAlphaRef((byte)sm_RefAlpha);
+                gfxRenderState::SetTouchedMask(false);
+                gfxRenderState::SetLighting(false);
+                model->DrawNoGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
+                gfxRenderState::SetTouchedMask(true);
+                gfxRenderState::SetLighting(true);
+                gfxRenderState::SetAlphaRef(alphaRef);
+            }
+        }
+    }
+}
+
+void dgBangerInstanceHandler::DrawReflectedParts(int lod)
+{
+    auto banger = reinterpret_cast<dgBangerInstance*>(this);
+    auto data = banger->GetData();
+
+    int LOD = lod;
+    if ((banger->GetFlags() & 4) != 0 && lod < 3)
+        LOD = lod + 1;
+
+    if (!((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance()))
+    {
+        Matrix34 dummyMatrix = Matrix34();
+        Matrix34 bangerMatrix = banger->GetMatrix(&dummyMatrix);
+        gfxRenderState::SetWorldMatrix(bangerMatrix);
+        gfxRenderState::SetBlendSet(0, 0x80);
+
+        auto model = banger->GetGeom(LOD, 0);
+        if (model != nullptr)
+        {
+            if (data->BillFlags >= 0)
+            {
+                model->DrawGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
+            }
+            else
+            {
+                byte alphaRef = gfxRenderState::GetAlphaRef();
+                gfxRenderState::SetAlphaRef((byte)sm_RefAlpha);
+                gfxRenderState::SetTouchedMask(false);
+                gfxRenderState::SetLighting(false);
+                model->DrawGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
+                gfxRenderState::SetTouchedMask(true);
+                gfxRenderState::SetLighting(true);
+                gfxRenderState::SetAlphaRef(alphaRef);
+            }
+        }
+    }
+}
+
 void dgBangerInstanceHandler::DrawGlow()
 {
+    auto banger = reinterpret_cast<dgBangerInstance*>(this);
+
     //first time texture load
     if (!glowLoaded) {
         redGlowTexture = gfxGetTexture("s_red_glow", true);
@@ -31,7 +114,7 @@ void dgBangerInstanceHandler::DrawGlow()
     }
 
     //prepare glow texture
-    dgBangerData* data = hook::Thunk<0x441AB0>::Call<dgBangerData *>(this);
+    dgBangerData* data = banger->GetData();
     gfxTexture* lastTexture = (gfxTexture*)glowTexture;
     bool swappedTexture = false;
 
@@ -61,6 +144,10 @@ void dgBangerInstanceHandler::DrawShadow()
 
     bool prevLighting = gfxRenderState::SetLighting(true);
 
+    //invert model faces
+    auto prevCullMode = gfxRenderState::GetCullMode();
+    gfxRenderState::SetCullMode(D3DCULL_CCW);
+
     auto shaders = banger->GetShader(banger->GetVariant());
     modStatic* model = banger->GetGeomBase(0)->GetHighestLOD();
 
@@ -75,6 +162,8 @@ void dgBangerInstanceHandler::DrawShadow()
         }
     }
 
+    //revert model faces back
+    gfxRenderState::SetCullMode(prevCullMode);
     gfxRenderState::SetLighting(prevLighting);
 }
 
@@ -82,23 +171,10 @@ bool dgBangerInstanceHandler::dgBangerInstance_BeginGeom(const char* a1, const c
 {
     //We hook this to set flag 64 (shadow)
     auto inst = reinterpret_cast<lvlInstance*>(this);
-    inst->SetFlag(64);
+    inst->SetFlag(lvlInstance::INST_SHADOW);
 
     //Call original
     return inst->BeginGeom(a1, a2, a3);
-}
-
-void dgBangerInstanceHandler::dgBangerManager_Init(int poolSize)
-{
-    //We hook this to set flag 64 (shadow)
-    auto mgr = reinterpret_cast<dgBangerManager*>(this);
-    mgr->Init(poolSize);
-
-    for (int i = 0; i < poolSize; i++)
-    {
-        auto banger = mgr->GetBanger();
-        banger->SetFlag(64);
-    }
 }
 
 void dgBangerInstanceHandler::Install()
@@ -112,6 +188,32 @@ void dgBangerInstanceHandler::Install()
     InstallCallback("dgBangerInstance::DrawGlow", "Use custom tglDrawParticle.",
         &tglDrawParticle, {
             cb::call(0x441966),
+        }
+    );
+
+    InstallVTableHook("dgBangerInstance::Draw",
+        &Draw, {
+            0x5B14C0,
+            0x5B1538,
+            0x5B15E4,
+            0x5B5700,
+            0x5B6100
+        }
+    );
+
+    InstallVTableHook("dgBangerInstance::DrawReflectedParts",
+        &DrawReflectedParts, {
+            0x5B14D4,
+            0x5B154C,
+            0x5B15F8,
+            0x5B1668,
+            0x5B54EC,
+            0x5B5698,
+            0x5B5714,
+            0x5B57D8,
+            0x5B5FCC,
+            0x5B6114,
+            0x5B61C0
         }
     );
 
@@ -155,12 +257,6 @@ void dgBangerInstanceHandler::Install()
                 cb::call(0x441C86), // dgUnhitBangerInstance::Init
             }
         );
-
-        //InstallCallback("dgBangerManager::Init", "Hook Init to set instance shadowing flag.",
-        //    &dgBangerManager_Init, {
-        //        cb::call(0x4129F4), // mmGame::Init
-        //    }
-        //);
 
         // increases the maximum distance from 5 to 10 meters to enable shadow rendering for very tall props 
         InstallPatch({ 0xD8, 0x25, 0x28, 0x4, 0x5B, 0x0 }, {
