@@ -28,6 +28,11 @@ namespace MM2
         {
             return this->SuspensionMatrix;
         }
+
+        inline Matrix34 getSuspensionPivot()
+        {
+            return this->SuspensionPivot;
+        }
     public:
         AGE_API vehSuspension()                             { hook::Thunk<0x4D9990>::Call<void>(this); }
 
