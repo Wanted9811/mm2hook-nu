@@ -18,7 +18,7 @@ namespace MM2
         static bool s_CheapShadows;
     public:
         uint8_t PacketCount;
-        uint8_t Flags; // 2 = Has alpha, 4 = High Cloud Shadowx, 8 = Low Cloud Shadows
+        uint8_t Flags; // 2 = Has alpha, 4 = High Cloud Shadows, 8 = Low Cloud Shadows
         uint16_t FvfFlags;
         uint8_t *ShaderIndices;
         gfxPacket **ppPackets;
@@ -37,6 +37,12 @@ namespace MM2
         AGE_API void DrawOrthoMapped(modShader* shader, gfxTexture* tex, float scale, uint texFlagMask) const;
         AGE_API void DrawOrthoMapped(modShader* shader, gfxTexture* tex, float scale, Vector3 offset, uint texFlagMask) const;
         AGE_API void DrawWithTexGenAndTexMatrix(void) const;
+
+        void DrawReflected(modShader* shaders, int room, Matrix34 const& matrix, float intensity) const;
+        void DrawAlpha(modShader* shaders) const;
+        void DrawNoGlass(modShader* shaders) const;
+        void DrawGlass(modShader* shaders) const;
+        bool HasGlass(modShader* shader) const;
 
         int GetPacketCount() const;
         gfxPacket* GetPacket(int num);

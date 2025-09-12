@@ -1,2855 +1,897 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\mm2">
-      <UniqueIdentifier>{0ffec7da-4979-40c7-a843-5590bfd6ae61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AGE">
-      <UniqueIdentifier>{1a5c33ac-ee87-4964-9911-fbd43fd8cccb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lua 5.3.2 Files">
-      <UniqueIdentifier>{da0eedae-3c74-4c1d-aae6-31b655a60e08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LuaIntf Files">
-      <UniqueIdentifier>{b0c16bd0-bdcf-4493-8c8d-9e34ef7c0253}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LuaIntf Files\impl">
-      <UniqueIdentifier>{cfae8b57-924e-41bd-846b-e49302ff4421}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="LuaIntf Files\src">
-      <UniqueIdentifier>{0904d3f2-eaad-4117-adf8-0d83ae6bc977}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\handlers">
-      <UniqueIdentifier>{80b5258d-e239-4ca7-9e7a-ab675b35ccf7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Discord Rich Presence">
-      <UniqueIdentifier>{f5a0a057-e458-42d5-b643-cc6123a2590e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\events">
-      <UniqueIdentifier>{da4ebbae-af63-4a06-b383-bddfd7e83af5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780000}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\ai">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780001}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\banger">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\city">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780003}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\core">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780004}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\creature">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780005}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\data">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780006}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\input">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780007}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\level">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780008}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\node">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB780009}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\parse">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB78000A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\ped">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB78000B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\phys">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB78000C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\vehicle">
-      <UniqueIdentifier>{48324D4D-4F4F-534B-5543-4B53FB78000D}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\luafilesystem">
-      <UniqueIdentifier>{996e8999-c87f-48de-a290-3123c99b9bb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\effects">
-      <UniqueIdentifier>{c056a17a-1c1e-4b69-915a-b28dd4c155ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui">
-      <UniqueIdentifier>{df207dd0-af3f-4a25-8cc5-040927f10590}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\impl">
-      <UniqueIdentifier>{e7c0ddad-aa1e-4329-ae6e-b1cf57aff66e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\luabindings">
-      <UniqueIdentifier>{bf690c2f-b6cd-42ee-bde7-8ac7f68b8583}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\misc">
-      <UniqueIdentifier>{d5a719d3-d9c2-480d-9af9-e2adb07c6a6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\misc\cpp">
-      <UniqueIdentifier>{f69455ef-0e04-43bf-ad74-05eb60b6c99b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\renderer">
-      <UniqueIdentifier>{28b01d55-9318-4d0f-812c-2a4f55fb56dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\implot">
-      <UniqueIdentifier>{ff1c3a0d-223e-4913-9c4e-e4adaaa4d0d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\handlers\bugfix_handlers">
-      <UniqueIdentifier>{1d1aac83-e929-452d-af39-e44ba74cea88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\handlers\feature_handlers">
-      <UniqueIdentifier>{99305f13-f779-4d2e-ace8-076236dee7f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Discord Rich Presence\gamesdk">
-      <UniqueIdentifier>{61b521a8-ff2e-47ee-89d5-5413f2db3758}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\model">
-      <UniqueIdentifier>{b2dce090-5e28-4a22-9bcf-88fd1c080580}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\gfx">
-      <UniqueIdentifier>{1b5a79d7-f3c6-4911-a8df-32abd384f370}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\lights">
-      <UniqueIdentifier>{c8457a78-b902-4e35-8344-1fd813548e01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\rgl">
-      <UniqueIdentifier>{83e8017d-0772-4772-88be-aa15736fd46b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmeffects">
-      <UniqueIdentifier>{d1297fa5-96ea-4c33-97fe-77a79adb071a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmcityinfo">
-      <UniqueIdentifier>{caa47de4-6405-4ccc-8bc9-20f9a1965fe9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmgame">
-      <UniqueIdentifier>{75eb01fe-00c2-4955-8479-009ae94bcba7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmnetwork">
-      <UniqueIdentifier>{766ceeb5-38c1-4a7d-b4ef-d525aa7adf05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmwidget">
-      <UniqueIdentifier>{fa6eca2a-2c5b-42f5-bd39-333e2b696e93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\gizmo">
-      <UniqueIdentifier>{71cf16f5-0be5-48fe-bbf4-239167d11daa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\vector">
-      <UniqueIdentifier>{456f9ef7-bfac-4158-bc3d-5e33ab39d76c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\audio">
-      <UniqueIdentifier>{45b5a56b-9d87-4fad-9f19-f7b023180b24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mminput">
-      <UniqueIdentifier>{ecd7b809-791d-4957-9824-faacb21daf40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmui">
-      <UniqueIdentifier>{9565d755-55b6-4062-aa48-b94c21df9b22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\node">
-      <UniqueIdentifier>{edc72137-c0b4-45d7-9883-a2eba2520bf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\node\blueprint">
-      <UniqueIdentifier>{78b19e72-35e7-4457-b050-693ee61aa646}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\imgui\gizmo">
-      <UniqueIdentifier>{a96cda38-3d2d-4b8d-a8ac-f0e20eb9d44c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\directmusic">
-      <UniqueIdentifier>{dbf9b1d2-5aac-461e-87b4-dfb1cad374e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\modules\mmaudio">
-      <UniqueIdentifier>{1191659c-08d6-4d6f-bb17-3400b0badc7b}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="discord-rpc\gamesdk\achievement_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\activity_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\application_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\core.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\image_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\lobby_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\network_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\overlay_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\relationship_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\storage_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\store_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\types.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\user_manager.cpp" />
+    <ClCompile Include="discord-rpc\gamesdk\voice_manager.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiCTFRacerHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiPathHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiPedestrianHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiPoliceForceHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiVehicleAmbientHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiVehicleInstanceHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\aiVehiclePhysicsHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\asMeshCardInfoHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\audManagerHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\cityLevelBugfixHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\fxShardManagerBugfixHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\gfxImageHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\lvlSkyHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\memMemoryAllocatorHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmWaypointInstanceHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmCDPlayerHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmHudMapHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmInterfaceHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmMirrorHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmMultiCRHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmPopupHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmSpeedIndicatorHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmTimerHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mmViewMgrBugfixHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\modShaderHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\mpConsistencyHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\NetSelectMenuHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\vehCarAudioContainerBugfixHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\CityListHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\vehCarAudioHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\vehSemiCarAudioBugfixHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\vehSplashHandler.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers\vehTrailerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\asCullManagerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aud3DObjectHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\Aud3DObjectManagerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\audControlHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\BridgeFerryHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\cityLevelHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\cityTimeWeatherLightingHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\datCallbackExtensionHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\dgBangerInstanceHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\dgPhysManagerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\Dialog_NewPlayerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\FadeHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\fxTexelDamageHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\gettexHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\gfxPipelineHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\gizFerryHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\gizParkedCarMgrHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\gizTrainHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\ImGuiFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\InitMapHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\ltLensFlareHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\lvlHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\memSafeHeapHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmArrowHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmCityListHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmDashViewHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmDirSndHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmExternalViewHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmGameHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmGameMultiHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmGameMusicDataHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmHudMapFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmIconsHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmInterfaceFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmPlayerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmSingleRaceHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\mmSingleRoamHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\modStaticHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\pedestrianInstanceHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\PUMainHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\sdlPage16Handler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\StreamHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\TextureVariantHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehBreakableMgrHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehCableCarInstanceHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehCarAudioContainerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehCarHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehCarModelFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehCarSimHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehEngineFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehPoliceCarAudioHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehSirenHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehTrailerFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehTrailerInstanceFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vehWheelHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\vglHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\ViewDistanceHandler.cpp" />
+    <ClCompile Include="src\handlers\print_handler.cpp" />
+    <ClCompile Include="src\hook.cpp" />
+    <ClCompile Include="src\handlers\lua_drawable.cpp" />
+    <ClCompile Include="src\imgui\gizmo\ImGuizmo.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\imgui\impl\imgui_impl_age.cpp" />
+    <ClCompile Include="src\imgui\impl\imgui_impl_win32.cpp" />
+    <ClCompile Include="src\imgui\luabindings\imgui_lua_bindings.cpp" />
+    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="src\imgui\node\blueprint\builders.cpp" />
+    <ClCompile Include="src\imgui\node\blueprint\drawing.cpp" />
+    <ClCompile Include="src\imgui\node\blueprint\widgets.cpp" />
+    <ClCompile Include="src\imgui\node\crude_json.cpp" />
+    <ClCompile Include="src\imgui\node\imgui_canvas.cpp" />
+    <ClCompile Include="src\imgui\node\imgui_node_editor.cpp" />
+    <ClCompile Include="src\imgui\node\imgui_node_editor_api.cpp" />
+    <ClCompile Include="src\imgui\renderer\imgui_age_rendernode.cpp" />
+    <ClCompile Include="src\implot\implot.cpp" />
+    <ClCompile Include="src\implot\implot_demo.cpp" />
+    <ClCompile Include="src\implot\implot_items.cpp" />
+    <ClCompile Include="src\luafilesystem\lfs.c" />
+    <ClCompile Include="src\mm2_common.cpp" />
+    <ClCompile Include="src\mm2_effects.cpp" />
+    <ClCompile Include="src\events\dispatcher.cpp" />
+    <ClCompile Include="src\mm2_replay.cpp" />
+    <ClCompile Include="src\modules\ai.cpp" />
+    <ClCompile Include="src\modules\ai\aiCTFRacer.cpp" />
+    <ClCompile Include="src\modules\ai\aiGoalAvoidPlayer.cpp" />
+    <ClCompile Include="src\modules\ai\aiIntersection.cpp" />
+    <ClCompile Include="src\modules\ai\aiMap.cpp" />
+    <ClCompile Include="src\modules\ai\aiPath.cpp" />
+    <ClCompile Include="src\modules\ai\aiPedestrian.cpp" />
+    <ClCompile Include="src\modules\ai\aiPoliceForce.cpp" />
+    <ClCompile Include="src\modules\ai\aiPoliceOfficer.cpp" />
+    <ClCompile Include="src\modules\ai\aiVehicle.cpp" />
+    <ClCompile Include="src\modules\ai\aiVehicleAmbient.cpp" />
+    <ClCompile Include="src\modules\ai\aiVehiclePhysics.cpp" />
+    <ClCompile Include="src\modules\ai\aiVehiclePhysicsWrapper.cpp" />
+    <ClCompile Include="src\modules\ai\aiVehicleSpline.cpp" />
+    <ClCompile Include="src\modules\audio.cpp" />
+    <ClCompile Include="src\modules\audio\audmanagerbase.cpp" />
+    <ClCompile Include="src\modules\audio\streamingmusic.cpp" />
+    <ClCompile Include="src\modules\banger.cpp" />
+    <ClCompile Include="src\modules\banger\tree.cpp" />
+    <ClCompile Include="src\modules\city.cpp" />
+    <ClCompile Include="src\modules\city\citylevel.cpp" />
+    <ClCompile Include="src\modules\core.cpp" />
+    <ClCompile Include="src\modules\core\stream.cpp" />
+    <ClCompile Include="src\modules\creature.cpp" />
+    <ClCompile Include="src\modules\data.cpp" />
+    <ClCompile Include="src\modules\data\args.cpp" />
+    <ClCompile Include="src\modules\data\base.cpp" />
+    <ClCompile Include="src\modules\data\stack.cpp" />
+    <ClCompile Include="src\modules\data\timemgr.cpp" />
+    <ClCompile Include="src\modules\directmusic\dmusicmanager.cpp" />
+    <ClCompile Include="src\modules\directmusic\dmusicobject.cpp" />
+    <ClCompile Include="src\modules\effects.cpp" />
+    <ClCompile Include="src\modules\effects\birth.cpp" />
+    <ClCompile Include="src\modules\effects\damage.cpp" />
+    <ClCompile Include="src\modules\effects\damage3d.cpp" />
+    <ClCompile Include="src\modules\effects\ptx.cpp" />
+    <ClCompile Include="src\modules\effects\waterspout.cpp" />
+    <ClCompile Include="src\modules\gfx.cpp" />
+    <ClCompile Include="src\modules\gfx\packet.cpp" />
+    <ClCompile Include="src\modules\gfx\pipeline.cpp" />
+    <ClCompile Include="src\modules\gfx\rstate.cpp" />
+    <ClCompile Include="src\modules\gfx\stats.cpp" />
+    <ClCompile Include="src\modules\gizmo.cpp" />
+    <ClCompile Include="src\modules\gizmo\bridge.cpp" />
+    <ClCompile Include="src\modules\input.cpp" />
+    <ClCompile Include="src\modules\level.cpp" />
+    <ClCompile Include="src\modules\level\inst.cpp" />
+    <ClCompile Include="src\modules\level\landmark.cpp" />
+    <ClCompile Include="src\modules\level\level.cpp" />
+    <ClCompile Include="src\modules\level\multiroom.cpp" />
+    <ClCompile Include="src\modules\lights.cpp" />
+    <ClCompile Include="src\modules\lights\light.cpp" />
+    <ClCompile Include="src\modules\mmaudio\mmaudiomanager.cpp" />
+    <ClCompile Include="src\modules\mmaudio\mmdmusicmanager.cpp" />
+    <ClCompile Include="src\modules\mmcityinfo.cpp" />
+    <ClCompile Include="src\modules\mmeffects.cpp" />
+    <ClCompile Include="src\modules\mmeffects\meshform.cpp" />
+    <ClCompile Include="src\modules\mmeffects\vehform.cpp" />
+    <ClCompile Include="src\modules\mmgame.cpp" />
+    <ClCompile Include="src\modules\mmgame\gameman.cpp" />
+    <ClCompile Include="src\modules\mmgame\icons.cpp" />
+    <ClCompile Include="src\modules\mmgame\interface.cpp" />
+    <ClCompile Include="src\modules\mmgame\mirror.cpp" />
+    <ClCompile Include="src\modules\mmgame\wpobject.cpp" />
+    <ClCompile Include="src\modules\mminput.cpp" />
+    <ClCompile Include="src\modules\mmnetwork.cpp" />
+    <ClCompile Include="src\modules\mmnetwork\netobject.cpp" />
+    <ClCompile Include="src\modules\mmnetwork\network.cpp" />
+    <ClCompile Include="src\modules\mmui.cpp" />
+    <ClCompile Include="src\modules\mmwidget.cpp" />
+    <ClCompile Include="src\modules\mmwidget\menu.cpp" />
+    <ClCompile Include="src\modules\model.cpp" />
+    <ClCompile Include="src\modules\model\getpivot.cpp" />
+    <ClCompile Include="src\modules\model\getstatic.cpp" />
+    <ClCompile Include="src\modules\model\model2.cpp" />
+    <ClCompile Include="src\modules\model\shader.cpp" />
+    <ClCompile Include="src\modules\model\static2.cpp" />
+    <ClCompile Include="src\modules\node.cpp" />
+    <ClCompile Include="src\modules\node\dof.cpp" />
+    <ClCompile Include="src\modules\node\linear.cpp" />
+    <ClCompile Include="src\modules\parse.cpp" />
+    <ClCompile Include="src\modules\ped.cpp" />
+    <ClCompile Include="src\modules\ped\pedscripted.cpp" />
+    <ClCompile Include="src\modules\ped\ragdollmgr.cpp" />
+    <ClCompile Include="src\modules\phys.cpp" />
+    <ClCompile Include="src\modules\phys\phinertia.cpp" />
+    <ClCompile Include="src\modules\phys\physmgr.cpp" />
+    <ClCompile Include="src\modules\rgl.cpp" />
+    <ClCompile Include="src\modules\vector.cpp" />
+    <ClCompile Include="src\modules\vector\matrix34.cpp" />
+    <ClCompile Include="src\modules\vector\matrix44.cpp" />
+    <ClCompile Include="src\modules\vector\vector2.cpp" />
+    <ClCompile Include="src\modules\vector\vector3.cpp" />
+    <ClCompile Include="src\modules\vector\vector4.cpp" />
+    <ClCompile Include="src\modules\vehicle.cpp" />
+    <ClCompile Include="src\modules\vehicle\aero.cpp" />
+    <ClCompile Include="src\modules\vehicle\aisubwayaudio.cpp" />
+    <ClCompile Include="src\modules\vehicle\breakable.cpp" />
+    <ClCompile Include="src\modules\vehicle\car.cpp" />
+    <ClCompile Include="src\modules\vehicle\cardamage.cpp" />
+    <ClCompile Include="src\modules\vehicle\carmodel.cpp" />
+    <ClCompile Include="src\modules\vehicle\carsim.cpp" />
+    <ClCompile Include="src\modules\vehicle\trailer.cpp" />
+    <ClCompile Include="src\modules\vehicle\wheel.cpp" />
+    <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\handlers\bugfix_handlers.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers.cpp" />
+    <ClCompile Include="src\lua\lapi.c" />
+    <ClCompile Include="src\lua\lauxlib.c" />
+    <ClCompile Include="src\lua\lbaselib.c" />
+    <ClCompile Include="src\lua\lbitlib.c" />
+    <ClCompile Include="src\lua\lcode.c" />
+    <ClCompile Include="src\lua\lcorolib.c" />
+    <ClCompile Include="src\lua\lctype.c" />
+    <ClCompile Include="src\lua\ldblib.c" />
+    <ClCompile Include="src\lua\ldebug.c" />
+    <ClCompile Include="src\lua\ldo.c" />
+    <ClCompile Include="src\lua\ldump.c" />
+    <ClCompile Include="src\lua\lfunc.c" />
+    <ClCompile Include="src\lua\lgc.c" />
+    <ClCompile Include="src\lua\linit.c" />
+    <ClCompile Include="src\lua\liolib.c" />
+    <ClCompile Include="src\lua\llex.c" />
+    <ClCompile Include="src\lua\lmathlib.c" />
+    <ClCompile Include="src\lua\lmem.c" />
+    <ClCompile Include="src\lua\loadlib.c" />
+    <ClCompile Include="src\lua\lobject.c" />
+    <ClCompile Include="src\lua\lopcodes.c" />
+    <ClCompile Include="src\lua\loslib.c" />
+    <ClCompile Include="src\lua\lparser.c" />
+    <ClCompile Include="src\lua\lstate.c" />
+    <ClCompile Include="src\lua\lstring.c" />
+    <ClCompile Include="src\lua\lstrlib.c" />
+    <ClCompile Include="src\lua\ltable.c" />
+    <ClCompile Include="src\lua\ltablib.c" />
+    <ClCompile Include="src\lua\ltm.c" />
+    <ClCompile Include="src\lua\lundump.c" />
+    <ClCompile Include="src\lua\lutf8lib.c" />
+    <ClCompile Include="src\lua\lvm.c" />
+    <ClCompile Include="src\lua\lzio.c" />
+    <ClCompile Include="src\console.cpp" />
+    <ClCompile Include="src\logfile.cpp" />
+    <ClCompile Include="src\patch.cpp" />
+    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\mm2.cpp" />
+    <ClCompile Include="src\mm2_ai.cpp" />
+    <ClCompile Include="src\mm2_audio.cpp" />
+    <ClCompile Include="src\mm2_base.cpp" />
+    <ClCompile Include="src\mm2_bound.cpp" />
+    <ClCompile Include="src\mm2_breakable.cpp" />
+    <ClCompile Include="src\mm2_city.cpp" />
+    <ClCompile Include="src\mm2_creature.cpp" />
+    <ClCompile Include="src\mm2_data.cpp" />
+    <ClCompile Include="src\mm2_game.cpp" />
+    <ClCompile Include="src\mm2_gfx.cpp" />
+    <ClCompile Include="src\mm2_input.cpp" />
+    <ClCompile Include="src\mm2_inst.cpp" />
+    <ClCompile Include="src\mm2_level.cpp" />
+    <ClCompile Include="src\mm2_lua.cpp" />
+    <ClCompile Include="src\mm2_model.cpp" />
+    <ClCompile Include="src\mm2_network.cpp" />
+    <ClCompile Include="src\mm2_phys.cpp" />
+    <ClCompile Include="src\mm2_rgl.cpp" />
+    <ClCompile Include="src\mm2_stream.cpp" />
+    <ClCompile Include="src\mm2_ui.cpp" />
+    <ClCompile Include="src\mm2_utils.cpp" />
+    <ClCompile Include="src\mm2_vehicle.cpp" />
+    <ClCompile Include="discord-rpc\discord-presence.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\lvlFixedAnyHandler.cpp" />
+    <ClCompile Include="src\modules\vehicle\trackmanager.cpp" />
+    <ClCompile Include="src\modules\vehicle\wheelcheap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\lua\lapi.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lauxlib.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lcode.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lctype.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\ldebug.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\ldo.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lfunc.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lgc.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\llex.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\llimits.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lmem.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lobject.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lopcodes.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lparser.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lprefix.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lstate.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lstring.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\ltable.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\ltm.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lua.hpp">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\luaconf.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lualib.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lundump.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lvm.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lua\lzio.h">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\LuaCompat.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\LuaContext.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\LuaIntf.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\LuaRef.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\LuaState.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\patch.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_utils.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_stream.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_lua.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_ai.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_data.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_input.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_game.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_vector.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_vehicle.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_city.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_base.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_common.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\LuaException.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\LuaType.h">
-      <Filter>LuaIntf Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\CppArg.h">
-      <Filter>LuaIntf Files\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\CppBindClass.h">
-      <Filter>LuaIntf Files\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\CppBindModule.h">
-      <Filter>LuaIntf Files\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\CppFunction.h">
-      <Filter>LuaIntf Files\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\CppInvoke.h">
-      <Filter>LuaIntf Files\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\impl\CppObject.h">
-      <Filter>LuaIntf Files\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\CppBindClass.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\CppBindModule.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\CppFunction.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\CppObject.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\LuaCompat.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\LuaRef.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\LuaIntf\src\LuaState.cpp">
-      <Filter>LuaIntf Files\src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_gfx.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_audio.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_rgl.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_creature.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_inst.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_level.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_phys.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_ui.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers.h">
-      <Filter>Source Files\handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers.h">
-      <Filter>Source Files\handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_breakable.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_bound.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\discord-presence.h">
-      <Filter>Source Files\Discord Rich Presence</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_network.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_model.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\console.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\settings.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\dispatcher.h">
-      <Filter>Source Files\events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_effects.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\__template__.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiBanger.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiCableCar.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiCityData.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiCTFRacer.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiData.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiIntersection.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiMap.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiPath.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiPedAudio.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiPedestrian.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiPoliceForce.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiPoliceOfficer.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiRailSet.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiRouteRacer.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiSubway.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiTrafficLight.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehicle.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehicleAmbient.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehicleData.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehicleMGR.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehiclePhysics.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehiclePlayer.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehicleSpline.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\ArrayList.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\mcHookman.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger\__template__.h">
-      <Filter>Source Files\modules\banger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger\active.h">
-      <Filter>Source Files\modules\banger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger\banger.h">
-      <Filter>Source Files\modules\banger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger\data.h">
-      <Filter>Source Files\modules\banger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger\glass.h">
-      <Filter>Source Files\modules\banger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger\tree.h">
-      <Filter>Source Files\modules\banger</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city\__template__.h">
-      <Filter>Source Files\modules\city</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city\ai.h">
-      <Filter>Source Files\modules\city</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city\citylevel.h">
-      <Filter>Source Files\modules\city</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city\propulate.h">
-      <Filter>Source Files\modules\city</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city\psdl.h">
-      <Filter>Source Files\modules\city</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city\state.h">
-      <Filter>Source Files\modules\city</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\core\__template__.h">
-      <Filter>Source Files\modules\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\core\file.h">
-      <Filter>Source Files\modules\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\core\output.h">
-      <Filter>Source Files\modules\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\core\stream.h">
-      <Filter>Source Files\modules\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\creature\__template__.h">
-      <Filter>Source Files\modules\creature</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\creature\cranimation.h">
-      <Filter>Source Files\modules\creature</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\creature\crbody.h">
-      <Filter>Source Files\modules\creature</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\creature\crskeleton.h">
-      <Filter>Source Files\modules\creature</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\creature\dgragdoll.h">
-      <Filter>Source Files\modules\creature</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\__template__.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\args.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\asset.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\base.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\callback.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\hash.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\timemgr.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\timer.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\token.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input\__template__.h">
-      <Filter>Source Files\modules\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input\eventq.h">
-      <Filter>Source Files\modules\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input\joystick.h">
-      <Filter>Source Files\modules\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input\keyboard.h">
-      <Filter>Source Files\modules\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input\mouse.h">
-      <Filter>Source Files\modules\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input\pad.h">
-      <Filter>Source Files\modules\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\__template__.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\fixed.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\inst.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\landmark.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\level.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\material.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\multiroom.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\pathset.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\sky.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\track.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\__template__.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\camera.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\cullable.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\cullmgr.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\event.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\eventq.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\fileio.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\linear.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\node.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\root.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\str.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\parse\__template__.h">
-      <Filter>Source Files\modules\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\parse\csv.h">
-      <Filter>Source Files\modules\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\parse\parse.h">
-      <Filter>Source Files\modules\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped\__template__.h">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped\pedactive.h">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped\pedanim.h">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped\pedinst.h">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped\ragdollmgr.h">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\__template__.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\bound.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\impact.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\levelbound.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phbound.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundbox.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundcollision.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundgeom.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundhotdog.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundpolygonal.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundsphere.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundterrain.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phboundterrainlocal.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcollider.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcolliderbase.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcolliderjointed.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcollision.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcollisionprim.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcontact.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phcontactmgr.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phconvexpoly.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phimpact.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phimpactbase.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phinertia.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phintersection.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phisectpoint.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phjoint.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phline.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phmaterial.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phmath.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phpoly.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phsleep.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\physentity.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\physmgr.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\segment.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\trailerjoint.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\__template__.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\aero.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\aiambientvehicleaudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\aicablecaraudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\aicablecaraudiodata.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\aiengineaudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\aisubwayaudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\axle.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\bound.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\breakable.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\car.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\caraudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\caraudiocontainer.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\cardamage.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\carmodel.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\carsim.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\drivetrain.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\engine.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\engineaudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\hornaudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\nitrocaraudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\policecaraudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\semicaraudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\siren.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\splash.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\surfaceaudio.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\surfaceaudiodata.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\suspension.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\trailer.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\transmission.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\wheel.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\wheelcheap.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\wheelptx.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\__template__.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\banger.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\city.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\core.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\creature.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\input.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\parse.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\lua_drawable.h">
-      <Filter>Source Files\handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\luafilesystem\lfs.h">
-      <Filter>Source Files\luafilesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\__template__.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\shard.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\luanode.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\data\stack.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2_replay.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\gyro.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\stuck.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\linespark.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\impl\imgui_impl_age.h">
-      <Filter>Source Files\imgui\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\impl\imgui_impl_win32.h">
-      <Filter>Source Files\imgui\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h">
-      <Filter>Source Files\imgui\misc\cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\renderer\imgui_age_rendernode.h">
-      <Filter>Source Files\imgui\renderer</Filter>
-    </ClInclude>
+    <ClInclude Include="discord-rpc\gamesdk\achievement_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\activity_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\application_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\core.h" />
+    <ClInclude Include="discord-rpc\gamesdk\discord.h" />
+    <ClInclude Include="discord-rpc\gamesdk\event.h" />
+    <ClInclude Include="discord-rpc\gamesdk\ffi.h" />
+    <ClInclude Include="discord-rpc\gamesdk\image_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\lobby_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\network_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\overlay_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\relationship_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\storage_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\store_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\types.h" />
+    <ClInclude Include="discord-rpc\gamesdk\user_manager.h" />
+    <ClInclude Include="discord-rpc\gamesdk\voice_manager.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiCTFRacerHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiPathHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiPedestrianHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiPoliceForceHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiVehicleAmbientHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiVehicleInstanceHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\aiVehiclePhysicsHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\asMeshCardInfoHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\audManagerHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\cityLevelBugfixHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\fxShardManagerBugfixHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\gfxImageHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\lvlSkyHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\memMemoryAllocatorHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmWaypointInstanceHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmCDPlayerHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmHudMapHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmInterfaceHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmMirrorHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmMultiCRHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmPopupHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmSpeedIndicatorHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmTimerHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mmViewMgrBugfixHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\modShaderHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\mpConsistencyHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\NetSelectMenuHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\vehCarAudioContainerBugfixHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\CityListHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\vehCarAudioHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\vehSemiCarAudioBugfixHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\vehSplashHandler.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers\vehTrailerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\asCullManagerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aud3DObjectHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\Aud3DObjectManagerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\audControlHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\BridgeFerryHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\cityLevelHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\cityTimeWeatherLightingHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\datCallbackExtensionHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\dgBangerInstanceHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\dgPhysManagerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\Dialog_NewPlayerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\FadeHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\fxTexelDamageHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\gettexHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\gfxPipelineHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\gizFerryHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\gizParkedCarMgrHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\gizTrainHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\ImGuiFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\InitMapHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\ltLensFlareHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\lvlHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\memSafeHeapHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmArrowHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmCityListHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmDashViewHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmDirSndHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmExternalViewHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmGameHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmGameMultiHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmGameMusicDataHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmHudMapFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmIconsHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmInterfaceFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmPlayerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmSingleRaceHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\mmSingleRoamHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\modStaticHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\pedestrianInstanceHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\PUMainHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\sdlPage16Handler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\StreamHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\TextureVariantHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehBreakableMgrHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehCableCarInstanceHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehCarAudioContainerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehCarHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehCarModelFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehCarSimHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehEngineFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehPoliceCarAudioHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehSirenHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehTrailerFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehTrailerInstanceFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vehWheelHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\vglHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\ViewDistanceHandler.h" />
+    <ClInclude Include="src\handlers\print_handler.h" />
     <ClInclude Include="src\hook.h" />
-    <ClInclude Include="src\modules\data\refcount.h">
-      <Filter>Source Files\modules\data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\implot\implot_internal.h">
-      <Filter>Source Files\implot</Filter>
-    </ClInclude>
-    <ClInclude Include="src\implot\implot.h">
-      <Filter>Source Files\implot</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmInterfaceHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\audManagerHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\gfxImageHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmWaypointInstanceHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmPopupHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\lvlSkyHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\modShaderHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\vehTrailerHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiPoliceForceHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mpConsistencyHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiVehicleAmbientHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmHudMapHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmSpeedIndicatorHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmCDPlayerHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\vehSemiCarAudioBugfixHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmViewMgrBugfixHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmMultiCRHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\vehCarAudioContainerBugfixHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\fxShardManagerBugfixHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\asMeshCardInfoHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiVehicleInstanceHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\memMemoryAllocatorHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmMirrorHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\cityLevelBugfixHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiPathHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiPedestrianHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\dgBangerInstanceHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\Dialog_NewPlayerHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\fxTexelDamageHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\gfxPipelineHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\ltLensFlareHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\lvlHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmArrowHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmDirSndHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmExternalViewHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmGameHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmHudMapFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmIconsHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmPlayerHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmSingleRaceHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmSingleRoamHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\pedestrianInstanceHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\PUMainHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\sdlPage16Handler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\StreamHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\TextureVariantHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehCarHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehCarModelFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehCarSimHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehSirenHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehTrailerFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehWheelHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vglHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\asCullManagerHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehCableCarInstanceHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehTrailerInstanceFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehBreakableMgrHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmCityListHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmDashViewHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\gizParkedCarMgrHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehPoliceCarAudioHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\BridgeFerryHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\memSafeHeapHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\gizFerryHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehCarAudioContainerHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmGameMusicDataHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\Aud3DObjectManagerHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\datCallbackExtensionHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\cityLevelHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\cityTimeWeatherLightingHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\vehEngineFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\mmTimerHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\InitMapHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\relationship_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\storage_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\store_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\types.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\user_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\voice_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\achievement_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\activity_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\application_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\core.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\discord.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\event.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\ffi.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\image_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\lobby_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\network_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="discord-rpc\gamesdk\overlay_manager.h">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\package.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\static2.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\shader.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\model2.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\packet.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\texture.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\image.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\lights.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\lights\light.h">
-      <Filter>Source Files\modules\lights</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\lights\flare.h">
-      <Filter>Source Files\modules\lights</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\rstate.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\material.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\pipeline.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\viewport.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\light.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmeffects.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmeffects\meshform.h">
-      <Filter>Source Files\modules\mmeffects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\getstatic.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\loader.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\model\getpivot.h">
-      <Filter>Source Files\modules\model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\ptx.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\birth.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\rgl.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\rgl\vgl.h">
-      <Filter>Source Files\modules\rgl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\font.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\gettex.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\texeldamage.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\citylist.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\vehlist.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\cityinfo.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\vehinfo.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\gameman.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\game.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\singleroam.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\gamesingle.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\gamemulti.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\singlerace.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\singlecircuit.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\singleblitz.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\singlestunt.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\multiroam.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\multiblitz.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\multirace.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\multicircuit.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\multicr.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\cd.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\hud.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\hudmap.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\gauge.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\player.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\dash.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\mmgamemusicdata.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmnetwork.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmnetwork\network.h">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmnetwork\zone.h">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmnetwork\luasessinfo.h">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\popup.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\ttip.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\widget.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\button.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmeffects\mmtext.h">
-      <Filter>Source Files\modules\mmeffects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\bm_button.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\card2d.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\icon.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\label.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\menu.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\pathspline.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\pathspline_wrapper.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiCTFRacerHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phforcesphere.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\explosion.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\vector3.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\vector2.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\vector4.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\geometry.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\matrix34.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\matrix44.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vector\randmath.h">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\texmovie.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\print_handler.h">
-      <Filter>Source Files\handlers</Filter>
-    </ClInclude>
+    <ClInclude Include="src\handlers\lua_drawable.h" />
+    <ClInclude Include="src\imgui\gizmo\ImGuizmo.h" />
+    <ClInclude Include="src\imgui\imconfig.h" />
+    <ClInclude Include="src\imgui\imgui.h" />
+    <ClInclude Include="src\imgui\imgui_internal.h" />
+    <ClInclude Include="src\imgui\impl\imgui_impl_age.h" />
+    <ClInclude Include="src\imgui\impl\imgui_impl_win32.h" />
+    <ClInclude Include="src\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="src\imgui\node\blueprint\builders.h" />
+    <ClInclude Include="src\imgui\node\blueprint\drawing.h" />
+    <ClInclude Include="src\imgui\node\blueprint\widgets.h" />
+    <ClInclude Include="src\imgui\node\crude_json.h" />
+    <ClInclude Include="src\imgui\node\imgui_bezier_math.h" />
+    <ClInclude Include="src\imgui\node\imgui_canvas.h" />
+    <ClInclude Include="src\imgui\node\imgui_extra_math.h" />
+    <ClInclude Include="src\imgui\node\imgui_node_editor.h" />
+    <ClInclude Include="src\imgui\node\imgui_node_editor_internal.h" />
+    <ClInclude Include="src\imgui\renderer\imgui_age_rendernode.h" />
+    <ClInclude Include="src\implot\implot.h" />
+    <ClInclude Include="src\implot\implot_internal.h" />
+    <ClInclude Include="src\luafilesystem\lfs.h" />
+    <ClInclude Include="src\mm2_effects.h" />
+    <ClInclude Include="src\events\dispatcher.h" />
+    <ClInclude Include="src\mm2_replay.h" />
+    <ClInclude Include="src\modules\ai.h" />
+    <ClInclude Include="src\modules\ai\aiBanger.h" />
+    <ClInclude Include="src\modules\ai\aiCableCar.h" />
+    <ClInclude Include="src\modules\ai\aiCityData.h" />
+    <ClInclude Include="src\modules\ai\aiCTFRacer.h" />
+    <ClInclude Include="src\modules\ai\aiData.h" />
+    <ClInclude Include="src\modules\ai\aiDataTypes.h" />
+    <ClInclude Include="src\modules\ai\aiGoal.h" />
+    <ClInclude Include="src\modules\ai\aiGoalAvoidPlayer.h" />
+    <ClInclude Include="src\modules\ai\aiIntersection.h" />
+    <ClInclude Include="src\modules\ai\aiMap.h" />
+    <ClInclude Include="src\modules\ai\aiPath.h" />
+    <ClInclude Include="src\modules\ai\aiPedAudio.h" />
+    <ClInclude Include="src\modules\ai\aiPedestrian.h" />
+    <ClInclude Include="src\modules\ai\aiPoliceForce.h" />
+    <ClInclude Include="src\modules\ai\aiPoliceOfficer.h" />
+    <ClInclude Include="src\modules\ai\aiRailSet.h" />
+    <ClInclude Include="src\modules\ai\aiRouteRacer.h" />
+    <ClInclude Include="src\modules\ai\aiSubway.h" />
+    <ClInclude Include="src\modules\ai\aiTrafficLight.h" />
+    <ClInclude Include="src\modules\ai\aiVehicle.h" />
+    <ClInclude Include="src\modules\ai\aiVehicleAmbient.h" />
+    <ClInclude Include="src\modules\ai\aiVehicleData.h" />
+    <ClInclude Include="src\modules\ai\aiVehicleMGR.h" />
+    <ClInclude Include="src\modules\ai\aiVehiclePhysics.h" />
+    <ClInclude Include="src\modules\ai\aiVehiclePhysicsWrapper.h" />
+    <ClInclude Include="src\modules\ai\aiVehiclePlayer.h" />
+    <ClInclude Include="src\modules\ai\aiVehicleSpline.h" />
+    <ClInclude Include="src\modules\ai\ArrayList.h" />
+    <ClInclude Include="src\modules\ai\mcHookman.h" />
+    <ClInclude Include="src\modules\ai\__template__.h" />
+    <ClInclude Include="src\modules\audio.h" />
+    <ClInclude Include="src\modules\audio\aud3dambientobject.h" />
+    <ClInclude Include="src\modules\audio\aud3dambientobject_wrapper.h" />
+    <ClInclude Include="src\modules\audio\aud3dobject.h" />
+    <ClInclude Include="src\modules\audio\aud3dobjectmanager.h" />
+    <ClInclude Include="src\modules\audio\audcreaturecontainer.h" />
+    <ClInclude Include="src\modules\audio\audimpact.h" />
+    <ClInclude Include="src\modules\audio\audimpactdata.h" />
+    <ClInclude Include="src\modules\audio\audmanagerbase.h" />
+    <ClInclude Include="src\modules\audio\control.h" />
+    <ClInclude Include="src\modules\audio\list.h" />
+    <ClInclude Include="src\modules\audio\manager.h" />
+    <ClInclude Include="src\modules\audio\object.h" />
+    <ClInclude Include="src\modules\audio\sound.h" />
+    <ClInclude Include="src\modules\audio\speech.h" />
+    <ClInclude Include="src\modules\audio\stream.h" />
+    <ClInclude Include="src\modules\audio\streamingmusic.h" />
+    <ClInclude Include="src\modules\banger.h" />
+    <ClInclude Include="src\modules\banger\active.h" />
+    <ClInclude Include="src\modules\banger\banger.h" />
+    <ClInclude Include="src\modules\banger\data.h" />
+    <ClInclude Include="src\modules\banger\glass.h" />
+    <ClInclude Include="src\modules\banger\tree.h" />
+    <ClInclude Include="src\modules\banger\__template__.h" />
+    <ClInclude Include="src\modules\city.h" />
+    <ClInclude Include="src\modules\city\ai.h" />
+    <ClInclude Include="src\modules\city\citylevel.h" />
+    <ClInclude Include="src\modules\city\propulate.h" />
+    <ClInclude Include="src\modules\city\psdl.h" />
+    <ClInclude Include="src\modules\city\state.h" />
+    <ClInclude Include="src\modules\city\__template__.h" />
+    <ClInclude Include="src\modules\core.h" />
+    <ClInclude Include="src\modules\core\file.h" />
+    <ClInclude Include="src\modules\core\output.h" />
+    <ClInclude Include="src\modules\core\stream.h" />
+    <ClInclude Include="src\modules\core\__template__.h" />
+    <ClInclude Include="src\modules\creature.h" />
+    <ClInclude Include="src\modules\creature\cranimation.h" />
+    <ClInclude Include="src\modules\creature\crbody.h" />
+    <ClInclude Include="src\modules\creature\crskeleton.h" />
+    <ClInclude Include="src\modules\creature\dgragdoll.h" />
+    <ClInclude Include="src\modules\creature\__template__.h" />
+    <ClInclude Include="src\modules\data.h" />
+    <ClInclude Include="src\modules\data\args.h" />
+    <ClInclude Include="src\modules\data\asset.h" />
+    <ClInclude Include="src\modules\data\base.h" />
+    <ClInclude Include="src\modules\data\callback.h" />
+    <ClInclude Include="src\modules\data\hash.h" />
+    <ClInclude Include="src\modules\data\refcount.h" />
+    <ClInclude Include="src\modules\data\stack.h" />
+    <ClInclude Include="src\modules\data\timemgr.h" />
+    <ClInclude Include="src\modules\data\timer.h" />
+    <ClInclude Include="src\modules\data\token.h" />
+    <ClInclude Include="src\modules\data\__template__.h" />
+    <ClInclude Include="src\modules\directmusic\dmusicmanager.h" />
+    <ClInclude Include="src\modules\directmusic\dmusicobject.h" />
+    <ClInclude Include="src\modules\directmusic\__template__.h" />
+    <ClInclude Include="src\modules\effects.h" />
+    <ClInclude Include="src\modules\effects\birth.h" />
+    <ClInclude Include="src\modules\effects\card2d.h" />
+    <ClInclude Include="src\modules\effects\damage.h" />
+    <ClInclude Include="src\modules\effects\damage3d.h" />
+    <ClInclude Include="src\modules\effects\linespark.h" />
+    <ClInclude Include="src\modules\effects\ptx.h" />
+    <ClInclude Include="src\modules\effects\shard.h" />
+    <ClInclude Include="src\modules\effects\texeldamage.h" />
+    <ClInclude Include="src\modules\effects\waterspout.h" />
+    <ClInclude Include="src\modules\effects\__template__.h" />
+    <ClInclude Include="src\modules\gfx.h" />
+    <ClInclude Include="src\modules\gfx\font.h" />
+    <ClInclude Include="src\modules\gfx\gettex.h" />
     <ClInclude Include="src\modules\gfx\loadimg.h" />
-    <ClInclude Include="src\handlers\feature_handlers\gettexHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\sound.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\aud3dambientobject.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\aud3dobject.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\audcreaturecontainer.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\aud3dambientobject_wrapper.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\random.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\aud3dobjectmanager.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\aud3DObjectHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\bridge.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\dgPhysManagerHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmeffects\mmnumber.h">
-      <Filter>Source Files\modules\mmeffects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\wphud.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\wpinst.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\icons.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\oppiconinfo.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\mirror.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\viewmgr.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\audimpactdata.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\audimpact.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\infobase.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\playerdata.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\state.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\position.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\racedata.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\manager.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\FadeHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\CityListHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\externalview.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mminput\input.h">
-      <Filter>Source Files\modules\mminput</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mminput.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiDataTypes.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\waypoints.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiVehiclePhysicsWrapper.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\wpobject.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\bm_label.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\textroller2.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\textdrop.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\luaMenu.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmui\vselect.h">
-      <Filter>Source Files\modules\mmui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmui\pu_menu.h">
-      <Filter>Source Files\modules\mmui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmui.h">
-      <Filter>Source Files\modules</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\slider.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\interface.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmui\luaPopup.h">
-      <Filter>Source Files\modules\mmui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\ImGuiFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmui\vehicle.h">
-      <Filter>Source Files\modules\mmui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmInterfaceFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\aiVehiclePhysicsHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmgame\luaoppicons.h">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\NetSelectMenuHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiGoalAvoidPlayer.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ai\aiGoal.h">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmeffects\vehform.h">
-      <Filter>Source Files\modules\mmeffects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\train.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\gizTrainHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\speech.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmwidget\textfield.h">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\modStaticHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gfx\stats.h">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\imgui_extra_math.h">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\imgui_node_editor.h">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\imgui_node_editor_internal.h">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\crude_json.h">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\imgui_bezier_math.h">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\imgui_canvas.h">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\blueprint\builders.h">
-      <Filter>Source Files\imgui\node\blueprint</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imgui_internal.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imstb_rectpack.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imstb_textedit.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imstb_truetype.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imconfig.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\imgui.h">
-      <Filter>Source Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\blueprint\widgets.h">
-      <Filter>Source Files\imgui\node\blueprint</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\node\blueprint\drawing.h">
-      <Filter>Source Files\imgui\node\blueprint</Filter>
-    </ClInclude>
-    <ClInclude Include="src\imgui\gizmo\ImGuizmo.h">
-      <Filter>Source Files\imgui\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\waterspout.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\vehCarAudioHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\vehicle\enginesamplewrapper.h">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\effects\damage3d.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\directmusic\dmusicmanager.h">
-      <Filter>Source Files\modules\directmusic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\directmusic\__template__.h">
-      <Filter>Source Files\modules\directmusic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmaudio\mmaudiomanager.h">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\audmanagerbase.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmaudio\racespeech.h">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmaudio\cnrspeech.h">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmaudio\mmdmusicmanager.h">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\directmusic\dmusicobject.h">
-      <Filter>Source Files\modules\directmusic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\audControlHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\control.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\list.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\streamingmusic.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\manager.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmui\pu_results.h">
-      <Filter>Source Files\modules\mmui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmaudio\ccspeech.h">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\phys\phmaterialmgr.h">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\level\materialmgr.h">
-      <Filter>Source Files\modules\level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\gizmoinst.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\sailboat.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\gizmo\ferry.h">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmcityinfo\playerdir.h">
-      <Filter>Source Files\modules\mmcityinfo</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmnetwork\netobject.h">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\mmGameMultiHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\mmnetwork\playerdata.h">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\bugfix_handlers\vehSplashHandler.h">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\ped\pedscripted.h">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\view.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
+    <ClInclude Include="src\modules\gfx\pipeline.h" />
+    <ClInclude Include="src\modules\gfx\image.h" />
+    <ClInclude Include="src\modules\gfx\light.h" />
+    <ClInclude Include="src\modules\gfx\material.h" />
+    <ClInclude Include="src\modules\gfx\packet.h" />
+    <ClInclude Include="src\modules\gfx\rstate.h" />
+    <ClInclude Include="src\modules\gfx\stats.h" />
+    <ClInclude Include="src\modules\gfx\texmovie.h" />
+    <ClInclude Include="src\modules\gfx\texture.h" />
+    <ClInclude Include="src\modules\gfx\viewport.h" />
+    <ClInclude Include="src\modules\gizmo.h" />
+    <ClInclude Include="src\modules\gizmo\bridge.h" />
+    <ClInclude Include="src\modules\gizmo\ferry.h" />
+    <ClInclude Include="src\modules\gizmo\gizmoinst.h" />
+    <ClInclude Include="src\modules\gizmo\pathspline.h" />
+    <ClInclude Include="src\modules\gizmo\pathspline_wrapper.h" />
+    <ClInclude Include="src\modules\gizmo\sailboat.h" />
+    <ClInclude Include="src\modules\gizmo\train.h" />
+    <ClInclude Include="src\modules\input.h" />
+    <ClInclude Include="src\modules\input\eventq.h" />
+    <ClInclude Include="src\modules\input\joystick.h" />
+    <ClInclude Include="src\modules\input\keyboard.h" />
+    <ClInclude Include="src\modules\input\mouse.h" />
+    <ClInclude Include="src\modules\input\pad.h" />
+    <ClInclude Include="src\modules\input\__template__.h" />
+    <ClInclude Include="src\modules\level.h" />
+    <ClInclude Include="src\modules\level\fixed.h" />
+    <ClInclude Include="src\modules\level\inst.h" />
+    <ClInclude Include="src\modules\level\landmark.h" />
+    <ClInclude Include="src\modules\level\level.h" />
+    <ClInclude Include="src\modules\level\material.h" />
+    <ClInclude Include="src\modules\level\materialmgr.h" />
+    <ClInclude Include="src\modules\level\multiroom.h" />
+    <ClInclude Include="src\modules\level\pathset.h" />
+    <ClInclude Include="src\modules\level\sky.h" />
+    <ClInclude Include="src\modules\level\track.h" />
+    <ClInclude Include="src\modules\level\__template__.h" />
+    <ClInclude Include="src\modules\lights.h" />
+    <ClInclude Include="src\modules\lights\flare.h" />
+    <ClInclude Include="src\modules\lights\light.h" />
     <ClInclude Include="src\modules\localize\localize.h" />
-    <ClInclude Include="src\modules\effects\damage.h">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\object.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\handlers\feature_handlers\ViewDistanceHandler.h">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\node\dof.h">
-      <Filter>Source Files\modules\node</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\audio\stream.h">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\lua\lapi.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lauxlib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lbaselib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lbitlib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lcode.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lcorolib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lctype.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ldblib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ldebug.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ldo.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ldump.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lfunc.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lgc.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\linit.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\liolib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\llex.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lmathlib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lmem.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\loadlib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lobject.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lopcodes.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\loslib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lparser.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lstate.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lstring.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lstrlib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ltable.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ltablib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\ltm.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lundump.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lutf8lib.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lvm.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lua\lzio.c">
-      <Filter>Lua 5.3.2 Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\patch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_stream.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_lua.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_ai.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_data.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_input.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_game.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_vehicle.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_city.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_base.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_utils.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_gfx.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_audio.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_rgl.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_creature.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_inst.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_phys.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_level.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_ui.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers.cpp">
-      <Filter>Source Files\handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers.cpp">
-      <Filter>Source Files\handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_breakable.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_bound.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\discord-presence.cpp">
-      <Filter>Source Files\Discord Rich Presence</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_network.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_model.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\settings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\dispatcher.cpp">
-      <Filter>Source Files\events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_effects.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\banger.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\city.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\core.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\creature.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\data.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\input.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\level.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\node.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\parse.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ped.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\phys.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\banger.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\city.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\core.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\creature.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\data.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\input.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\level.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\node.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\parse.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ped.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\phys.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\lua_drawable.cpp">
-      <Filter>Source Files\handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\luafilesystem\lfs.c">
-      <Filter>Source Files\luafilesystem</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\effects.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_replay.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\impl\imgui_impl_age.cpp">
-      <Filter>Source Files\imgui\impl</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\impl\imgui_impl_win32.cpp">
-      <Filter>Source Files\imgui\impl</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\luabindings\imgui_lua_bindings.cpp">
-      <Filter>Source Files\imgui\luabindings</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\misc\cpp\imgui_stdlib.cpp">
-      <Filter>Source Files\imgui\misc\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\renderer\imgui_age_rendernode.cpp">
-      <Filter>Source Files\imgui\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hook.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\implot\implot_demo.cpp">
-      <Filter>Source Files\implot</Filter>
-    </ClCompile>
-    <ClCompile Include="src\implot\implot_items.cpp">
-      <Filter>Source Files\implot</Filter>
-    </ClCompile>
-    <ClCompile Include="src\implot\implot.cpp">
-      <Filter>Source Files\implot</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmInterfaceHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\audManagerHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\gfxImageHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmWaypointInstanceHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmPopupHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\lvlSkyHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\modShaderHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\vehTrailerHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiPoliceForceHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mpConsistencyHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiVehicleAmbientHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmHudMapHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmSpeedIndicatorHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmCDPlayerHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\vehSemiCarAudioBugfixHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmViewMgrBugfixHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmMultiCRHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\vehCarAudioContainerBugfixHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\fxShardManagerBugfixHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\asMeshCardInfoHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiVehicleInstanceHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\memMemoryAllocatorHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmMirrorHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\cityLevelBugfixHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiPathHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiPedestrianHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\Dialog_NewPlayerHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\fxTexelDamageHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\gfxPipelineHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\ltLensFlareHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\lvlHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmDirSndHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmExternalViewHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmGameHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmHudMapFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmIconsHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmPlayerHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmSingleRaceHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmSingleRoamHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\pedestrianInstanceHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\PUMainHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\sdlPage16Handler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\StreamHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\TextureVariantHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehCarHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehCarModelFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehCarSimHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehSirenHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehTrailerFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehWheelHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vglHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehCableCarInstanceHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\asCullManagerHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehTrailerInstanceFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehBreakableMgrHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmCityListHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmDashViewHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\gizParkedCarMgrHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehPoliceCarAudioHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\BridgeFerryHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmGameMusicDataHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\memSafeHeapHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\gizFerryHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehCarAudioContainerHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\Aud3DObjectManagerHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\datCallbackExtensionHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmArrowHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\cityLevelHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\cityTimeWeatherLightingHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\dgBangerInstanceHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\vehEngineFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mm2_common.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\mmTimerHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\InitMapHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\storage_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\store_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\types.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\user_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\voice_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\achievement_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\activity_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\application_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\core.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\image_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\lobby_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\network_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\overlay_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="discord-rpc\gamesdk\relationship_manager.cpp">
-      <Filter>Source Files\Discord Rich Presence\gamesdk</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\model.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gfx.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\lights.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmeffects.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\rgl.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmcityinfo.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmgame.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmnetwork.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmwidget.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gizmo.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiCTFRacerHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vector.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\print_handler.cpp">
-      <Filter>Source Files\handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\gettexHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\model\static2.cpp">
-      <Filter>Source Files\modules\model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\effects\birth.cpp">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\effects\ptx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiMap.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiVehicle.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gfx\rstate.cpp">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vector\matrix34.cpp">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vector\vector3.cpp">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vector\matrix44.cpp">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vector\vector4.cpp">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vector\vector2.cpp">
-      <Filter>Source Files\modules\vector</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmeffects\meshform.cpp">
-      <Filter>Source Files\modules\mmeffects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\city\citylevel.cpp">
-      <Filter>Source Files\modules\city</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\data\timemgr.cpp">
-      <Filter>Source Files\modules\data</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\phys\phinertia.cpp">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\data\base.cpp">
-      <Filter>Source Files\modules\data</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\audio.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\aud3DObjectHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\wheel.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\aero.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gizmo\bridge.cpp">
-      <Filter>Source Files\modules\gizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\trailer.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\data\args.cpp">
-      <Filter>Source Files\modules\data</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\phys\physmgr.cpp">
-      <Filter>Source Files\modules\phys</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\dgPhysManagerHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmgame\mirror.cpp">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiPath.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiIntersection.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\FadeHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\CityListHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mminput.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\car.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiPoliceOfficer.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiVehiclePhysics.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiPedestrian.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiVehiclePhysicsWrapper.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmgame\wpobject.cpp">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\cardamage.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmwidget\menu.cpp">
-      <Filter>Source Files\modules\mmwidget</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmui.cpp">
-      <Filter>Source Files\modules</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\ImGuiFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmgame\interface.cpp">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmInterfaceFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\aiVehiclePhysicsHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmgame\icons.cpp">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\NetSelectMenuHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiGoalAvoidPlayer.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmeffects\vehform.cpp">
-      <Filter>Source Files\modules\mmeffects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\data\stack.cpp">
-      <Filter>Source Files\modules\data</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiCTFRacer.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\aisubwayaudio.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\gizTrainHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\modStaticHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gfx\packet.cpp">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gfx\stats.cpp">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\level\level.cpp">
-      <Filter>Source Files\modules\level</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\imgui_node_editor.cpp">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\imgui_node_editor_api.cpp">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\crude_json.cpp">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\imgui_canvas.cpp">
-      <Filter>Source Files\imgui\node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\blueprint\builders.cpp">
-      <Filter>Source Files\imgui\node\blueprint</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui_demo.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui_draw.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui_tables.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui_widgets.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\imgui.cpp">
-      <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\blueprint\widgets.cpp">
-      <Filter>Source Files\imgui\node\blueprint</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\node\blueprint\drawing.cpp">
-      <Filter>Source Files\imgui\node\blueprint</Filter>
-    </ClCompile>
-    <ClCompile Include="src\imgui\gizmo\ImGuizmo.cpp">
-      <Filter>Source Files\imgui\gizmo</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\gfx\pipeline.cpp">
-      <Filter>Source Files\modules\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\carmodel.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\vehCarAudioHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\effects\waterspout.cpp">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\model\getstatic.cpp">
-      <Filter>Source Files\modules\model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\model\getpivot.cpp">
-      <Filter>Source Files\modules\model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\level\landmark.cpp">
-      <Filter>Source Files\modules\level</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\lights\light.cpp">
-      <Filter>Source Files\modules\lights</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiVehicleSpline.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiVehicleAmbient.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\core\stream.cpp">
-      <Filter>Source Files\modules\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\directmusic\dmusicmanager.cpp">
-      <Filter>Source Files\modules\directmusic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmaudio\mmaudiomanager.cpp">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\audio\audmanagerbase.cpp">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmaudio\mmdmusicmanager.cpp">
-      <Filter>Source Files\modules\mmaudio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\directmusic\dmusicobject.cpp">
-      <Filter>Source Files\modules\directmusic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmgame\gameman.cpp">
-      <Filter>Source Files\modules\mmgame</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\audControlHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\audio\streamingmusic.cpp">
-      <Filter>Source Files\modules\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\vehicle\carsim.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\node\linear.cpp">
-      <Filter>Source Files\modules\node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\model\model2.cpp">
-      <Filter>Source Files\modules\model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\level\inst.cpp">
-      <Filter>Source Files\modules\level</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ai\aiPoliceForce.cpp">
-      <Filter>Source Files\modules\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmnetwork\netobject.cpp">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\mmGameMultiHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\mmnetwork\network.cpp">
-      <Filter>Source Files\modules\mmnetwork</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ped\ragdollmgr.cpp">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\bugfix_handlers\vehSplashHandler.cpp">
-      <Filter>Source Files\handlers\bugfix_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\effects\damage.cpp">
-      <Filter>Source Files\modules\effects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\ped\pedscripted.cpp">
-      <Filter>Source Files\modules\ped</Filter>
-    </ClCompile>
-    <ClCompile Include="src\handlers\feature_handlers\ViewDistanceHandler.cpp">
-      <Filter>Source Files\handlers\feature_handlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\node\dof.cpp">
-      <Filter>Source Files\modules\node</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\effects\damage3d.cpp">
-      <Filter>Source Files\modules\effects</Filter>
-    <ClCompile Include="src\modules\vehicle\breakable.cpp">
-      <Filter>Source Files\modules\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\model\shader.cpp">
-      <Filter>Source Files\modules\model</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\AGE.h">
-      <Filter>Source Files\AGE</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mm2.h">
-      <Filter>Source Files\mm2</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\util.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\logfile.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\mm2.cpp">
-      <Filter>Source Files\mm2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\logfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="src\modules\mmaudio\ccspeech.h" />
+    <ClInclude Include="src\modules\mmaudio\cnrspeech.h" />
+    <ClInclude Include="src\modules\mmaudio\mmaudiomanager.h" />
+    <ClInclude Include="src\modules\mmaudio\mmdmusicmanager.h" />
+    <ClInclude Include="src\modules\mmaudio\racespeech.h" />
+    <ClInclude Include="src\modules\mmcityinfo.h" />
+    <ClInclude Include="src\modules\mmcityinfo\cityinfo.h" />
+    <ClInclude Include="src\modules\mmcityinfo\citylist.h" />
+    <ClInclude Include="src\modules\mmcityinfo\infobase.h" />
+    <ClInclude Include="src\modules\mmcityinfo\playerdata.h" />
+    <ClInclude Include="src\modules\mmcityinfo\playerdir.h" />
+    <ClInclude Include="src\modules\mmcityinfo\position.h" />
+    <ClInclude Include="src\modules\mmcityinfo\racedata.h" />
+    <ClInclude Include="src\modules\mmcityinfo\state.h" />
+    <ClInclude Include="src\modules\mmcityinfo\vehinfo.h" />
+    <ClInclude Include="src\modules\mmcityinfo\vehlist.h" />
+    <ClInclude Include="src\modules\mmeffects.h" />
+    <ClInclude Include="src\modules\mmeffects\meshform.h" />
+    <ClInclude Include="src\modules\mmeffects\mmnumber.h" />
+    <ClInclude Include="src\modules\mmeffects\mmtext.h" />
+    <ClInclude Include="src\modules\mmeffects\vehform.h" />
+    <ClInclude Include="src\modules\mmgame.h" />
+    <ClInclude Include="src\modules\mmgame\cd.h" />
+    <ClInclude Include="src\modules\mmgame\dash.h" />
+    <ClInclude Include="src\modules\mmgame\externalview.h" />
+    <ClInclude Include="src\modules\mmgame\game.h" />
+    <ClInclude Include="src\modules\mmgame\gameman.h" />
+    <ClInclude Include="src\modules\mmgame\gamemulti.h" />
+    <ClInclude Include="src\modules\mmgame\gamesingle.h" />
+    <ClInclude Include="src\modules\mmgame\gauge.h" />
+    <ClInclude Include="src\modules\mmgame\hud.h" />
+    <ClInclude Include="src\modules\mmgame\hudmap.h" />
+    <ClInclude Include="src\modules\mmgame\icons.h" />
+    <ClInclude Include="src\modules\mmgame\interface.h" />
+    <ClInclude Include="src\modules\mmgame\luaoppicons.h" />
+    <ClInclude Include="src\modules\mmgame\mirror.h" />
+    <ClInclude Include="src\modules\mmgame\mmgamemusicdata.h" />
+    <ClInclude Include="src\modules\mmgame\multiblitz.h" />
+    <ClInclude Include="src\modules\mmgame\multicircuit.h" />
+    <ClInclude Include="src\modules\mmgame\multicr.h" />
+    <ClInclude Include="src\modules\mmgame\multirace.h" />
+    <ClInclude Include="src\modules\mmgame\multiroam.h" />
+    <ClInclude Include="src\modules\mmgame\oppiconinfo.h" />
+    <ClInclude Include="src\modules\mmgame\player.h" />
+    <ClInclude Include="src\modules\mmgame\popup.h" />
+    <ClInclude Include="src\modules\mmgame\singleblitz.h" />
+    <ClInclude Include="src\modules\mmgame\singlecircuit.h" />
+    <ClInclude Include="src\modules\mmgame\singlerace.h" />
+    <ClInclude Include="src\modules\mmgame\singleroam.h" />
+    <ClInclude Include="src\modules\mmgame\singlestunt.h" />
+    <ClInclude Include="src\modules\mmgame\viewmgr.h" />
+    <ClInclude Include="src\modules\mmgame\waypoints.h" />
+    <ClInclude Include="src\modules\mmgame\wphud.h" />
+    <ClInclude Include="src\modules\mmgame\wpinst.h" />
+    <ClInclude Include="src\modules\mmgame\wpobject.h" />
+    <ClInclude Include="src\modules\mminput.h" />
+    <ClInclude Include="src\modules\mminput\input.h" />
+    <ClInclude Include="src\modules\mmnetwork.h" />
+    <ClInclude Include="src\modules\mmnetwork\luasessinfo.h" />
+    <ClInclude Include="src\modules\mmnetwork\netobject.h" />
+    <ClInclude Include="src\modules\mmnetwork\network.h" />
+    <ClInclude Include="src\modules\mmnetwork\playerdata.h" />
+    <ClInclude Include="src\modules\mmnetwork\zone.h" />
+    <ClInclude Include="src\modules\mmui.h" />
+    <ClInclude Include="src\modules\mmui\luaPopup.h" />
+    <ClInclude Include="src\modules\mmui\pu_menu.h" />
+    <ClInclude Include="src\modules\mmui\pu_results.h" />
+    <ClInclude Include="src\modules\mmui\vehicle.h" />
+    <ClInclude Include="src\modules\mmui\vselect.h" />
+    <ClInclude Include="src\modules\mmwidget.h" />
+    <ClInclude Include="src\modules\mmwidget\bm_button.h" />
+    <ClInclude Include="src\modules\mmwidget\button.h" />
+    <ClInclude Include="src\modules\mmwidget\bm_label.h" />
+    <ClInclude Include="src\modules\mmwidget\icon.h" />
+    <ClInclude Include="src\modules\mmwidget\label.h" />
+    <ClInclude Include="src\modules\mmwidget\luaMenu.h" />
+    <ClInclude Include="src\modules\mmwidget\manager.h" />
+    <ClInclude Include="src\modules\mmwidget\menu.h" />
+    <ClInclude Include="src\modules\mmwidget\slider.h" />
+    <ClInclude Include="src\modules\mmwidget\textdrop.h" />
+    <ClInclude Include="src\modules\mmwidget\textfield.h" />
+    <ClInclude Include="src\modules\mmwidget\textroller2.h" />
+    <ClInclude Include="src\modules\mmwidget\ttip.h" />
+    <ClInclude Include="src\modules\mmwidget\widget.h" />
+    <ClInclude Include="src\modules\model.h" />
+    <ClInclude Include="src\modules\model\getpivot.h" />
+    <ClInclude Include="src\modules\model\getstatic.h" />
+    <ClInclude Include="src\modules\model\loader.h" />
+    <ClInclude Include="src\modules\model\model2.h" />
+    <ClInclude Include="src\modules\model\package.h" />
+    <ClInclude Include="src\modules\model\shader.h" />
+    <ClInclude Include="src\modules\model\static2.h" />
+    <ClInclude Include="src\modules\node.h" />
+    <ClInclude Include="src\modules\node\camera.h" />
+    <ClInclude Include="src\modules\node\cullable.h" />
+    <ClInclude Include="src\modules\node\cullmgr.h" />
+    <ClInclude Include="src\modules\node\dof.h" />
+    <ClInclude Include="src\modules\node\event.h" />
+    <ClInclude Include="src\modules\node\eventq.h" />
+    <ClInclude Include="src\modules\node\fileio.h" />
+    <ClInclude Include="src\modules\node\linear.h" />
+    <ClInclude Include="src\modules\node\luanode.h" />
+    <ClInclude Include="src\modules\node\node.h" />
+    <ClInclude Include="src\modules\node\random.h" />
+    <ClInclude Include="src\modules\node\root.h" />
+    <ClInclude Include="src\modules\node\str.h" />
+    <ClInclude Include="src\modules\node\view.h" />
+    <ClInclude Include="src\modules\node\__template__.h" />
+    <ClInclude Include="src\modules\parse.h" />
+    <ClInclude Include="src\modules\parse\csv.h" />
+    <ClInclude Include="src\modules\parse\parse.h" />
+    <ClInclude Include="src\modules\parse\__template__.h" />
+    <ClInclude Include="src\modules\ped.h" />
+    <ClInclude Include="src\modules\ped\pedactive.h" />
+    <ClInclude Include="src\modules\ped\pedanim.h" />
+    <ClInclude Include="src\modules\ped\pedinst.h" />
+    <ClInclude Include="src\modules\ped\pedscripted.h" />
+    <ClInclude Include="src\modules\ped\ragdollmgr.h" />
+    <ClInclude Include="src\modules\ped\__template__.h" />
+    <ClInclude Include="src\modules\phys.h" />
+    <ClInclude Include="src\modules\phys\bound.h" />
+    <ClInclude Include="src\modules\phys\explosion.h" />
+    <ClInclude Include="src\modules\phys\impact.h" />
+    <ClInclude Include="src\modules\phys\levelbound.h" />
+    <ClInclude Include="src\modules\phys\phbound.h" />
+    <ClInclude Include="src\modules\phys\phboundbox.h" />
+    <ClInclude Include="src\modules\phys\phboundcollision.h" />
+    <ClInclude Include="src\modules\phys\phboundgeom.h" />
+    <ClInclude Include="src\modules\phys\phboundhotdog.h" />
+    <ClInclude Include="src\modules\phys\phboundpolygonal.h" />
+    <ClInclude Include="src\modules\phys\phboundsphere.h" />
+    <ClInclude Include="src\modules\phys\phboundterrain.h" />
+    <ClInclude Include="src\modules\phys\phboundterrainlocal.h" />
+    <ClInclude Include="src\modules\phys\phcollider.h" />
+    <ClInclude Include="src\modules\phys\phcolliderbase.h" />
+    <ClInclude Include="src\modules\phys\phcolliderjointed.h" />
+    <ClInclude Include="src\modules\phys\phcollision.h" />
+    <ClInclude Include="src\modules\phys\phcollisionprim.h" />
+    <ClInclude Include="src\modules\phys\phcontact.h" />
+    <ClInclude Include="src\modules\phys\phcontactmgr.h" />
+    <ClInclude Include="src\modules\phys\phconvexpoly.h" />
+    <ClInclude Include="src\modules\phys\phforcesphere.h" />
+    <ClInclude Include="src\modules\phys\phimpact.h" />
+    <ClInclude Include="src\modules\phys\phimpactbase.h" />
+    <ClInclude Include="src\modules\phys\phinertia.h" />
+    <ClInclude Include="src\modules\phys\phintersection.h" />
+    <ClInclude Include="src\modules\phys\phisectpoint.h" />
+    <ClInclude Include="src\modules\phys\phjoint.h" />
+    <ClInclude Include="src\modules\phys\phline.h" />
+    <ClInclude Include="src\modules\phys\phmaterial.h" />
+    <ClInclude Include="src\modules\phys\phmaterialmgr.h" />
+    <ClInclude Include="src\modules\phys\phmath.h" />
+    <ClInclude Include="src\modules\phys\phpoly.h" />
+    <ClInclude Include="src\modules\phys\phsleep.h" />
+    <ClInclude Include="src\modules\phys\physentity.h" />
+    <ClInclude Include="src\modules\phys\physmgr.h" />
+    <ClInclude Include="src\modules\phys\segment.h" />
+    <ClInclude Include="src\modules\phys\trailerjoint.h" />
+    <ClInclude Include="src\modules\phys\__template__.h" />
+    <ClInclude Include="src\modules\rgl.h" />
+    <ClInclude Include="src\modules\rgl\vgl.h" />
+    <ClInclude Include="src\modules\vector.h" />
+    <ClInclude Include="src\modules\vector\geometry.h" />
+    <ClInclude Include="src\modules\vector\matrix34.h" />
+    <ClInclude Include="src\modules\vector\matrix44.h" />
+    <ClInclude Include="src\modules\vector\randmath.h" />
+    <ClInclude Include="src\modules\vector\vector2.h" />
+    <ClInclude Include="src\modules\vector\vector3.h" />
+    <ClInclude Include="src\modules\vector\vector4.h" />
+    <ClInclude Include="src\modules\vehicle.h" />
+    <ClInclude Include="src\modules\vehicle\aero.h" />
+    <ClInclude Include="src\modules\vehicle\aiambientvehicleaudio.h" />
+    <ClInclude Include="src\modules\vehicle\aicablecaraudio.h" />
+    <ClInclude Include="src\modules\vehicle\aicablecaraudiodata.h" />
+    <ClInclude Include="src\modules\vehicle\aiengineaudio.h" />
+    <ClInclude Include="src\modules\vehicle\aisubwayaudio.h" />
+    <ClInclude Include="src\modules\vehicle\axle.h" />
+    <ClInclude Include="src\modules\vehicle\bound.h" />
+    <ClInclude Include="src\modules\vehicle\breakable.h" />
+    <ClInclude Include="src\modules\vehicle\car.h" />
+    <ClInclude Include="src\modules\vehicle\caraudio.h" />
+    <ClInclude Include="src\modules\vehicle\caraudiocontainer.h" />
+    <ClInclude Include="src\modules\vehicle\cardamage.h" />
+    <ClInclude Include="src\modules\vehicle\carmodel.h" />
+    <ClInclude Include="src\modules\vehicle\carsim.h" />
+    <ClInclude Include="src\modules\vehicle\drivetrain.h" />
+    <ClInclude Include="src\modules\vehicle\engine.h" />
+    <ClInclude Include="src\modules\vehicle\engineaudio.h" />
+    <ClInclude Include="src\modules\vehicle\enginesamplewrapper.h" />
+    <ClInclude Include="src\modules\vehicle\gyro.h" />
+    <ClInclude Include="src\modules\vehicle\hornaudio.h" />
+    <ClInclude Include="src\modules\vehicle\nitrocaraudio.h" />
+    <ClInclude Include="src\modules\vehicle\policecaraudio.h" />
+    <ClInclude Include="src\modules\vehicle\semicaraudio.h" />
+    <ClInclude Include="src\modules\vehicle\siren.h" />
+    <ClInclude Include="src\modules\vehicle\splash.h" />
+    <ClInclude Include="src\modules\vehicle\stuck.h" />
+    <ClInclude Include="src\modules\vehicle\surfaceaudio.h" />
+    <ClInclude Include="src\modules\vehicle\surfaceaudiodata.h" />
+    <ClInclude Include="src\modules\vehicle\suspension.h" />
+    <ClInclude Include="src\modules\vehicle\trailer.h" />
+    <ClInclude Include="src\modules\vehicle\transmission.h" />
+    <ClInclude Include="src\modules\vehicle\wheel.h" />
+    <ClInclude Include="src\modules\vehicle\wheelcheap.h" />
+    <ClInclude Include="src\modules\vehicle\wheelptx.h" />
+    <ClInclude Include="src\modules\vehicle\__template__.h" />
+    <ClInclude Include="src\modules\__template__.h" />
+    <ClInclude Include="src\settings.h" />
+    <ClInclude Include="src\handlers\bugfix_handlers.h" />
+    <ClInclude Include="src\handlers\feature_handlers.h" />
+    <ClInclude Include="src\lua\lapi.h" />
+    <ClInclude Include="src\lua\lauxlib.h" />
+    <ClInclude Include="src\lua\lcode.h" />
+    <ClInclude Include="src\lua\lctype.h" />
+    <ClInclude Include="src\lua\ldebug.h" />
+    <ClInclude Include="src\lua\ldo.h" />
+    <ClInclude Include="src\lua\lfunc.h" />
+    <ClInclude Include="src\lua\lgc.h" />
+    <ClInclude Include="src\lua\llex.h" />
+    <ClInclude Include="src\lua\llimits.h" />
+    <ClInclude Include="src\lua\lmem.h" />
+    <ClInclude Include="src\lua\lobject.h" />
+    <ClInclude Include="src\lua\lopcodes.h" />
+    <ClInclude Include="src\lua\lparser.h" />
+    <ClInclude Include="src\lua\lprefix.h" />
+    <ClInclude Include="src\lua\lstate.h" />
+    <ClInclude Include="src\lua\lstring.h" />
+    <ClInclude Include="src\lua\ltable.h" />
+    <ClInclude Include="src\lua\ltm.h" />
+    <ClInclude Include="src\lua\lua.h" />
+    <ClInclude Include="src\lua\lua.hpp" />
+    <ClInclude Include="src\lua\luaconf.h" />
+    <ClInclude Include="src\lua\lualib.h" />
+    <ClInclude Include="src\lua\lundump.h" />
+    <ClInclude Include="src\lua\lvm.h" />
+    <ClInclude Include="src\lua\lzio.h" />
+    <ClInclude Include="src\LuaIntf\LuaState.h" />
+    <ClInclude Include="src\LuaIntf\LuaCompat.h" />
+    <ClInclude Include="src\LuaIntf\LuaContext.h" />
+    <ClInclude Include="src\LuaIntf\LuaIntf.h" />
+    <ClInclude Include="src\LuaIntf\LuaRef.h" />
+    <ClInclude Include="src\LuaIntf\impl\CppArg.h" />
+    <ClInclude Include="src\LuaIntf\impl\CppBindClass.h" />
+    <ClInclude Include="src\LuaIntf\impl\CppBindModule.h" />
+    <ClInclude Include="src\LuaIntf\impl\CppFunction.h" />
+    <ClInclude Include="src\LuaIntf\impl\CppInvoke.h" />
+    <ClInclude Include="src\LuaIntf\impl\CppObject.h" />
+    <ClInclude Include="src\LuaIntf\impl\LuaException.h" />
+    <ClInclude Include="src\LuaIntf\impl\LuaType.h" />
+    <ClInclude Include="src\LuaIntf\src\CppBindClass.cpp" />
+    <ClInclude Include="src\LuaIntf\src\CppBindModule.cpp" />
+    <ClInclude Include="src\LuaIntf\src\CppFunction.cpp" />
+    <ClInclude Include="src\LuaIntf\src\CppObject.cpp" />
+    <ClInclude Include="src\LuaIntf\src\LuaCompat.cpp" />
+    <ClInclude Include="src\LuaIntf\src\LuaRef.cpp" />
+    <ClInclude Include="src\LuaIntf\src\LuaState.cpp" />
+    <ClInclude Include="src\AGE.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\console.h" />
+    <ClInclude Include="src\logfile.h" />
+    <ClInclude Include="src\patch.h" />
+    <ClInclude Include="src\util.h" />
+    <ClInclude Include="src\mm2.h" />
+    <ClInclude Include="src\mm2_ai.h" />
+    <ClInclude Include="src\mm2_audio.h" />
+    <ClInclude Include="src\mm2_base.h" />
+    <ClInclude Include="src\mm2_bound.h" />
+    <ClInclude Include="src\mm2_breakable.h" />
+    <ClInclude Include="src\mm2_city.h" />
+    <ClInclude Include="src\mm2_common.h" />
+    <ClInclude Include="src\mm2_creature.h" />
+    <ClInclude Include="src\mm2_data.h" />
+    <ClInclude Include="src\mm2_game.h" />
+    <ClInclude Include="src\mm2_gfx.h" />
+    <ClInclude Include="src\mm2_input.h" />
+    <ClInclude Include="src\mm2_inst.h" />
+    <ClInclude Include="src\mm2_level.h" />
+    <ClInclude Include="src\mm2_lua.h" />
+    <ClInclude Include="src\mm2_model.h" />
+    <ClInclude Include="src\mm2_network.h" />
+    <ClInclude Include="src\mm2_phys.h" />
+    <ClInclude Include="src\mm2_rgl.h" />
+    <ClInclude Include="src\mm2_stream.h" />
+    <ClInclude Include="src\mm2_ui.h" />
+    <ClInclude Include="src\mm2_utils.h" />
+    <ClInclude Include="src\mm2_vector.h" />
+    <ClInclude Include="src\mm2_vehicle.h" />
+    <ClInclude Include="discord-rpc\discord-presence.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\handlers\feature_handlers\lvlFixedAnyHandler.h" />
+    <ClInclude Include="src\modules\vehicle\trackmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mm2hook.ini" />
-    <None Include="src\imgui\node\imgui_extra_math.inl">
-      <Filter>Source Files\imgui\node</Filter>
-    </None>
-    <None Include="src\imgui\node\imgui_node_editor_internal.inl">
-      <Filter>Source Files\imgui\node</Filter>
-    </None>
-    <None Include="src\imgui\node\imgui_bezier_math.inl">
-      <Filter>Source Files\imgui\node</Filter>
-    </None>
+    <None Include="src\imgui\node\imgui_bezier_math.inl" />
+    <None Include="src\imgui\node\imgui_extra_math.inl" />
+    <None Include="src\imgui\node\imgui_node_editor_internal.inl" />
   </ItemGroup>
 </Project>
