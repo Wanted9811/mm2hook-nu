@@ -3,7 +3,7 @@
 using namespace MM2;
 
 static ConfigValue<bool> cfgRagdolls("Ragdolls", true);
-static ConfigValue<bool> cfgPedShadows("3DShadows", false);
+static ConfigValue<int> cfgPedShadows("3DShadows", 0);
 
 hook::Type<float> FrameFraction2 = 0x6B4724;
 hook::Type<int> FrameDelta2 = 0x6B4720;
