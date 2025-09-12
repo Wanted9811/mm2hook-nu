@@ -27,6 +27,7 @@ namespace MM2
         static hook::Field<0xEE, short> _lastState;
         static hook::Field<0xF2, short> _curReactTicks;
         static hook::Field<0xF4, float> _curSpeed;
+        static hook::Field<0xFC, float> _tireRotation;
     public:
         aiVehicleSpline();
         ~aiVehicleSpline();
@@ -57,6 +58,7 @@ namespace MM2
         //fields
         bool SolvedStopOrientation() const;
         float GetSpeed() const;
+        float GetTireRotation() const;
         void SetSpeed(float speed);
         aiRailSet* GetRailSet();
         aiVehicleInstance* GetInst() const;

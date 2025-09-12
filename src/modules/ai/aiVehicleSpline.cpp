@@ -62,6 +62,11 @@ void aiVehicleSpline::SetSpeed(float speed)
     _curSpeed.set(this, speed);
 }
 
+float aiVehicleSpline::GetTireRotation() const
+{
+    return _tireRotation.get(this);
+}
+
 aiRailSet* aiVehicleSpline::GetRailSet()
 {
     return _railSet.ptr(this);
