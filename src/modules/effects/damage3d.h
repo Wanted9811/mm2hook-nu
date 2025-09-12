@@ -18,11 +18,15 @@ namespace MM2
         modStatic* m_DamageModel;
         modStatic* m_DeformModel;
         modStatic* m_DeformDamageModel;
+        modShader* m_CleanShaders;
+        modShader* m_DamageShaders;
+        gfxTexture** m_DamageTextures;
         Vector3* m_VertDeformPosition;
         float* m_VertDeformAmount;
         float m_DamageRadius;
         bool* m_PacketMatchesVertCount;
         bool m_EnableMM1Damage;
+        int m_TextureCount;
     public:
         ANGEL_ALLOCATOR
 
@@ -31,6 +35,8 @@ namespace MM2
         virtual ~fxDamage3D();
 
         void Init(modStatic* bodyModel, modStatic* damageModel, bool mm1Damage);
+
+        void SetShaders(modShader* shaders, int shaderCount);
 
         void SetNoDamage();
 
@@ -41,5 +47,9 @@ namespace MM2
         modStatic* GetDeformModel();
 
         modStatic* GetDeformDamageModel();
+
+        modShader* GetCleanShaders();
+
+        modShader* GetDamageShaders();
     };
 }

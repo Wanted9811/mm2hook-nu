@@ -1,4 +1,6 @@
 #include "damage3d.h"
+#include <modules\model\shader.h>
+#include <modules\gfx\gettex.h>
 
 namespace MM2
 {
@@ -13,7 +15,23 @@ namespace MM2
         delete[] m_PacketMatchesVertCount;
 
         if (m_EnableMM1Damage)
+        {
             delete[] m_VertDeformPosition;
+
+            if (m_TextureCount)
+            {
+                delete[] m_CleanShaders;
+                m_CleanShaders = nullptr;
+
+                delete[] m_DamageShaders;
+                m_DamageShaders = nullptr;
+
+                delete[] m_DamageTextures;
+                m_DamageTextures = nullptr;
+
+                m_TextureCount = 0;
+            }
+        }
     }
 
     void fxDamage3D::Init(modStatic* bodyModel, modStatic* damageModel, bool mm1Damage)
@@ -83,6 +101,90 @@ namespace MM2
         }
 
         SetNoDamage();
+    }
+
+    void fxDamage3D::SetShaders(modShader* shaders, int shaderCount)
+    {
+        if (!m_EnableMM1Damage)
+            return;
+
+        m_TextureCount = shaderCount;
+        m_CleanShaders = new modShader[shaderCount];
+        m_DamageShaders = new modShader[shaderCount];
+        m_DamageTextures = new gfxTexture * [shaderCount];
+
+        for (int i = 0; i < shaderCount; i++)
+        {
+            m_CleanShaders[i].SetTexture(shaders[i].GetTexture());
+            m_CleanShaders[i].SetMaterial(shaders[i].GetMaterial());
+
+            m_DamageShaders[i].SetTexture(shaders[i].GetTexture());
+            m_DamageShaders[i].SetMaterial(shaders[i].GetMaterial());
+
+            m_DamageTextures[i] = nullptr;
+        }
+
+        bool hasDamageTextures = false;
+
+        for (int i = 0; i < m_DeformModel->GetPacketCount(); ++i)
+        {
+            int shaderIndex = m_DeformModel->GetShaderIndex(i);
+            modShader* cleanShader = &m_CleanShaders[shaderIndex];
+            cleanShader->PreLoad();
+
+            if (cleanShader->GetTexture())
+            {
+                char textureName[128];
+
+                strcpy_s(textureName, cleanShader->GetTexture()->GetName());
+
+                char* find = strrchr(textureName, '_');
+
+                if (find && !_strcmpi(find, "_dmg"))
+                {
+                    *find = '\0';
+
+                    gfxTexture* cleanTexture = gfxGetTexture(textureName, 1);
+
+                    if (cleanTexture)
+                    {
+                        cleanShader->SetTexture(cleanTexture);
+                        m_DamageTextures[shaderIndex] = cleanTexture;
+                        hasDamageTextures = true;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < m_DeformDamageModel->GetPacketCount(); ++i)
+        {
+            int shaderIndex = m_DeformDamageModel->GetShaderIndex(i);
+            modShader* damageShader = &m_DamageShaders[shaderIndex];
+            damageShader->PreLoad();
+
+            if (damageShader->GetTexture())
+            {
+                char textureName[128];
+
+                strcpy_s(textureName, damageShader->GetTexture()->GetName());
+
+                char* find = strrchr(textureName, '_');
+
+                if (!find || _strcmpi(find, "_dmg"))
+                {
+                    strcat_s(textureName, "_dmg");
+
+                    gfxTexture* damageTexture = gfxGetTexture(textureName, 1);
+
+                    if (damageTexture)
+                    {
+                        damageShader->SetTexture(damageTexture);
+                        m_DamageTextures[shaderIndex] = damageTexture;
+                        hasDamageTextures = true;
+                    }
+                }
+            }
+        }
     }
 
     void fxDamage3D::SetNoDamage()
@@ -270,5 +372,15 @@ namespace MM2
     modStatic* fxDamage3D::GetDeformDamageModel()
     {
         return m_DeformDamageModel;
+    }
+
+    modShader* fxDamage3D::GetCleanShaders()
+    {
+        return this->m_CleanShaders;
+    }
+
+    modShader* fxDamage3D::GetDamageShaders()
+    {
+        return this->m_DamageShaders;
     }
 }
