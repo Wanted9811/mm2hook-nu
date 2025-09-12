@@ -9,6 +9,7 @@
 #include <modules\vehicle\gyro.h>
 #include <modules\vehicle\carmodel.h>
 #include <modules\vehicle\trailer.h>
+#include <modules\vehicle\trackmanager.h>
 
 namespace MM2
 {
@@ -30,22 +31,33 @@ namespace MM2
     extern class vehGyro;
     extern class vehStuck;
     extern class vehWheelPtx;
+    extern class lvlTrackManager;
 
     // Class definitions
 
     class vehCar : public dgPhysEntity {
-        byte _buffer[0x1A4];
-    protected:
-        static hook::Field<0xC0, vehCarDamage *> _damage;
-        static hook::Field<0xB8, vehCarSim *> _sim; // size: ~0x1560
-        static hook::Field<0xBC, vehCarModel *> _model;
-        static hook::Field<0xE0, vehSplash *> _splash;
-        static hook::Field<0x254, vehCarAudioContainer *> _audio;
-        static hook::Field<0xD8, vehTrailer *> _trailer;
-        static hook::Field<0xC8, vehSiren *> _siren;
-        static hook::Field<0xC4, vehWheelPtx *> _wheelPtx;
-        static hook::Field<0xD0, vehGyro *> _gyro;
-        static hook::Field<0xCC, vehStuck*> _stuck;
+    private:
+        void* Input;
+        vehCarSim* CarSim;
+        vehCarModel* CarModel;
+        vehCarDamage* CarDamage;
+        vehWheelPtx* WheelPtx;
+        vehSiren* Siren;
+        vehStuck* Stuck;
+        vehGyro* Gyro;
+        int field_D4;
+        vehTrailer* Trailer;
+        void* Driver;
+        vehSplash* Splash;
+        void* Feedback;
+        int Flags;
+        int StopMode;
+        gfxTexture* TireTrackTexture;
+        lvlTrackManager WHL0TrackManager;
+        lvlTrackManager WHL1TrackManager;
+        lvlTrackManager WHL2TrackManager;
+        lvlTrackManager WHL3TrackManager;
+        vehCarAudioContainer* CarAudioContainer;
     private:
         /*
             Valid Modes:
@@ -73,6 +85,7 @@ namespace MM2
         vehWheelPtx* GetWheelPtx() const;
         vehGyro* GetGyro() const;
         vehStuck* GetStuck() const;
+        lvlTrackManager* GetWheelTrackManager(int num);
 
         AGE_API void Reset();
 
@@ -82,6 +95,7 @@ namespace MM2
         AGE_API void InitAudio(char const* basename, int audioType);
         AGE_API void SetDrivable(BOOL drivable, int mode);
         AGE_API void SetColliderID(int id);
+        AGE_API void DrawTracks();
 
         /*
             dgPhysEntity virtuals
