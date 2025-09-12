@@ -1,5 +1,5 @@
 #pragma once
-#include <modules/model/static2.h>
+#include <modules\model\static2.h>
 
 namespace MM2
 {
