@@ -12,7 +12,7 @@ public:
 
     static void vglBeginShaded(MM2::gfxDrawMode drawMode, int p1);
     static void vglEndShaded();
-
+    static void DrawTexture(unsigned int index);
     static void Install();
 };
 
