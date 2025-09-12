@@ -35,6 +35,11 @@ namespace MM2
         float FreeRoll;
         vehCarSim* CarSim;
     public:
+        vehCarSim* GetCarSim()
+        {
+            return this->CarSim;
+        }
+
         ANGEL_ALLOCATOR
 
         AGE_API dgTrailerJoint() {
@@ -78,6 +83,7 @@ namespace MM2
         static void BindLua(LuaState L) {
             LuaBinding(L).beginExtendClass<dgTrailerJoint, phJoint>("dgTrailerJoint")
                 .addConstructor(LUA_ARGS())
+                .addPropertyReadOnly("CarSim", &GetCarSim)
                 .addFunction("Init", &Init)
                 .addFunction("Reset", &Reset)
                 .addFunction("BreakJoint", &BreakJoint)
