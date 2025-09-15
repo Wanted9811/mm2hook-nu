@@ -68,6 +68,18 @@ namespace MM2
                 mm1Damage->Init(bodyEntry->GetHighLOD(), bodyEntry->pShaders[variant], bodyEntry->numShadersPerVariant);
             }
         }
+        if (damage3D)
+        {
+            auto bodyEntry = this->GetGeomBase();
+            auto bodyDamageEntry = this->GetGeomBase(BODYDAMAGE_GEOM_ID);
+            if (bodyEntry->GetHighLOD() != nullptr)
+            {
+                delete damage3D;
+                damage3D = new fxDamage3D();
+                damage3D->Init(bodyEntry->GetHighLOD(), bodyDamageEntry->GetHighLOD() != nullptr ? bodyDamageEntry->GetHighLOD() : bodyEntry->GetHighLOD(), vehCarModel::mm1StyleDamage);
+                damage3D->SetShaders(bodyEntry->pShaders[variant], bodyEntry->numShadersPerVariant);
+            }
+        }
     }
 
     ltLight* vehCarModel::GetHeadlight(int index)
