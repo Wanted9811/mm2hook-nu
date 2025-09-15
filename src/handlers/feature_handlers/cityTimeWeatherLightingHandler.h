@@ -5,6 +5,8 @@
 
 using namespace MM2;
 
+static ConfigValue<bool> cfgMovingClouds("MovingClouds", true);
+
 const int NUM_TIMEWEATHERS = 16;
 
 struct TimeWeatherInfo {
@@ -12,7 +14,6 @@ struct TimeWeatherInfo {
 
     bool ShowHeadlights;
     bool ShowLightGlows;
-    bool MovingClouds;
 
     float FlatColorIntensity;
     float WeatherFriction;
@@ -28,7 +29,6 @@ struct TimeWeatherInfo {
     void FileIO(datParser& parser) {
         parser.AddValue("Headlights", &ShowHeadlights);
         parser.AddValue("LightGlows", &ShowLightGlows);
-        parser.AddValue("MovingClouds", &MovingClouds);
 
         parser.AddValue("FlatColorIntensity", &FlatColorIntensity);
         parser.AddValue("WeatherFriction", &WeatherFriction);
@@ -44,7 +44,6 @@ struct TimeWeatherInfo {
 
         ShowHeadlights = (statePack->TimeOfDay >= 2 || statePack->WeatherType == 2);
         ShowLightGlows = statePack->TimeOfDay == 3;
-        MovingClouds = statePack->TimeOfDay != 3;
 
         FlatColorIntensity = (statePack->TimeOfDay == 3) ? 0.5f : 1.0f;
 
@@ -67,7 +66,7 @@ struct TimeWeatherInfo {
         aiMap::GetInstance()->showHeadlights = ShowHeadlights;
         vehCar::sm_DrawHeadlights = ShowHeadlights;
         vehCarModel::ShowHeadlights = ShowHeadlights;
-        cityLevel::EnableMovingClouds = MovingClouds && !strcmp(ShadowMap, "shadmap_day");
+        cityLevel::EnableMovingClouds = cfgMovingClouds.Get() && !strcmp(ShadowMap, "shadmap_day");
 
         g_FlatColorIntensity = FlatColorIntensity;
         g_WeatherFriction = WeatherFriction;
