@@ -14,43 +14,58 @@ AGE_API vehCar::~vehCar()                                   { hook::Thunk<0x42BC
 declfield(vehCar::sm_DrawHeadlights)(0x627518);
 
 vehCarDamage * vehCar::GetCarDamage(void) const {
-	return _damage.get(this);
+	return this->CarDamage;
 };
 
 vehCarSim * vehCar::GetCarSim() const {
-	return _sim.get(this);
+	return this->CarSim;
 }
 
 vehCarModel * vehCar::GetModel() const {
-	return _model.get(this);
+	return this->CarModel;
 }
 
 vehSplash * vehCar::GetSplash() const {
-	return _splash.get(this);
+	return this->Splash;
 }
 
 vehCarAudioContainer * vehCar::GetCarAudioContainerPtr() const {
-	return _audio.get(this);
+	return this->CarAudioContainer;
 }
 
 vehTrailer * vehCar::GetTrailer() const {
-	return _trailer.get(this);
+	return this->Trailer;
 }
 
 vehSiren * vehCar::GetSiren() const {
-	return _siren.get(this);
+	return this->Siren;
 }
 
 vehWheelPtx * vehCar::GetWheelPtx() const {
-	return _wheelPtx.get(this);
+	return this->WheelPtx;
 }
 
 vehGyro * vehCar::GetGyro() const {
-	return _gyro.get(this);
+	return this->Gyro;
 }
 
 vehStuck * vehCar::GetStuck() const {
-	return _stuck.get(this);
+	return this->Stuck;
+}
+
+lvlTrackManager* vehCar::GetWheelTrackManager(int num)
+{
+	switch (num) {
+	case 0:
+		return &this->WHL0TrackManager;
+	case 1:
+		return &this->WHL1TrackManager;
+	case 2:
+		return &this->WHL2TrackManager;
+	case 3:
+		return &this->WHL3TrackManager;
+	}
+	return nullptr;
 }
 
 AGE_API void vehCar::Reset()                                { hook::Thunk<0x42C330>::Call<void>(this); }
@@ -63,9 +78,14 @@ AGE_API void vehCar::InitAudio(char const *basename, int audioType)
 															{ hook::Thunk<0x42C1F0>::Call<void>(this, basename, audioType); }
 AGE_API void vehCar::SetDrivable(BOOL drivable, int mode)   { hook::Thunk<0x42C2C0>::Call<void>(this, drivable, mode); }
 
-AGE_API void MM2::vehCar::SetColliderID(int id)
+AGE_API void vehCar::SetColliderID(int id)
 {
 	hook::Thunk<0x42C1D0>::Call<void>(this, id);
+}
+
+AGE_API void vehCar::DrawTracks()
+{
+	hook::Thunk<0x42C5E0>::Call<void>(this);
 }
 
 /*
