@@ -1134,7 +1134,7 @@ namespace MM2
         auto shaders = this->GetShader(this->GetVariant());
 
         //get model
-        modStatic* model = this->GetGeomBase(0)->GetHighestLOD();
+        modStatic* model = damage3D != nullptr ? damage3D->GetDeformModel() : this->GetGeomBase(0)->GetHighestLOD();
 
         if (model != nullptr)
         {
@@ -1146,6 +1146,8 @@ namespace MM2
                 gfxRenderState::SetWorldMatrix(shadowMatrix);
                 float intensity = ComputeShadowIntensity(timeWeather->KeyColor);
                 model->DrawShadowed(shaders, intensity);
+
+                if (mm1StyleDamage && damage3D != nullptr) damage3D->GetDeformDamageModel()->DrawShadowed(shaders, intensity);
 
                 //draw breakables
                 this->genBreakableMgr->DrawShadowed(shadowMatrix, shaders, intensity);
