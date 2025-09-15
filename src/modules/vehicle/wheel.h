@@ -135,6 +135,10 @@ namespace MM2
         float GetLatSlipPercent() const;
         float GetLongSlipPercent() const;
         float GetRotationRate() const;
+        float GetSteerAmount() const;
+        float GetWobbleAmount() const;
+        float GetAccumulatedRotation() const;
+        float GetBumpDisplacement() const;
 
         static float GetWeatherFriction();
         static void SetWeatherFriction(float friction);

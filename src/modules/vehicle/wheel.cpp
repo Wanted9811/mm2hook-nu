@@ -103,6 +103,26 @@ namespace MM2
         return this->RotationRate;
     }
 
+    float vehWheel::GetSteerAmount() const
+    {
+        return this->SteerAmount;
+    }
+
+    float vehWheel::GetWobbleAmount() const
+    {
+        return this->WobbleAmount;
+    }
+
+    float vehWheel::GetAccumulatedRotation() const
+    {
+        return this->AccumulatedRotation;
+    }
+
+    float vehWheel::GetBumpDisplacement() const
+    {
+        return this->BumpDisplacement;
+    }
+
     float vehWheel::GetWeatherFriction() { return WeatherFriction.get(); }
     void vehWheel::SetWeatherFriction(float friction) { WeatherFriction.set(friction); }
 
@@ -139,6 +159,10 @@ namespace MM2
             .addPropertyReadOnly("LatSlipPercent", &GetLatSlipPercent)
             .addPropertyReadOnly("LongSlipPercent", &GetLongSlipPercent)
             .addPropertyReadOnly("RotationRate", &GetRotationRate)
+            .addPropertyReadOnly("SteerAmount", &GetSteerAmount)
+            .addPropertyReadOnly("WobbleAmount", &GetWobbleAmount)
+            .addPropertyReadOnly("AccumulatedRotation", &GetAccumulatedRotation)
+            .addPropertyReadOnly("BumpDisplacement", &GetBumpDisplacement)
 
             //functions
             .addFunction("GetPosition", &GetPosition)
