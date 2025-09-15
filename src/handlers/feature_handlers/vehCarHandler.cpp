@@ -157,5 +157,13 @@ void vehCarHandler::Install(void) {
             0x405C81,
         });
     }
+
+    // fix tire skidmarks rendering being visible through buildings
+    InstallPatch({
+        0xEB,
+        }, {
+            0x42C5F3, // vehCar::DrawTracks
+            0x42C66D, // vehCar::DrawTracks
+        });
 }
 
