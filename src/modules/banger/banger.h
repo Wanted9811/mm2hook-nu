@@ -39,7 +39,7 @@ namespace MM2
 
         int GetVariant() const 
         {
-            return this->DataPack >> 12;
+            return (unsigned short)this->DataPack >> 12;
         }
 
         void SetBangerType(unsigned short type)
