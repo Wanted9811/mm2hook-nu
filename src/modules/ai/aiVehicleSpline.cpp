@@ -52,6 +52,11 @@ bool aiVehicleSpline::SolvedStopOrientation() const
 }
 
 //fields
+float aiVehicleSpline::GetTireRotation() const
+{
+    return _tireRotation.get(this);
+}
+
 float aiVehicleSpline::GetSpeed() const
 {
     return _curSpeed.get(this);
