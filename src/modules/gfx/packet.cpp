@@ -2,6 +2,7 @@
 #include "packet.h"
 #include <modules\gfx\stats.h>
 #include <modules\gfx\pipeline.h>
+#include <modules\city\citylevel.h>
 
 using namespace MM2;
 
@@ -175,7 +176,9 @@ void MM2::gfxPacket::OrthoMap(float scale, Vector3 offset)
     {
         auto& vert = verts[i];
         auto& orthoVert = orthoVerts[i];
-        Vector3 offsetVert = offset + vert.position;
+
+        Vector3 movement = cityLevel::EnableMovingClouds ? Vector3::AXIS : Vector3::ORIGIN;
+        Vector3 offsetVert = offset + vert.position + (movement * datTimeManager::ElapsedTime);
 
         orthoVert.position = vert.position;
         orthoVert.diffuse = 0xFFFFFFFF;

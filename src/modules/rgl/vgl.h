@@ -21,6 +21,8 @@ namespace MM2
     extern void vglBeginBatch(void);
     extern void vglEndBatch(void);
     extern void vglDrawTexture(unsigned int index);
+    extern void vglDrawEnvMap(unsigned int index);
+    extern void vglDrawPrimitive(unsigned int index);
     extern void vglBindTexture(gfxTexture *texture);
     extern void vglDrawLabel(const Vector3 &position, const char *text);
 
@@ -59,12 +61,20 @@ namespace MM2
     extern void rglPopMatrix(void);
     extern void rglMultMatrix(Matrix34 &p1);
 
+    extern hook::Type<ushort*>           vglIndices;
     extern hook::Type<uint>              vglCloudMapEnable;
+    extern hook::Type<Matrix44>          vglOffset;
+    extern hook::Type<int[32]>           vglPrimitives;
+    extern hook::Type<uint>              vglVertexFVF;
+    extern hook::Type<int[1024]>         vglPrimitiveFlags;
 
     extern hook::Type<void(*)(float, float, float)>
                                          vglVertex;
 
+    extern hook::Type<gfxTexture*[32]>   vglTextures;
     extern hook::Type<uint>              vglCurrentColor;
+    extern hook::Type<int>               vglVertexSize;
+    extern hook::Type<char[32768]>       vglVertexBuffer;
     extern hook::Type<vglVCT1_t *>       vglVCT1;
     extern hook::Type<float>             vglCurrentNZ;
     extern hook::Type<float>             vglCurrentNX;
@@ -72,6 +82,8 @@ namespace MM2
     extern hook::Type<int>               vglCount;
     extern hook::Type<float>             vglCurrentT;
     extern hook::Type<float>             vglCurrentS;
+    extern hook::Type<bool>              vglUseCloudMap;
+    extern hook::Type<int>               vglTextureCount;
     extern hook::Type<vglVNT1_t *>       vglVNT1;
     extern hook::Type<gfxTexture *>      vglCloudMapTexture;
 

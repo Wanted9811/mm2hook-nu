@@ -1,11 +1,18 @@
 #include "mm2_rgl.h"
+#include <modules\city\citylevel.h>
 using namespace MM2;
 
+declfield(MM2::vglIndices)          (0x5C9EBC);
 declfield(MM2::vglCloudMapEnable)   (0x661928);
-
+declfield(MM2::vglOffset)           (0x661930);
 declfield(MM2::vglVertex)           (0x661970);
-
+declfield(MM2::vglTextures)         (0x6619C4);
+declfield(MM2::vglPrimitives)       (0x661A44);
 declfield(MM2::vglCurrentColor)     (0x661974);
+declfield(MM2::vglVertexSize)       (0x661978);
+declfield(MM2::vglVertexBuffer)     (0x661B44);
+declfield(MM2::vglVertexFVF)        (0x681B44);
+declfield(MM2::vglPrimitiveFlags)   (0x681B48);
 declfield(MM2::vglVCT1)             (0x682B48);
 declfield(MM2::vglCurrentNZ)        (0x682B4C);
 declfield(MM2::vglCurrentNX)        (0x682B50);
@@ -13,7 +20,9 @@ declfield(MM2::vglCurrentNY)        (0x682B54);
 declfield(MM2::vglCount)            (0x682B58);
 declfield(MM2::vglCurrentT)         (0x682B5C);
 declfield(MM2::vglCurrentS)         (0x682B60);
+declfield(MM2::vglUseCloudMap)      (0x682B64);
 declfield(MM2::vglVNT1)             (0x682B68);
+declfield(MM2::vglTextureCount)     (0x682B88);
 declfield(MM2::vglCloudMapTexture)  (0x682B74);
 
 declfield(MM2::mtxstack)            (0x682F98);
@@ -46,6 +55,7 @@ void    MM2::vgl_VERTEX_VCT1        (float x, float y, float z)                 
 void    MM2::vgl_VERTEX_VNT1        (float x, float y, float z)                                 { return _StaticThunk<0x4A5400>::Call<void>(x, y, z); }
 void    MM2::vglSetFormat           (uint p1, uint p2, uint p3, uint p4)                        { return _StaticThunk<0x4A5490>::Call<void>(p1, p2, p3, p4); }
 void    MM2::vglBegin               (gfxDrawMode drawMode, int p2)                              { return _StaticThunk<0x4A5500>::Call<void>(drawMode, p2); }
+void    MM2::vglDrawPrimitive       (unsigned int index)                                        { return _StaticThunk<0x4A5910>::Call<void>(index); }
 void    MM2::vglEnd                 (void)                                                      { return _StaticThunk<0x4A5A90>::Call<void>(); }
 void    MM2::vglBeginBatch          (void)                                                      { return _StaticThunk<0x4A5B10>::Call<void>(); }
 void    MM2::vglEndBatch            (void)                                                      { return _StaticThunk<0x4A5B80>::Call<void>(); }
@@ -54,7 +64,78 @@ void    MM2::vglDrawLabel           (const Vector3 &position, const char *text) 
 
 void    MM2::vglDrawTexture         (unsigned int index)
 {
-    hook::StaticThunk<0x4A5780>::Call<void>(index); // TODO: rewrite
+    gfxTexture* texture = vglTextures[index];
+    texture != nullptr ? texture->BindIndex = 0 : vglTextureCount = 0;
+
+    bool drawCloudMap = false;
+    if (vglCloudMapEnable.get() && vglCloudMapTexture.get())
+    {
+        gfxTexture* texture = vglTextures[index];
+        if (texture != nullptr)
+        {
+            if ((vglCloudMapEnable.get() & texture->TexEnv) != 0)
+                drawCloudMap = true;
+        }
+    }
+
+    gfxRenderState::SetTexture(0, vglTextures[index]);
+    gfxRenderState::FlushMasked();
+    vglDrawPrimitive(index);
+
+    if (drawCloudMap)
+    {
+        if (vglUseCloudMap.get())
+        {
+            bool alphaEnable = gfxRenderState::SetAlphaEnabled(true);
+            byte alphaRef = gfxRenderState::SetAlphaRef(0);
+            gfxRenderState::SetTexture(0, vglCloudMapTexture);
+            gfxRenderState::FlushMasked();
+            vglDrawEnvMap(index);
+            gfxRenderState::SetAlphaRef(alphaRef);
+            gfxRenderState::SetAlphaEnabled(alphaEnable);
+        }
+        gfxRenderState::FlushMasked();
+    }
+}
+
+void    MM2::vglDrawEnvMap          (unsigned int index)
+{
+    int primitive = vglPrimitives[index];
+    float scale = vglOffset->m33;
+    Vector3 offset = Vector3(vglOffset->m30, vglOffset->m31, vglOffset->m32);
+
+    while (primitive)
+    {
+        uint flag = vglPrimitiveFlags[primitive];
+        int numVerts = (flag >> 0xA) & 0xFFF;
+        int adjunctCount = (flag >> 3) & 0x7F;
+        int primitiveType = flag & 7;
+        primitive = flag >> 22;
+
+        auto vertexBuffer = &vglVertexBuffer[numVerts * vglVertexSize];
+        auto verts = reinterpret_cast<vglVNT1_t*>(vertexBuffer);
+        auto orthoVerts = reinterpret_cast<vglVCT1_t*>(vertexBuffer);
+
+        for (int i = 0; i < adjunctCount; i++)
+        {
+            auto& vert = verts[i];
+            auto& orthoVert = orthoVerts[i];
+
+            Vector3 movement = cityLevel::EnableMovingClouds ? Vector3::AXIS : Vector3::ORIGIN;
+            Vector3 offsetVert = offset + vert.position + (movement * datTimeManager::ElapsedTime);
+
+            orthoVert.texCoords.X = ((offsetVert.X + offsetVert.Y) * scale);
+            orthoVert.texCoords.Y = ((offsetVert.Z + offsetVert.Y) * scale);
+        }
+
+        lpD3DDev->DrawIndexedPrimitive((D3DPRIMITIVETYPE)primitiveType,
+            vglVertexFVF,
+            (LPVOID)vertexBuffer,
+            adjunctCount,
+            (LPWORD)&vglIndices,
+            adjunctCount,
+            0);
+    } 
 }
 
 /* font.obj */
