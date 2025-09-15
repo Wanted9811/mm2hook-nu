@@ -20,13 +20,18 @@ namespace MM2
         float unknown128; //something to do with angle from wheel to pivot
         int Mode;
     public:
-        inline vehWheel* getWheel() {
+        vehWheel* getWheel() {
             return this->Wheel;
         }
 
-        inline Matrix34 getSuspensionMatrix()
+        Matrix34 getSuspensionMatrix()
         {
             return this->SuspensionMatrix;
+        }
+
+        Matrix34 getSuspensionPivot()
+        {
+            return this->SuspensionPivot;
         }
     public:
         AGE_API vehSuspension()                             { hook::Thunk<0x4D9990>::Call<void>(this); }

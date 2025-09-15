@@ -1,7 +1,6 @@
 #pragma once
 #include <mm2_common.h>
 #include <mm2_lua.h>
-#include <mm2_lua.h>
 #include <modules/node.h>
 #include <map>
 

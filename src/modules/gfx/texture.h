@@ -40,6 +40,7 @@ namespace MM2
         /*0x31*/byte MaxLOD;
 
         static hook::Type<bool> sm_EnableSetLOD;
+        static hook::Type<UCHAR> sm_LOD;
         static hook::Type<bool> sm_Allow32;
         static hook::Type<gfxTexture*> sm_First;
         static hook::Type<bool> sm_UseInternalCache;

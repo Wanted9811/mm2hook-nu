@@ -16,6 +16,8 @@ namespace MM2
         lvlInstance* m_SrcInstance;
         lvlMultiRoomState* m_State;
     public:
+        static hook::Type<int> sm_Sample;
+
         static void Create(lvlInstance* srcInstance, int room)
         {
             hook::StaticThunk<0x467C40>::Call<void>(srcInstance, room);

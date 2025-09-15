@@ -120,16 +120,16 @@ namespace MM2
         static bool EnableSpinningWheels;
         static bool EnableHeadlightFlashing;
         static bool MWStyleTotaledCar;
+        static int Enable3DShadows;
         static int SirenType;
         static int HeadlightType;
         static float SirenCycle;
         static float HeadlightFlashingSpeed;
         static bool PartReflections;
         static bool WheelReflections;
+        static bool DamageReflections;
         static bool mm1StyleTransmission;
         static bool mm1StyleDamage;
-        static bool breakableRenderTweak;
-        static bool Enable3DShadows;
 
         //light states
         static bool ShowHeadlights;
@@ -139,6 +139,7 @@ namespace MM2
 
         //3d damage feature
         static bool Enable3DDamage;
+        static bool Enable3DDynamicDamage;
     private:
         bool enabledElectrics[4]; //0/1 are back, 2/3 are front
         vehCar* car;
@@ -201,6 +202,11 @@ namespace MM2
         fxTexelDamage* GetTexelDamage();
         fxDamage3D* GetDamage3D();
         mmDamage* GetMM1Damage();
+        int GetRandId();
+        Matrix34 GetWheelMatrix(int num);
+        Matrix34 GetFenderMatrix(int num);
+        Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
+        Matrix34 GetFenderShadowMatrix(int num, const Matrix34& shadowMatrix);
 
         AGE_API void GetSurfaceColor(modStatic* model, Vector3* outVector);
         AGE_API void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int someId);
@@ -214,10 +220,12 @@ namespace MM2
         AGE_API void SetVisible(bool visible);
         AGE_API void DrawHeadlights(bool rotate);
         AGE_API void DrawExtraHeadlights(bool rotate);
-        AGE_API void DrawPart(modStatic* model, const Matrix34* matrix, modShader* shaders);
-        AGE_API void DrawPart(int lod, int geomId, const Matrix34* matrix, modShader* shaders);
-        void DrawPartReflected(int lod, int geomId, const Matrix34* matrix, modShader* shaders);
-        void DrawPart(int lod, int geomId, const Matrix34* matrix, modShader* shaders, bool reflected);
+        AGE_API void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders);
+        AGE_API void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders);
+        void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected);
+        void DrawPartShadowed(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity);
+        void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState);
+        void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState);
         void Init(vehCar* car, const char* basename, int variant);
         
         /*
@@ -235,7 +243,8 @@ namespace MM2
         AGE_API void DrawShadow() override;
         AGE_API void DrawShadowMap() override;
         AGE_API void DrawGlow() override;
-        AGE_API void DrawReflected(float a1) override;
+        AGE_API void DrawReflected(float intensity) override;
+        AGE_API void DrawReflectedParts(int lod) override;
         AGE_API unsigned int SizeOf() override;
 
         static void BindLua(LuaState L);

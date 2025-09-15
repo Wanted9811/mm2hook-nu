@@ -210,6 +210,7 @@
     <ClInclude Include="src\handlers\feature_handlers\ImGuiFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\InitMapHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\ltLensFlareHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\lvlFixedAnyHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\lvlHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\memSafeHeapHandler.h" />
@@ -620,6 +621,7 @@
     <ClInclude Include="src\modules\vehicle\surfaceaudio.h" />
     <ClInclude Include="src\modules\vehicle\surfaceaudiodata.h" />
     <ClInclude Include="src\modules\vehicle\suspension.h" />
+    <ClInclude Include="src\modules\vehicle\trackmanager.h" />
     <ClInclude Include="src\modules\vehicle\trailer.h" />
     <ClInclude Include="src\modules\vehicle\transmission.h" />
     <ClInclude Include="src\modules\vehicle\wheel.h" />
@@ -729,6 +731,7 @@
     <ClCompile Include="src\handlers\feature_handlers\ImGuiFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\InitMapHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\ltLensFlareHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\lvlFixedAnyHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\lvlHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\memSafeHeapHandler.cpp" />
@@ -813,6 +816,7 @@
     <ClCompile Include="src\modules\audio\audmanagerbase.cpp" />
     <ClCompile Include="src\modules\audio\streamingmusic.cpp" />
     <ClCompile Include="src\modules\banger.cpp" />
+    <ClCompile Include="src\modules\banger\tree.cpp" />
     <ClCompile Include="src\modules\city.cpp" />
     <ClCompile Include="src\modules\city\citylevel.cpp" />
     <ClCompile Include="src\modules\core.cpp" />
@@ -828,6 +832,7 @@
     <ClCompile Include="src\modules\effects.cpp" />
     <ClCompile Include="src\modules\effects\birth.cpp" />
     <ClCompile Include="src\modules\effects\damage.cpp" />
+    <ClCompile Include="src\modules\effects\damage3d.cpp" />
     <ClCompile Include="src\modules\effects\ptx.cpp" />
     <ClCompile Include="src\modules\effects\waterspout.cpp" />
     <ClCompile Include="src\modules\gfx.cpp" />
@@ -842,6 +847,7 @@
     <ClCompile Include="src\modules\level\inst.cpp" />
     <ClCompile Include="src\modules\level\landmark.cpp" />
     <ClCompile Include="src\modules\level\level.cpp" />
+    <ClCompile Include="src\modules\level\multiroom.cpp" />
     <ClCompile Include="src\modules\lights.cpp" />
     <ClCompile Include="src\modules\lights\light.cpp" />
     <ClCompile Include="src\modules\mmaudio\mmaudiomanager.cpp" />
@@ -894,8 +900,10 @@
     <ClCompile Include="src\modules\vehicle\cardamage.cpp" />
     <ClCompile Include="src\modules\vehicle\carmodel.cpp" />
     <ClCompile Include="src\modules\vehicle\carsim.cpp" />
+    <ClCompile Include="src\modules\vehicle\trackmanager.cpp" />
     <ClCompile Include="src\modules\vehicle\trailer.cpp" />
     <ClCompile Include="src\modules\vehicle\wheel.cpp" />
+    <ClCompile Include="src\modules\vehicle\wheelcheap.cpp" />
     <ClCompile Include="src\settings.cpp" />
     <ClCompile Include="src\handlers\bugfix_handlers.cpp" />
     <ClCompile Include="src\handlers\feature_handlers.cpp" />

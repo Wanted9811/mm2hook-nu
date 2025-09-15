@@ -2,6 +2,7 @@
 #include <mm2_common.h>
 #include "..\level\level.h"
 #include "..\level\sky.h"
+#include "..\effects\birth.h"
 #include "psdl.h"
 
 namespace MM2
@@ -48,13 +49,25 @@ namespace MM2
     void SetLightDirection(Vector3* out, float heading, float pitch);
     float ComputeShadowIntensity(Vector3 keyColor);
 
+    struct cityRoomRec {
+        int RoomId;
+        float Distance;
+    };
+
     class cityLevel : public lvlLevel {
+    public:
+        static bool EnableMovingClouds;
     private:
         int unk28;
     private:
         static hook::Type<unsigned char[512]> sm_PvsBuffer;
         static hook::Type<bool> sm_EnablePVS;
+        static hook::Type<int> sm_RefAlpha;
+        static hook::Type<float> sm_ShadowHFudge;
+        static hook::Type<Vector3> sm_Lighting;
         static hook::Type<lvlSDL> SDL;
+        static hook::Type<asParticles*> RainParticles;
+        static hook::Type<asBirthRule*> RainBirthRule;
     private:
         //lua function for getting perimeter
         std::vector<Vector3> LuaGetPerimeter(int room);
@@ -97,14 +110,20 @@ namespace MM2
         AGE_API static void LoadPath(const char* a1, const Matrix34& a2, bool a3);
         AGE_API static void LoadPathSet(const char* a1, const char* a2);
         AGE_API static void LoadProp(int a1, const char* a2, const Matrix34& a3);
-        AGE_API void DrawRooms(const gfxViewport* a1, uint a2, LPVOID a3, int a4); //should be protected but we use this in the hook
+        AGE_API void DrawRooms(const gfxViewport& a1, uint a2, const cityRoomRec* a3, int a4); //should be protected but we use this in the hook
         AGE_API static void SetupLighting(Vector3 const& multiplyColor);
+        AGE_API void SetupPerRoomLighting(int roomId);
         
         /*
             Helpers
         */
         bool IsRoomVisible(int roomId) const;
         static lvlSDL* GetSDL();
+        static int GetRefAlpha();
+        static float GetShadowHFudge();
+        static Vector3 GetSmLighting();
+        static asParticles* GetRainParticles();
+        static asBirthRule* GetRainBirthRule();
         static cityTimeWeatherLighting* GetLighting(int index);
         static cityTimeWeatherLighting* GetCurrentLighting();
 

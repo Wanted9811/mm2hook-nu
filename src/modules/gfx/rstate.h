@@ -99,6 +99,7 @@ namespace MM2
         */
         static hook::Type<int> m_Touched;
         static hook::Type<int> m_TouchedMask;
+        static hook::Type<int[2]> m_TouchedMasks;
 
     private:
         static bool sm_EnableTextures;
@@ -120,6 +121,7 @@ namespace MM2
         static void SetCamera(Matrix34 const & mtx)     { hook::StaticThunk<0x4B2970>::Call<void>(&mtx); }
         static void SetCameraFull(Matrix34 const & mtx) { hook::StaticThunk<0x4B2B50>::Call<void>(&mtx); }
         static void SetView(Matrix34 const & mtx)       { hook::StaticThunk<0x4B2A80>::Call<void>(&mtx); }
+        static void DisableAllLights()                  { hook::StaticThunk<0x4B22D0>::Call<void>(); }
     public:
         static void FlushMasked()
         {
@@ -130,6 +132,16 @@ namespace MM2
         static bool Touched(int flags)
         {
             return gfxRenderState::m_Touched & flags;
+        }
+
+        static void SetTouched(int flags)
+        {
+            gfxRenderState::m_Touched = gfxRenderState::m_Touched | flags;
+        }
+
+        static void SetTouchedMask(bool lightingState)
+        {
+            gfxRenderState::m_TouchedMask = gfxRenderState::m_TouchedMasks[lightingState];
         }
 
         static void SetBlendSet(int a, int b)
@@ -191,6 +203,11 @@ namespace MM2
                 gfxRenderState::m_Touched = gfxRenderState::m_Touched | 0x01;
             }
             return original;
+        }
+
+        static bool GetZWriteEnabled()
+        {
+            return (&RSTATE->Data)->ZWriteEnable;
         }
 
         static bool SetZWriteEnabled(bool enabled)
@@ -323,9 +340,14 @@ namespace MM2
             return static_cast<D3DCULL>((&RSTATE->Data)->CullMode);
         }
 
-        inline static byte GetAlphaRef()
+        static byte GetAlphaRef()
         {
             return (&RSTATE->Data)->AlphaRef;
+        }
+
+        static byte GetAlphaFunc()
+        {
+            return (&RSTATE->Data)->AlphaFunc;
         }
 
         static Matrix44 GetCameraMatrix()

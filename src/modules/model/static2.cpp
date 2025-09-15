@@ -2,6 +2,7 @@
 #include <modules\gfx\rstate.h>
 #include <modules\gfx\packet.h>
 #include <modules\gfx\pipeline.h>
+#include <modules\level\level.h>
 #include <modules\model\shader.h>
 
 using namespace MM2;
@@ -38,36 +39,9 @@ AGE_API void modStatic::Optimize(modShader *shader)
 }
 
 AGE_API void modStatic::Draw(modShader *shaders) const	            
-{ 
-	gfxRenderState::FlushMasked();
-	bool lastAlphaEnable = gfxRenderState::GetAlphaEnabled();
-	bool alphaEnabled = false;
-
-	for (int i = 0; i < this->PacketCount; i++)
-	{
-		if (shaders != nullptr)
-		{
-			auto shader = shaders[this->ShaderIndices[i]];
-			gfxRenderState::SetMaterial(shader.GetMaterial());
-			gfxRenderState::SetTexture(0, shader.GetTexture());
-			
-			/*if ((this->Flags & 2) != 0
-				&& !alphaEnabled
-				&& (shader.GetMaterial()->Diffuse.W != 1.0 || shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0))*/
-			if (!alphaEnabled && (shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0 || shader.GetMaterial()->Diffuse.W != 1.0))
-			{
-				gfxRenderState::SetAlphaEnabled(true);
-				alphaEnabled = true;
-			}
-
-			gfxRenderState::FlushMasked();
-		}
-
-		auto list = this->ppPacketLists[i];
-		gfxPacket::DrawList(list);
-	}
-
-	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
+{
+	this->DrawNoAlpha(shaders);
+	this->DrawAlpha(shaders);
 }
 
 AGE_API void modStatic::DrawShadowed(modShader* shaders, float intensity) const
@@ -80,7 +54,7 @@ AGE_API void modStatic::DrawShadowed(modShader* shaders, float intensity) const
 	ShadowMaterial.Specular = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 	ShadowMaterial.Shininess = 0.0f;
 	gfxRenderState::SetMaterial(&ShadowMaterial);
-	if((this->Flags & 2) == 0 || shaders == nullptr || s_CheapShadows) gfxRenderState::SetTexture(0, nullptr);
+	if ((this->Flags & 2) == 0 || shaders == nullptr || s_CheapShadows) gfxRenderState::SetTexture(0, nullptr);
 	gfxRenderState::FlushMasked();
 
 	for (int i = 0; i < this->PacketCount; i++)
@@ -150,9 +124,158 @@ AGE_API void modStatic::DrawColored(modShader* shaders, const Vector4& color) co
 	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
 }
 
-AGE_API void modStatic::DrawNoAlpha(modShader *shader) const	    
-{ 
-	return hook::Thunk<0x4A4A20>::Call<void>(this, shader); 
+AGE_API void modStatic::DrawNoAlpha(modShader *shaders) const
+{
+	// this function is unused by default so we're gonna use it in a different way
+	// return hook::Thunk<0x4A4A20>::Call<void>(this, shader);
+
+	gfxRenderState::FlushMasked();
+	for (int i = 0; i < this->PacketCount; i++)
+	{
+		if (shaders != nullptr)
+		{
+			auto shader = shaders[this->ShaderIndices[i]];
+			if ((shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0 || shader.GetMaterial()->Diffuse.W != 1.0)) continue;
+			gfxRenderState::SetMaterial(shader.GetMaterial());
+			gfxRenderState::SetTexture(0, shader.GetTexture());
+			gfxRenderState::FlushMasked();
+		}
+
+		auto list = this->ppPacketLists[i];
+		gfxPacket::DrawList(list);
+	}
+}
+
+void modStatic::DrawAlpha(modShader* shaders) const
+{
+	gfxRenderState::FlushMasked();
+	bool lastAlphaEnable = gfxRenderState::GetAlphaEnabled();
+	bool lastZWriteEnable = gfxRenderState::GetZWriteEnabled();
+	bool alphaEnabled = false;
+
+	for (int i = 0; i < this->PacketCount; i++)
+	{
+		if (shaders != nullptr)
+		{
+			auto shader = shaders[this->ShaderIndices[i]];
+			if (!(shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0 || shader.GetMaterial()->Diffuse.W != 1.0)) continue;
+			
+			gfxRenderState::SetMaterial(shader.GetMaterial());
+			gfxRenderState::SetTexture(0, shader.GetTexture());
+
+			if (!alphaEnabled && (shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0 || shader.GetMaterial()->Diffuse.W != 1.0))
+			{
+				gfxRenderState::SetAlphaEnabled(true);
+				alphaEnabled = true;
+			}
+
+			if (HasGlass(&shader)) gfxRenderState::SetZWriteEnabled(false);
+			gfxRenderState::FlushMasked();
+		}
+
+		auto list = this->ppPacketLists[i];
+		gfxPacket::DrawList(list);
+	}
+
+	gfxRenderState::SetZWriteEnabled(lastZWriteEnable);
+	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
+}
+
+bool modStatic::HasGlass(modShader* shader) const
+{
+	if (shader->GetTexture() != nullptr && (shader->GetTexture()->TexEnv & 0x20000) != 0)
+	{
+		char* find = strrchr(shader->GetTextureName(), '_');
+		if ((find && (!strcmp(find, "_glass") || !strcmp(find, "_window") || !strcmp(find, "_windows"))) ||
+			strstr(shader->GetTextureName(), "_transskylight") || // rv6 stuff (sf)
+			strstr(shader->GetTextureName(), "_eye_rail")) // rv6 stuff (london)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void modStatic::DrawNoGlass(modShader* shaders) const
+{
+	gfxRenderState::FlushMasked();
+	bool lastAlphaEnable = gfxRenderState::GetAlphaEnabled();
+	bool alphaEnabled = false;
+
+	for (int i = 0; i < this->PacketCount; i++)
+	{
+		if (shaders != nullptr)
+		{
+			auto shader = shaders[this->ShaderIndices[i]];
+			if (HasGlass(&shader))
+			{
+				continue;
+			}
+
+			gfxRenderState::SetMaterial(shader.GetMaterial());
+			gfxRenderState::SetTexture(0, shader.GetTexture());
+
+			if (!alphaEnabled && (shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0 || shader.GetMaterial()->Diffuse.W != 1.0))
+			{
+				gfxRenderState::SetAlphaEnabled(true);
+				alphaEnabled = true;
+			}
+
+			gfxRenderState::FlushMasked();
+		}
+
+		auto list = this->ppPacketLists[i];
+		gfxPacket::DrawList(list);
+	}
+
+	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
+}
+
+void modStatic::DrawGlass(modShader* shaders) const
+{
+	gfxRenderState::FlushMasked();
+	bool lastAlphaEnable = gfxRenderState::GetAlphaEnabled();
+	bool alphaEnabled = false;
+
+	for (int i = 0; i < this->PacketCount; i++)
+	{
+		if (shaders != nullptr)
+		{
+			auto shader = shaders[this->ShaderIndices[i]];
+			if (!HasGlass(&shader))
+			{
+				continue;
+			}
+
+			gfxRenderState::SetMaterial(shader.GetMaterial());
+			gfxRenderState::SetTexture(0, shader.GetTexture());
+
+			if (!alphaEnabled && (shader.GetTexture() && (shader.GetTexture()->TexEnv & 0x20000) != 0 || shader.GetMaterial()->Diffuse.W != 1.0))
+			{
+				gfxRenderState::SetAlphaEnabled(true);
+				alphaEnabled = true;
+			}
+
+			gfxRenderState::FlushMasked();
+		}
+
+		auto list = this->ppPacketLists[i];
+		gfxPacket::DrawList(list);
+	}
+
+	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
+}
+
+void modStatic::DrawReflected(modShader* shaders, int room, Matrix34 const& matrix, float intensity) const
+{
+	auto reflectionMap = lvlLevel::GetSingleton()->GetEnvMap(room, matrix.GetRow(3), intensity);
+	if (reflectionMap != nullptr)
+	{
+		modShader::BeginEnvMap(reflectionMap, matrix);
+		modStatic::DrawEnvMapped(shaders, reflectionMap, intensity);
+		modShader::EndEnvMap();
+	}
 }
 
 AGE_API void modStatic::DrawEnvMapped(modShader* shaders, gfxTexture* envMap, float intensity) const

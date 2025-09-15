@@ -1868,6 +1868,12 @@
     <ClInclude Include="src\modules\audio\stream.h">
       <Filter>Source Files\modules\audio</Filter>
     </ClInclude>
+    <ClInclude Include="src\handlers\feature_handlers\lvlFixedAnyHandler.h">
+      <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\vehicle\trackmanager.h">
+      <Filter>Source Files\modules\vehicle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lua\lapi.c">
@@ -2802,6 +2808,24 @@
     </ClCompile>
     <ClCompile Include="src\modules\model\shader.cpp">
       <Filter>Source Files\modules\model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\effects\damage3d.cpp">
+      <Filter>Source Files\modules\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\feature_handlers\lvlFixedAnyHandler.cpp">
+      <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\level\multiroom.cpp">
+      <Filter>Source Files\modules\level</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\vehicle\trackmanager.cpp">
+      <Filter>Source Files\modules\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\banger\tree.cpp">
+      <Filter>Source Files\modules\banger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\vehicle\wheelcheap.cpp">
+      <Filter>Source Files\modules\vehicle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
