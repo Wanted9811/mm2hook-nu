@@ -103,6 +103,11 @@ void vglHandler::vglEndShaded(void) {
     vglEnd();
 }
 
+void vglHandler::DrawTexture(unsigned int index)
+{
+    vglDrawTexture(index);
+}
+
 void vglHandler::Install() {
     LogFile::WriteLine(" - Installing shading fix...");
 
@@ -153,5 +158,12 @@ void vglHandler::Install() {
 
         Installf("   - { vglBegin: %08X, vglEnd: %08X }\n", begin, end);
     }
+
+    InstallCallback("vglDrawTexture", "Implement moving clouds.",
+        &DrawTexture, {
+            cb::call(0x4A5698), // vglFlush
+            cb::call(0x4A5713), // vglFlush
+        }
+    );
 }
 
