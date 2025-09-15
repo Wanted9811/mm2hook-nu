@@ -3,8 +3,6 @@
  ![enter image description here](https://i.imgur.com/F9JrZvz.png)  
 A cleaned up fork of mm2hook, with a larger focus on the Lua modding API and capabilities.
 ***
-[![Build status](https://ci.appveyor.com/api/projects/status/96k957iuc4l9susg?svg=true)](https://ci.appveyor.com/project/Dummiesman/mm2hook)
-
 A simple DLL-injection module for hooking into Midtown Madness 2, allowing for further control of the game.
 
 Also included are complimentary bug-fixes for random crashes, as well as a fix for the infamous **heap overrun** error.
@@ -21,7 +19,7 @@ Also included are complimentary bug-fixes for random crashes, as well as a fix f
      - Thumbnail text shows the full name (mods included!)
  
 ## Installation
-1) Grab the latest version [here](https://github.com/Dummiesman/mm2hook/releases/latest).
+1) Grab the latest version [here](https://github.com/Wanted9811/mm2hook-nu/releases/latest).
 2) **Optional:** Download the latest version of Discord Rich Presence [here](https://github.com/discordapp/discord-rpc/releases/latest), and grab `discord-rpc.dll` from the `win32-dynamic\bin` folder.
 3) Place all files in your Midtown Madness 2 installation directory and enjoy!
 
