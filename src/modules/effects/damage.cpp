@@ -1,7 +1,7 @@
 #include "damage.h"
-#include <modules/model/shader.h>
-#include <modules/gfx/gettex.h>
-#include <modules/gfx/packet.h>
+#include <modules\model\shader.h>
+#include <modules\gfx\gettex.h>
+#include <modules\gfx\packet.h>
 
 namespace MM2
 {
