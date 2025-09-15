@@ -185,12 +185,15 @@ bool modStatic::HasGlass(modShader* shader) const
 {
 	if (shader->GetTexture() != nullptr && (shader->GetTexture()->TexEnv & 0x20000) != 0)
 	{
-		char* find = strrchr(shader->GetTextureName(), '_');
-		if ((find && (!strcmp(find, "_glass") || !strcmp(find, "_window") || !strcmp(find, "_windows"))) ||
-			strstr(shader->GetTextureName(), "_transskylight") || // rv6 stuff (sf)
-			strstr(shader->GetTextureName(), "_eye_rail")) // rv6 stuff (london)
+		if (shader->GetTextureName() != NULL)
 		{
-			return true;
+			char* find = strrchr(shader->GetTextureName(), '_');
+			if ((find && (!strcmp(find, "_glass") || !strcmp(find, "_window") || !strcmp(find, "_windows"))) ||
+				strstr(shader->GetTextureName(), "_transskylight") || // rv6 stuff (sf)
+				strstr(shader->GetTextureName(), "_eye_rail")) // rv6 stuff (london)
+			{
+				return true;
+			}
 		}
 	}
 
