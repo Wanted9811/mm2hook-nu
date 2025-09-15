@@ -30,7 +30,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
@@ -38,7 +38,7 @@ jobs:
     - name: Get Windows SDK
       uses: fbactions/setup-winsdk@v2
       with:
-        winsdk-build-version: 18362
+        winsdk-build-version: 19041
 
     - name: Run build script
       run: .\build.bat

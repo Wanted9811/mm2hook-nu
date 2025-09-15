@@ -36,7 +36,7 @@ Note that this still requires installing parts of the [Build Tools for Visual St
 - `MSVC v143 - VS 2022 C++ x64/x86 build tools` (latest should be fine)
 - `C++ ATL for latest v143 build tools (x86 & x64)`
 - `C++ MFC for latest v143 build tools (x86 & x64)`
-- `Windows 10 SDK (10.0.18362.0)`
+- `Windows 10 SDK (10.0.19041.0)`
 - `Windows Universal C Runtime`
 - `C++ Build Tools core features`
 - `C++ core features`
