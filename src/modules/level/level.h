@@ -117,6 +117,7 @@ namespace MM2
         AGE_API void MoveToRoom(lvlInstance* instance, int room);
         AGE_API void ResetInstances();
         AGE_API void LabelInstances(int room);
+        AGE_API void CallCallbacks(int phase);
 
         /*
             lvlLevel properties
