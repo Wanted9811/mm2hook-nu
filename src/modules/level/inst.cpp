@@ -8,6 +8,8 @@
 
 using namespace MM2;
 
+static ConfigValue<int> cfgInstanceShadows("3DShadows", 0);
+
 extern class lvlFixedAny;
 extern class lvlFixedRotY;
 extern class lvlFixedMatrix;
@@ -362,9 +364,12 @@ AGE_API bool MM2::lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room
     }
 
     // Check if ground was flat enough
-    if (isect.IntersectionPoint.Normal.Y < 0.7f)
+    if (!cfgInstanceShadows.Get())
     {
-        return false;
+        if (isect.IntersectionPoint.Normal.Y < 0.7f)
+        {
+            return false;
+        }
     }
 
     // Compute shadow matrix
