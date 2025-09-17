@@ -915,8 +915,8 @@ namespace MM2
 
     AGE_API const Vector3 & vehCarModel::GetPosition()
                                                         { return hook::Thunk<0x4CEF50>::Call<const Vector3 &>(this); }
-    AGE_API const Matrix34 & vehCarModel::GetMatrix(Matrix34 *a1)
-                                                        { return hook::Thunk<0x4CEF90>::Call<const Matrix34 &>(this, a1); }
+    AGE_API const Matrix34 & vehCarModel::GetMatrix(Matrix34 &a1)
+                                                        { return hook::Thunk<0x4CEF90>::Call<const Matrix34 &>(this, &a1); }
     AGE_API void vehCarModel::SetMatrix(const Matrix34 &a1)
                                                         { hook::Thunk<0x4CEFA0>::Call<void>(this, a1); }
     AGE_API dgPhysEntity * vehCarModel::GetEntity()         { return hook::Thunk<0x4CEFC0>::Call<dgPhysEntity*>(this); }

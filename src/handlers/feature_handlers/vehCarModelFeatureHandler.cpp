@@ -45,7 +45,7 @@ void vehCarModelFeatureHandler::SetVariant(int a1)
     model->vehCarModel::SetVariant(a1);
 }
 
-const Matrix34& vehCarModelFeatureHandler::GetMatrix(Matrix34* a1)
+const Matrix34& vehCarModelFeatureHandler::GetMatrix(Matrix34& a1)
 {
     auto model = reinterpret_cast<vehCarModel*>(this);
     return model->vehCarModel::GetMatrix(a1);

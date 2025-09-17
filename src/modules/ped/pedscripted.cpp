@@ -19,10 +19,10 @@ AGE_API const Vector3& pedScriptedPedInstance::GetPosition()
     return m_Ped->GetPosition();
 }
 
-AGE_API const Matrix34& pedScriptedPedInstance::GetMatrix(Matrix34* a1)
+AGE_API const Matrix34& pedScriptedPedInstance::GetMatrix(Matrix34& a1)
 {
-    a1->Set(m_Ped->GetMatrix());
-    return *a1;
+    a1.Set(m_Ped->GetMatrix());
+    return a1;
 }
 
 AGE_API void pedScriptedPedInstance::SetMatrix(const Matrix34& a1)

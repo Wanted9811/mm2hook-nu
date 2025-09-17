@@ -52,7 +52,7 @@ void BridgeFerryHandler::DrawBridge(int lod)
     // cloud shadow
     Matrix34 dummy;
     auto bridge = reinterpret_cast<gizBridge*>(this);
-    auto position = bridge->GetMatrix(&dummy).GetRow(3);
+    auto position = bridge->GetMatrix(dummy).GetRow(3);
     auto geometry = bridge->GetGeom(lod, 0);
     if (geometry && (geometry->Flags & (vglCloudMapEnable.get() * 2)) != 0)
     {

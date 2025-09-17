@@ -207,7 +207,7 @@ int lvlInstance::GetGeomSetCount() {
 Matrix34 lvlInstance::getMatrixLua()
 {
     Matrix34 discard;
-    auto matrix = this->GetMatrix(&discard);
+    auto matrix = this->GetMatrix(discard);
     discard.Set(matrix);
     return discard;
 }
@@ -363,9 +363,9 @@ AGE_API bool MM2::lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room
         }
     }
 
-    // Check if ground was flat enough
     if (!cfgInstanceShadows.Get())
     {
+        // Check if ground was flat enough
         if (isect.IntersectionPoint.Normal.Y < 0.7f)
         {
             return false;

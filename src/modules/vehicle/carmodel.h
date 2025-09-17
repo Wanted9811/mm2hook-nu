@@ -233,7 +233,7 @@ namespace MM2
         */
         AGE_API void Reset()  override;
         AGE_API const Vector3& GetPosition() override;
-        AGE_API const Matrix34& GetMatrix(Matrix34* a1);
+        AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         AGE_API void SetMatrix(const Matrix34& a1) override;
         AGE_API void SetVariant(int variant) override;
         AGE_API dgPhysEntity* GetEntity() override;

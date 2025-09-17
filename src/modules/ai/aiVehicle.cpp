@@ -154,7 +154,7 @@ namespace MM2
 
     //overrides
     AGE_API Vector3 const& aiVehicleInstance::GetPosition()              { return hook::Thunk<0x553030>::Call<Vector3 const&>(this); };
-    AGE_API Matrix34 const& aiVehicleInstance::GetMatrix(Matrix34* a1)   { return hook::Thunk<0x553020>::Call<Matrix34 const&>(this, a1); };
+    AGE_API Matrix34 const& aiVehicleInstance::GetMatrix(Matrix34& a1)   { return hook::Thunk<0x553020>::Call<Matrix34 const&>(this, &a1); };
     AGE_API void aiVehicleInstance::SetMatrix(Matrix34 const & a1)       { hook::Thunk<0x553010>::Call<void>(this, a1); }
     
     AGE_API void aiVehicleInstance::SetVariant(int variant)

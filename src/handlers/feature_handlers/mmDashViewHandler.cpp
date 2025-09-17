@@ -31,7 +31,7 @@ void mmDashViewHandler::UpdateCS() {
     auto car = player->GetCar();
     auto carModel = car->GetModel();
 
-    sm_DashOffset = carModel->GetMatrix(&sm_DashOffset);
+    sm_DashOffset = carModel->GetMatrix(sm_DashOffset);
 
     auto steering = *getPtr<float>(player, 0x2264);
     auto wheelFact = *getPtr<float>(this, 0x400);

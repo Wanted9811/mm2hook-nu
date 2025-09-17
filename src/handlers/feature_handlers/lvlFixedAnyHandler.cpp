@@ -12,7 +12,7 @@ void lvlFixedAnyHandler::Draw(int lod)
     auto lvl = reinterpret_cast<lvlFixedAny*>(this);
 
     Matrix34 dummy = Matrix34();
-    Matrix34 matrix = lvl->GetMatrix(&dummy);
+    Matrix34 matrix = lvl->GetMatrix(dummy);
     gfxRenderState::SetWorldMatrix(matrix);
 
     modShader* shaders = lvl->GetShader(lvl->GetSubType());
@@ -29,7 +29,7 @@ void lvlFixedAnyHandler::DrawReflectedParts(int lod)
     auto lvl = reinterpret_cast<lvlFixedAny*>(this);
 
     Matrix34 dummy = Matrix34();
-    Matrix34 matrix = lvl->GetMatrix(&dummy);
+    Matrix34 matrix = lvl->GetMatrix(dummy);
     gfxRenderState::SetWorldMatrix(matrix);
 
     modShader* shaders = lvl->GetShader(lvl->GetSubType());

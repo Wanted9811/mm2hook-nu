@@ -71,7 +71,7 @@ namespace MM2
         */
 
         virtual AGE_API const Vector3& GetPosition() override;
-        virtual AGE_API const Matrix34& GetMatrix(Matrix34* a1) override;
+        virtual AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         virtual AGE_API void SetMatrix(const Matrix34& a1) override;
         virtual AGE_API void Draw(int lod) override;
         virtual AGE_API void DrawShadow() override;

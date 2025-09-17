@@ -12,7 +12,7 @@ public:
     void DrawReflected(float intensity);
     void ApplyImpact(MM2::vehDamageImpactInfo* a1);
     void SetVariant(int a1);
-    const MM2::Matrix34& GetMatrix(MM2::Matrix34* a1);
+    const MM2::Matrix34& GetMatrix(MM2::Matrix34& a1);
     static void Install();
 };
 

@@ -115,7 +115,7 @@ namespace MM2
         static AGE_API bool ComputeShadowProjectionMatrix(Matrix34& outMatrix, int room, float lightPitch, float lightHeading, Matrix34 const& inMatrix);
         static AGE_API bool ComputeShadowProjectionMatrix(Matrix34& outMatrix, int room, float lightPitch, float lightHeading, Matrix34 const& inMatrix, lvlInstance* ignoreInstance);
         static AGE_API void ResetInstanceHeap();
-        static AGE_API void ResetAll();;
+        static AGE_API void ResetAll();
         static AGE_API void SetShadowBillboardMtx(Matrix44& a1);
         static AGE_API int AddSphere(float a1);
         AGE_API bool LoadBoundOnLastEntry(const char* a1);
@@ -144,7 +144,7 @@ namespace MM2
         virtual AGE_API void Reset();
         virtual AGE_API const Vector3 & GetPosition() PURE;
         virtual AGE_API int IsVisible(gfxViewport const& viewport);
-        virtual AGE_API const Matrix34 & GetMatrix(Matrix34 *a1) PURE;
+        virtual AGE_API const Matrix34 & GetMatrix(Matrix34 &a1) PURE;
         virtual AGE_API void SetMatrix(const Matrix34 & a1) PURE;
         
         virtual AGE_API void SetVariant(int a1);

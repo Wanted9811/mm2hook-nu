@@ -39,7 +39,7 @@ void dgBangerInstanceHandler::Draw(int lod)
     else
     {
         Matrix34 dummyMatrix = Matrix34();
-        Matrix34 bangerMatrix = banger->GetMatrix(&dummyMatrix);
+        Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
         gfxRenderState::SetWorldMatrix(bangerMatrix);
         gfxRenderState::SetBlendSet(0, 0x80);
 
@@ -77,7 +77,7 @@ void dgBangerInstanceHandler::DrawReflectedParts(int lod)
     if (!((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance()))
     {
         Matrix34 dummyMatrix = Matrix34();
-        Matrix34 bangerMatrix = banger->GetMatrix(&dummyMatrix);
+        Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
         gfxRenderState::SetWorldMatrix(bangerMatrix);
         gfxRenderState::SetBlendSet(0, 0x80);
 
@@ -154,7 +154,7 @@ void dgBangerInstanceHandler::DrawShadow()
     if (model != nullptr)
     {
         Matrix34 shadowMatrix, dummyMatrix;
-        Matrix34 bangerMatrix = banger->GetMatrix(&dummyMatrix);
+        Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
         if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, banger->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, bangerMatrix, banger))
         {
             gfxRenderState::SetWorldMatrix(shadowMatrix);

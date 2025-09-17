@@ -18,7 +18,7 @@ namespace MM2
 
         // Inherited via lvlInstance
         AGE_API const Vector3& GetPosition() override;
-        AGE_API const Matrix34& GetMatrix(Matrix34* a1) override;
+        AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         AGE_API void SetMatrix(const Matrix34& a1) override;
         AGE_API void Draw(int) override;
         AGE_API unsigned int SizeOf(void) override;
