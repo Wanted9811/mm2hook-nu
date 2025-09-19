@@ -175,9 +175,9 @@ void modStatic::DrawAlpha(modShader* shaders) const
 
 		auto list = this->ppPacketLists[i];
 		gfxPacket::DrawList(list);
+		gfxRenderState::SetZWriteEnabled(lastZWriteEnable);
 	}
 
-	gfxRenderState::SetZWriteEnabled(lastZWriteEnable);
 	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
 }
 
