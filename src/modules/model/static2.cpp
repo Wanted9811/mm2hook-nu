@@ -187,8 +187,8 @@ bool modStatic::HasGlass(modShader* shader) const
 	{
 		if (shader->GetTextureName() != NULL)
 		{
-			char* find = strrchr(shader->GetTextureName(), '_');
-			if ((find && (!strcmp(find, "_glass") || !strcmp(find, "_window") || !strcmp(find, "_windows"))) ||
+			if (strstr(shader->GetTextureName(), "_glass") ||
+				strstr(shader->GetTextureName(), "_window") ||
 				strstr(shader->GetTextureName(), "_transskylight") || // rv6 stuff (sf)
 				strstr(shader->GetTextureName(), "_eye_rail")) // rv6 stuff (london)
 			{
