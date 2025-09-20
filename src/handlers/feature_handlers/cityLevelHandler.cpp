@@ -26,7 +26,7 @@ hook::Type<bool> sdl_SolidColor(0x62B08E);
 static hook::Type<bool> sm_PerRoomLighting = 0x5C5720;
 static hook::Type<bool> sm_LightInstances = 0x5C5721;
 static hook::Type<bool> sm_EnableShadows = 0x5C664C;
-static hook::Type<Matrix44> ShadwoMatrix = 0x6A3B48;
+static hook::Type<Matrix44> ShadowMatrix = 0x6A3B48;
 
 /*
     cityLevelHandler
@@ -224,6 +224,89 @@ void cityLevelHandler::DrawStatics(const gfxViewport& viewport, const cityRoomRe
     }
 }
 
+void cityLevelHandler::DrawRoadDecals(const gfxViewport& viewport, const cityRoomRec* roomRecs, int numRooms)
+{
+    auto level = reinterpret_cast<cityLevel*>(this);
+
+    if (numRooms)
+    {
+        if (sm_EnableShadows.get())
+        {
+            gfxRenderState::SetTouchedMask(false);
+            gfxRenderState::SetLighting(false);
+
+            if (!useSoftware)
+            {
+                auto curViewport = gfxPipeline::GetCurrentViewport();
+                auto d3dViewport = curViewport->GetD3DViewport();
+                auto dwHeight = d3dViewport.dwHeight;
+                auto dwWidth = d3dViewport.dwWidth;
+                auto fudge = 1.0f - cityLevel::GetShadowHFudge();
+                curViewport->SetWindow(
+                    d3dViewport.dwX,
+                    d3dViewport.dwY,
+                    dwWidth,
+                    dwHeight,
+                    fudge,
+                    cityLevel::GetShadowHFudge());
+
+                gfxRenderState::SetAlphaEnabled(true);
+                gfxRenderState::SetWorldMatrix(ShadowMatrix.get());
+                gfxRenderState::SetZWriteEnabled(false);
+                gfxRenderState::SetZEnabled(D3DZB_TRUE);
+
+                vglBeginBatch();
+                auto recs = roomRecs;
+                int rooms = numRooms;
+                while (rooms)
+                {
+                    if (recs->Distance < obj_LowThresh)
+                    {
+                        auto roomInfo = level->GetRoomInfo(recs->RoomId);
+                        if ((roomInfo->InstanceFlags & lvlInstance::INST_SHADOW_RGL) != 0)
+                        {
+                            for (lvlInstance* j = roomInfo->FirstInstance; j; j = j->GetNext())
+                            {
+                                if ((j->GetFlags() & lvlInstance::INST_SHADOW_RGL) != 0)
+                                {
+                                    int lod = j->IsVisible(viewport);
+                                    if (lod)
+                                    {
+                                        j->DrawShadow();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ++recs;
+                    --rooms;
+                }
+                vglEndBatch();
+
+                gfxRenderState::SetZWriteEnabled(true);
+                curViewport->SetWindow(
+                    d3dViewport.dwX,
+                    d3dViewport.dwY,
+                    d3dViewport.dwWidth,
+                    d3dViewport.dwHeight,
+                    0.0f,
+                    1.0f);
+            }
+
+            if (sm_LightInstances.get())
+            {
+                gfxRenderState::SetTouchedMask(true);
+                gfxRenderState::SetLighting(true);
+            }
+            else
+            {
+                gfxRenderState::SetTouchedMask(false);
+                gfxRenderState::SetLighting(false);
+            }
+        }
+    }
+}
+
 void cityLevelHandler::DrawPropShadows(const gfxViewport& viewport, const cityRoomRec* roomRecs, int numRooms)
 {
     auto level = reinterpret_cast<cityLevel*>(this);
@@ -251,7 +334,7 @@ void cityLevelHandler::DrawPropShadows(const gfxViewport& viewport, const cityRo
                     cityLevel::GetShadowHFudge());
 
                 gfxRenderState::SetAlphaEnabled(true);
-                gfxRenderState::SetWorldMatrix(ShadwoMatrix);
+                gfxRenderState::SetWorldMatrix(ShadowMatrix.get());
                 gfxRenderState::SetZWriteEnabled(false);
                 gfxRenderState::SetZEnabled(D3DZB_TRUE);
 
@@ -395,66 +478,32 @@ void cityLevelHandler::DrawMoverShadows(const gfxViewport& viewport, const cityR
                     cityLevel::GetShadowHFudge());
 
                 gfxRenderState::SetAlphaEnabled(true);
-                gfxRenderState::SetWorldMatrix(ShadwoMatrix);
+                gfxRenderState::SetWorldMatrix(ShadowMatrix.get());
                 reinterpret_cast<luaDrawableHandler*>(level)->CallCallbacks(0);
                 gfxRenderState::SetZWriteEnabled(false);
                 gfxRenderState::SetZEnabled(D3DZB_TRUE);
 
-                vglBeginBatch();
-                if (numRooms > 0)
+                auto recs = roomRecs;
+                int rooms = numRooms;
+                while (rooms)
                 {
-                    auto recs = roomRecs;
-                    int rooms = numRooms;
-                    while (rooms)
+                    if (recs->Distance < obj_LowThresh)
                     {
-                        if (recs->Distance < obj_LowThresh)
+                        auto roomInfo = level->GetRoomInfo(recs->RoomId);
+                        for (lvlInstance* j = roomInfo->FirstInstance; j != roomInfo->FirstStaticInstance; j = j->GetNext())
                         {
-                            auto roomInfo = level->GetRoomInfo(recs->RoomId);
-                            if ((roomInfo->InstanceFlags & lvlInstance::INST_SHADOW_RGL) != 0)
+                            if ((j->GetFlags() & lvlInstance::INST_VISIBLE) != 0 && (j->GetFlags() & lvlInstance::INST_BANGER) == 0)
                             {
-                                for (lvlInstance* j = roomInfo->FirstInstance; j; j = j->GetNext())
+                                int lod = j->IsVisible(viewport);
+                                if (lod)
                                 {
-                                    if ((j->GetFlags() & lvlInstance::INST_SHADOW_RGL) != 0)
-                                    {
-                                        int lod = j->IsVisible(viewport);
-                                        if (lod)
-                                        {
-                                            j->DrawShadow();
-                                        }
-                                    }
+                                    j->DrawShadow();
                                 }
                             }
                         }
-                        ++recs;
-                        --rooms;
                     }
-                }
-                vglEndBatch();
-
-                if (numRooms > 0)
-                {
-                    auto recs = roomRecs;
-                    int rooms = numRooms;
-                    while (rooms)
-                    {
-                        if (recs->Distance < obj_LowThresh)
-                        {
-                            auto roomInfo = level->GetRoomInfo(recs->RoomId);
-                            for (lvlInstance* j = roomInfo->FirstInstance; j != roomInfo->FirstStaticInstance; j = j->GetNext())
-                            {
-                                if ((j->GetFlags() & lvlInstance::INST_VISIBLE) != 0 && (j->GetFlags() & lvlInstance::INST_BANGER) == 0)
-                                {
-                                    int lod = j->IsVisible(viewport);
-                                    if (lod)
-                                    {
-                                        j->DrawShadow();
-                                    }
-                                }
-                            }
-                        }
-                        ++recs;
-                        --rooms;
-                    }
+                    ++recs;
+                    --rooms;
                 }
 
                 gfxRenderState::SetZWriteEnabled(true);
@@ -787,6 +836,7 @@ void cityLevelHandler::DrawRooms(const gfxViewport& viewport, unsigned int p2, c
 
     DrawSDL(viewport, roomRecs, numRooms);
     DrawStatics(viewport, roomRecs, numRooms);
+    DrawRoadDecals(viewport, roomRecs, numRooms);
     DrawPropShadows(viewport, roomRecs, numRooms);
     DrawProps(viewport, roomRecs, numRooms);
     DrawMoverShadows(viewport, roomRecs, numRooms);
