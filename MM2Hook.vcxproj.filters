@@ -2827,6 +2827,9 @@
     <ClCompile Include="src\modules\vehicle\wheelcheap.cpp">
       <Filter>Source Files\modules\vehicle</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\ai\aiCableCar.cpp">
+      <Filter>Source Files\modules\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AGE.h">
