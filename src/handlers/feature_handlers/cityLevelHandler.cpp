@@ -642,7 +642,7 @@ void cityLevelHandler::DrawLights(const gfxViewport& viewport, const cityRoomRec
                 auto roomInfo = level->GetRoomInfo(recs->RoomId);
                 for (lvlInstance* j = roomInfo->FirstInstance; j; j = j->GetNext())
                 {
-                    if ((j->GetFlags() & lvlInstance::INST_GLOW) != 0)
+                    if ((j->GetFlags() & lvlInstance::INST_GLOW) != 0 || (j->GetFlags() & lvlInstance::INST_SHADOW) != 0)
                     {
                         int lod = j->IsVisible(viewport);
                         if (lod)
