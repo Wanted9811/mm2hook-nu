@@ -1,5 +1,8 @@
 #pragma once
 #include "aiCableCar.h"
+#include "aiMap.h"
+#include <modules\city\citylevel.h>
+#include <modules\mmcityinfo\state.h>
 
 using namespace MM2;
 
@@ -68,7 +71,158 @@ AGE_API Vector3 const & aiCableCarInstance::GetPosition()                       
 AGE_API Matrix34 const & aiCableCarInstance::GetMatrix(Matrix34 &matrix)              { return hook::Thunk<0x5415B0>::Call<Matrix34 const &>(this, &matrix); }
 AGE_API void aiCableCarInstance::SetMatrix(const Matrix34 &matrix)                    { hook::Thunk<0x5415C0>::Call<void>(this, &matrix); }
 AGE_API Vector3 const & aiCableCarInstance::GetVelocity()                             { return hook::Thunk<0x5415E0>::Call<Vector3 const &>(this); }
-AGE_API void aiCableCarInstance::Draw(int lod)                                        { hook::Thunk<0x541680>::Call<void>(this, lod); }
+
+AGE_API void aiCableCarInstance::Draw(int lod)
+{
+    if (lod < 0 || lod > 3)
+        return;
+    if (this->GetGeomIndex() == 0)
+        return;
+
+    //get shaders
+    auto shaders = this->GetShader(0);
+
+    //setup renderer
+    gfxRenderState::SetWorldMatrix(this->GetCableCar()->GetMatrix());
+
+    //get cable car
+    modStatic* cableCar = this->GetGeom(lod, 0);
+    if (cableCar != nullptr)
+        cableCar->DrawNoGlass(shaders);
+}
+
+AGE_API void aiCableCarInstance::DrawShadow()
+{
+    if (this->GetGeomIndex() == 0)
+        return;
+
+    //get shaders
+    auto shaders = this->GetShader(0);
+
+    //get shadow matrix
+    Matrix34 shadowMatrix = Matrix34();
+    Matrix34 cableCarMatrix = this->GetCableCar()->GetMatrix();
+
+    if (!vehCarModel::Enable3DShadows
+        || MMSTATE->TimeOfDay == 3
+        || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
+    {
+        if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), cableCarMatrix))
+        {
+            //setup renderer
+            gfxRenderState::SetWorldMatrix(shadowMatrix);
+
+            //draw drop shadow
+            modStatic* shadow = this->GetGeomBase(SHADOW_GEOM_ID)->GetHighestLOD();
+            if (shadow != nullptr)
+                shadow->Draw(shaders);
+        }
+    }
+    else
+    {
+        auto timeWeather = cityLevel::GetCurrentLighting();
+
+        bool prevLighting = gfxRenderState::SetLighting(true);
+
+        //invert model faces
+        auto prevCullMode = gfxRenderState::GetCullMode();
+        gfxRenderState::SetCullMode(D3DCULL_CCW);
+
+        //get cable car
+        modStatic* cableCar = this->GetGeomBase(0)->GetHighestLOD();
+        if (cableCar != nullptr)
+        {
+            if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, this->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, cableCarMatrix, this))
+            {
+                //setup renderer
+                gfxRenderState::SetWorldMatrix(shadowMatrix);
+
+                //draw 3D shadow
+                cableCar->DrawShadowed(shaders, ComputeShadowIntensity(timeWeather->KeyColor));
+            }
+        }
+
+        //revert model faces back
+        gfxRenderState::SetCullMode(prevCullMode);
+        gfxRenderState::SetLighting(prevLighting);
+    }
+}
+
+AGE_API void aiCableCarInstance::DrawGlow()
+{
+    //We only draw a headlight glow here. Bail immediately if we can
+    if (!aiMap::GetInstance()->showHeadlights)
+        return;
+    if (this->GetGeomIndex() == 0)
+        return;
+
+    //get data
+    auto data = this->GetData();
+
+    //get shaders
+    auto shaders = this->GetShader(0);
+
+    //setup renderer
+    Matrix34 cableCarMatrix = this->GetCableCar()->GetMatrix();
+    gfxRenderState::SetWorldMatrix(cableCarMatrix);
+
+    //draw hlight
+    modStatic* hlight = this->GetGeomBase(HLIGHT_GEOM_ID)->GetHighestLOD();
+    if (hlight != nullptr)
+        hlight->Draw(shaders);
+
+    //draw light glow
+    ltLight::DrawGlowBegin();
+    for (int i = 0; i < data->NumGlows; i++)
+    {
+        Vector3 glowOffset = data->GlowOffsets[i];
+        Vector3 drawPosition = cableCarMatrix.Transform(glowOffset);
+        Vector3 cameraPosition = static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3));
+        Vector3 positionDifference = cameraPosition - drawPosition;
+        Vector4 glowColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+        float glowSize = positionDifference.InvMag() * positionDifference.Dot(cableCarMatrix.GetRow(2) * -1.0f);
+        tglDrawParticleClipAdjusted(drawPosition, fminf(fmaxf(glowSize, 0.0f), 1.0f), glowColor * ltLight::GlowIntensity.get());
+    }
+    ltLight::DrawGlowEnd();
+}
+
+AGE_API void aiCableCarInstance::DrawReflected(float intensity)
+{ 
+    if (this->GetGeomIndex() == 0)
+        return;
+
+    //get shaders
+    auto shaders = this->GetShader(0);
+
+    //setup renderer
+    Matrix34 cableCarMatrix = this->GetCableCar()->GetMatrix();
+    gfxRenderState::SetWorldMatrix(cableCarMatrix);
+
+    //get cable car
+    modStatic* cableCar = this->GetGeom(3, 0);
+    if (cableCar != nullptr)
+        cableCar->DrawReflected(shaders, this->GetRoomId(), cableCarMatrix, intensity);
+}
+
+AGE_API void aiCableCarInstance::DrawReflectedParts(int lod)
+{ 
+    if (lod < 0 || lod > 3)
+        return;
+    if (this->GetGeomIndex() == 0)
+        return;
+
+    //get shaders
+    auto shaders = this->GetShader(0);
+
+    //setup renderer
+    gfxRenderState::SetWorldMatrix(this->GetCableCar()->GetMatrix());
+
+    //get cable car
+    modStatic* cableCar = this->GetGeom(lod, 0);
+    if (cableCar != nullptr)
+        cableCar->DrawGlass(shaders);
+}
+
 AGE_API unsigned int aiCableCarInstance::SizeOf()                                     { return hook::Thunk<0x541660>::Call<unsigned int>(this); }
 
 /*

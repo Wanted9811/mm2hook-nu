@@ -103,6 +103,10 @@ namespace MM2
         AGE_API void SetMatrix(const Matrix34 &matrix) override;
         AGE_API Vector3 const & GetVelocity() override;
         AGE_API void Draw(int lod) override;
+        AGE_API void DrawShadow() override;
+        AGE_API void DrawGlow() override;
+        AGE_API void DrawReflected(float intensity) override;
+        AGE_API void DrawReflectedParts(int lod) override;
         AGE_API unsigned int SizeOf() override;
 
         /* 
