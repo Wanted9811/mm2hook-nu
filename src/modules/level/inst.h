@@ -23,6 +23,7 @@ namespace MM2
     {
     public:
         // Instance flags
+        static const int INST_ACTIVE = 1 << 0;
         static const int INST_BANGER = 1 << 1;
         static const int INST_VEHICLE = 1 << 3;
         static const int INST_WHEELCOLLISION = 1 << 5;

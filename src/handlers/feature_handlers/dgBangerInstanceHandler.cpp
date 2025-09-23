@@ -18,11 +18,6 @@ void dgBangerInstanceHandler::Reset() {
     glowLoaded = false;
 }
 
-void dgBangerInstanceHandler::tglDrawParticle(const Vector3& position, float size, const Vector4& color)
-{
-    tglDrawParticleClipAdjusted(position, size, color);
-}
-
 void dgBangerInstanceHandler::Draw(int lod)
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
@@ -107,6 +102,14 @@ void dgBangerInstanceHandler::DrawGlow()
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
 
+    if (glowTexture.get() == NULL)
+        return;
+    if ((banger->GetFlags() & lvlInstance::INST_ACTIVE) == 0)
+        return;
+
+    Matrix34 dummyMatrix = Matrix34();
+    Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
+
     //first time texture load
     if (!glowLoaded) {
         redGlowTexture = gfxGetTexture("s_red_glow", true);
@@ -115,7 +118,7 @@ void dgBangerInstanceHandler::DrawGlow()
 
     //prepare glow texture
     dgBangerData* data = banger->GetData();
-    gfxTexture* lastTexture = (gfxTexture*)glowTexture;
+    gfxTexture* lastTexture = glowTexture.get();
     bool swappedTexture = false;
 
     if (!strcmp(data->GetName(), "sp_light_red_f") && lastTexture != NULL) {
@@ -125,7 +128,16 @@ void dgBangerInstanceHandler::DrawGlow()
 
     //draw glows
     ltLight::DrawGlowBegin();
-    hook::Thunk<0x441840>::Call<void>(this); // call original
+    for (int i = 0; i < data->NumGlows; i++)
+    {
+        Vector3 glowOffset = data->GlowOffsets[i];
+        Vector3 drawPosition = bangerMatrix.Transform(glowOffset);
+        vglBeginBatch();
+        rglWorldIdentity();
+        vglBindTexture(glowTexture);
+        tglDrawParticleClipAdjusted(drawPosition, 1.5f, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+        vglEndBatch();
+    }
     ltLight::DrawGlowEnd();
 
     //reset glow texture
@@ -182,12 +194,6 @@ void dgBangerInstanceHandler::Install()
     InstallCallback("aiTrafficLightInstance::DrawGlow", "Make traffic light banger lights double sided.",
         &DrawGlow, {
             cb::call(0x53CCFD),
-        }
-    );
-
-    InstallCallback("dgBangerInstance::DrawGlow", "Use custom tglDrawParticle.",
-        &tglDrawParticle, {
-            cb::call(0x441966),
         }
     );
 
