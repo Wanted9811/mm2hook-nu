@@ -918,6 +918,7 @@ void cityLevelHandler::DrawRooms(const gfxViewport& viewport, unsigned int p2, c
     DrawSDL(viewport, roomRecs, numRooms);
     DrawStatics(viewport, roomRecs, numRooms);
     DrawRoadDecals(viewport, roomRecs, numRooms);
+    DrawStaticShadows(viewport, roomRecs, numRooms);
     DrawPropShadows(viewport, roomRecs, numRooms);
     DrawProps(viewport, roomRecs, numRooms);
     DrawMoverShadows(viewport, roomRecs, numRooms);
