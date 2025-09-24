@@ -307,6 +307,87 @@ void cityLevelHandler::DrawRoadDecals(const gfxViewport& viewport, const cityRoo
     }
 }
 
+void cityLevelHandler::DrawStaticShadows(const gfxViewport& viewport, const cityRoomRec* roomRecs, int numRooms)
+{
+    auto level = reinterpret_cast<cityLevel*>(this);
+
+    if (numRooms)
+    {
+        if (sm_EnableShadows.get())
+        {
+            gfxRenderState::SetTouchedMask(false);
+            gfxRenderState::SetLighting(false);
+
+            if (!useSoftware)
+            {
+                auto curViewport = gfxPipeline::GetCurrentViewport();
+                auto d3dViewport = curViewport->GetD3DViewport();
+                auto dwHeight = d3dViewport.dwHeight;
+                auto dwWidth = d3dViewport.dwWidth;
+                auto fudge = 1.0f - cityLevel::GetShadowHFudge();
+                curViewport->SetWindow(
+                    d3dViewport.dwX,
+                    d3dViewport.dwY,
+                    dwWidth,
+                    dwHeight,
+                    fudge,
+                    cityLevel::GetShadowHFudge());
+
+                gfxRenderState::SetAlphaEnabled(true);
+                gfxRenderState::SetWorldMatrix(ShadowMatrix.get());
+                gfxRenderState::SetZWriteEnabled(false);
+                gfxRenderState::SetZEnabled(D3DZB_TRUE);
+
+                auto recs = roomRecs;
+                int rooms = numRooms;
+                while (rooms)
+                {
+                    if (recs->Distance < obj_LowThresh)
+                    {
+                        auto roomInfo = level->GetRoomInfo(recs->RoomId);
+                        if ((roomInfo->InstanceFlags & lvlInstance::INST_SHADOW) != 0)
+                        {
+                            for (lvlInstance* j = roomInfo->FirstStaticInstance; j; j = j->GetNext())
+                            {
+                                if ((j->GetFlags() & lvlInstance::INST_SHADOW) != 0)
+                                {
+                                    int lod = j->IsVisible(viewport);
+                                    if (lod)
+                                    {
+                                        j->DrawShadow();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ++recs;
+                    --rooms;
+                }
+
+                gfxRenderState::SetZWriteEnabled(true);
+                curViewport->SetWindow(
+                    d3dViewport.dwX,
+                    d3dViewport.dwY,
+                    d3dViewport.dwWidth,
+                    d3dViewport.dwHeight,
+                    0.0f,
+                    1.0f);
+            }
+
+            if (sm_LightInstances.get())
+            {
+                gfxRenderState::SetTouchedMask(true);
+                gfxRenderState::SetLighting(true);
+            }
+            else
+            {
+                gfxRenderState::SetTouchedMask(false);
+                gfxRenderState::SetLighting(false);
+            }
+        }
+    }
+}
+
 void cityLevelHandler::DrawPropShadows(const gfxViewport& viewport, const cityRoomRec* roomRecs, int numRooms)
 {
     auto level = reinterpret_cast<cityLevel*>(this);

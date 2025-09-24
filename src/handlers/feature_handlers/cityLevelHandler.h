@@ -16,6 +16,7 @@ public:
     void DrawSDL(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawStatics(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawRoadDecals(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
+    void DrawStaticShadows(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawPropShadows(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawProps(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawMoverShadows(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
