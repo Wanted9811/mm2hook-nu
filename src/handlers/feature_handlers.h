@@ -8,6 +8,7 @@
 #include "..\events\dispatcher.h"
 
 // Individual handlers
+#include "feature_handlers/aiCableCarInstanceFeatureHandler.h"
 #include "feature_handlers/aiPoliceOfficerFeatureHandler.h"
 #include "feature_handlers/aiVehicleInstanceFeatureHandler.h"
 #include "feature_handlers/aiVehiclePhysicsFeatureHandler.h"
@@ -32,8 +33,8 @@
 #include "feature_handlers/InitMapHandler.h"
 #include "feature_handlers/ImGuiFeatureHandler.h"
 #include "feature_handlers/ltLensFlareHandler.h"
-#include "feature_handlers/lvlHandler.h"
 #include "feature_handlers/lvlFixedAnyHandler.h"
+#include "feature_handlers/lvlHandler.h"
 #include "feature_handlers/lvlInstanceFeatureHandler.h"
 #include "feature_handlers/memSafeHeapHandler.h"
 #include "feature_handlers/mmArrowHandler.h"
@@ -58,7 +59,6 @@
 #include "feature_handlers/StreamHandler.h"
 #include "feature_handlers/TextureVariantHandler.h"
 #include "feature_handlers/vehBreakableMgrHandler.h"
-#include "feature_handlers/vehCableCarInstanceHandler.h"
 #include "feature_handlers/vehCarAudioContainerHandler.h"
 #include "feature_handlers/vehCarHandler.h"
 #include "feature_handlers/vehCarModelFeatureHandler.h"

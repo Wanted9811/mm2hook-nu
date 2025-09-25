@@ -186,6 +186,7 @@
     <ClInclude Include="src\handlers\bugfix_handlers\vehSemiCarAudioBugfixHandler.h" />
     <ClInclude Include="src\handlers\bugfix_handlers\vehSplashHandler.h" />
     <ClInclude Include="src\handlers\bugfix_handlers\vehTrailerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.h" />
@@ -235,7 +236,6 @@
     <ClInclude Include="src\handlers\feature_handlers\StreamHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\TextureVariantHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\vehBreakableMgrHandler.h" />
-    <ClInclude Include="src\handlers\feature_handlers\vehCableCarInstanceHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\vehCarAudioContainerHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\vehCarHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\vehCarModelFeatureHandler.h" />
@@ -707,6 +707,7 @@
     <ClCompile Include="src\handlers\bugfix_handlers\vehSemiCarAudioBugfixHandler.cpp" />
     <ClCompile Include="src\handlers\bugfix_handlers\vehSplashHandler.cpp" />
     <ClCompile Include="src\handlers\bugfix_handlers\vehTrailerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.cpp" />
@@ -756,7 +757,6 @@
     <ClCompile Include="src\handlers\feature_handlers\StreamHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\TextureVariantHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\vehBreakableMgrHandler.cpp" />
-    <ClCompile Include="src\handlers\feature_handlers\vehCableCarInstanceHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\vehCarAudioContainerHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\vehCarHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\vehCarModelFeatureHandler.cpp" />

@@ -1,42 +1,42 @@
-#include "vehCableCarInstanceHandler.h"
+#include "aiCableCarInstanceFeatureHandler.h"
 
 using namespace MM2;
 
 /*
-    vehCableCarInstanceHandler
+    aiCableCarInstanceFeatureHandler
 */
 
-void vehCableCarInstanceHandler::Draw(int lod)
+void aiCableCarInstanceFeatureHandler::Draw(int lod)
 {
     auto cableCar = reinterpret_cast<aiCableCarInstance*>(this);
     cableCar->aiCableCarInstance::Draw(lod);
 }
 
-void vehCableCarInstanceHandler::DrawShadow()
+void aiCableCarInstanceFeatureHandler::DrawShadow()
 {
     auto cableCar = reinterpret_cast<aiCableCarInstance*>(this);
     cableCar->aiCableCarInstance::DrawShadow();
 }
 
-void vehCableCarInstanceHandler::DrawGlow()
+void aiCableCarInstanceFeatureHandler::DrawGlow()
 {
     auto cableCar = reinterpret_cast<aiCableCarInstance*>(this);
     cableCar->aiCableCarInstance::DrawGlow();
 }
 
-void vehCableCarInstanceHandler::DrawReflected(float intensity)
+void aiCableCarInstanceFeatureHandler::DrawReflected(float intensity)
 {
     auto cableCar = reinterpret_cast<aiCableCarInstance*>(this);
     cableCar->aiCableCarInstance::DrawReflected(intensity);
 }
 
-void vehCableCarInstanceHandler::DrawReflectedParts(int lod)
+void aiCableCarInstanceFeatureHandler::DrawReflectedParts(int lod)
 {
     auto cableCar = reinterpret_cast<aiCableCarInstance*>(this);
     cableCar->aiCableCarInstance::DrawReflectedParts(lod);
 }
 
-bool vehCableCarInstanceHandler::BeginGeom(const char* a1, const char* a2, int a3)
+bool aiCableCarInstanceFeatureHandler::BeginGeom(const char* a1, const char* a2, int a3)
 {
     //We hook this to set flag 64 (shadow)
     auto inst = reinterpret_cast<lvlInstance*>(this);
@@ -46,33 +46,33 @@ bool vehCableCarInstanceHandler::BeginGeom(const char* a1, const char* a2, int a
     return inst->BeginGeom(a1, a2, a3);
 }
 
-void vehCableCarInstanceHandler::Install()
+void aiCableCarInstanceFeatureHandler::Install()
 {
-    InstallVTableHook("vehCableCarInstanceHandler::Draw",
+    InstallVTableHook("aiCableCarInstance::Draw",
         &Draw, {
             0x5B5684,
         }
     );
 
-    InstallVTableHook("vehCableCarInstanceHandler::DrawShadow",
+    InstallVTableHook("aiCableCarInstance::DrawShadow",
         &DrawShadow, {
             0x5B5688,
         }
     );
 
-    InstallVTableHook("vehCableCarInstanceHandler::DrawGlow",
+    InstallVTableHook("aiCableCarInstance::DrawGlow",
         &DrawGlow, {
             0x5B5690,
         }
     );
 
-    InstallVTableHook("vehCableCarInstanceHandler::DrawReflected",
+    InstallVTableHook("aiCableCarInstance::DrawReflected",
         &DrawReflected, {
             0x5B5694,
         }
     );
 
-    InstallVTableHook("vehCableCarInstanceHandler::DrawReflectedParts",
+    InstallVTableHook("aiCableCarInstance::DrawReflectedParts",
         &DrawReflectedParts, {
             0x5B5698,
         }

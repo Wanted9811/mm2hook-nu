@@ -3,7 +3,7 @@
 #include "patch.h"
 #include "mm2.h"
 
-class vehCableCarInstanceHandler {
+class aiCableCarInstanceFeatureHandler {
 public:
     void Draw(int lod);
     void DrawShadow();

@@ -64,7 +64,6 @@ static init_handler g_feature_handlers[] = {
     CreateHandler<vehWheelHandler>("vehWheel"),
     CreateHandler<vehTrailerFeatureHandler>("vehTrailer"),
     CreateHandler<vehTrailerInstanceFeatureHandler>("vehTrailerInstance"),
-    CreateHandler<vehCableCarInstanceHandler>("vehCableCarInstance"),
     CreateHandler<vehSirenHandler>("vehSiren"),
     CreateHandler<vehEngineFeatureHandler>("vehEngine"),
 
@@ -90,6 +89,7 @@ static init_handler g_feature_handlers[] = {
 
     CreateHandler<pedestrianInstanceHandler>("pedestrianInstanceHandler"),
 
+    CreateHandler<aiCableCarInstanceFeatureHandler>("aiCableCarInstance"),
     CreateHandler<aiVehicleInstanceFeatureHandler>("aiVehicleInstance"),
     CreateHandler<aiVehiclePhysicsFeatureHandler>("aiVehiclePhysics"),
     CreateHandler<aiPoliceOfficerFeatureHandler>("aiPoliceOfficer"),
