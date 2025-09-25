@@ -64,7 +64,7 @@ namespace MM2
             hook::Thunk<0x4871B0>::Call<void>(this, static_cast<int>(type));
         }
 
-        void SetOffset(Vector3& offset)                 { hook::Thunk<0x4872C0>::Call<void>(this, &offset); }
+        void SetOffset(Vector3 const & offset)          { hook::Thunk<0x4872C0>::Call<void>(this, &offset); }
 
         /*
             phBound virtuals
