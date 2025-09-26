@@ -1,5 +1,8 @@
 #pragma once
 #include "banger.h"
+#include <modules\lights\light.h>
+#include <modules\city\citylevel.h>
+#include <modules\mmcityinfo\state.h>
 
 using namespace MM2;
 
@@ -28,16 +31,175 @@ unsigned short dgBangerInstance::GetBangerType() const
     lvlInstance virtuals
 */
 
-AGE_API void dgBangerInstance::SetVariant(int a1)                                { hook::Thunk<0x442A10>::Call<void>(this); }
+AGE_API void dgBangerInstance::SetVariant(int variant)                           { hook::Thunk<0x442A10>::Call<void>(this, variant); }
 AGE_API dgPhysEntity* dgBangerInstance::GetEntity()                              { return hook::Thunk<0x441AD0>::Call<dgPhysEntity*>(this); }
 AGE_API dgPhysEntity* dgBangerInstance::AttachEntity()                           { return hook::Thunk<0x441AE0>::Call<dgPhysEntity*>(this); }
 AGE_API Vector3 const & dgBangerInstance::GetVelocity()                          { return hook::Thunk<0x441B20>::Call<Vector3 const &>(this); }
-AGE_API void dgBangerInstance::Draw(int a1)                                      { hook::Thunk<0x4415E0>::Call<void>(this, a1); }
-AGE_API void dgBangerInstance::DrawShadow()                                      { hook::Thunk<0x441990>::Call<void>(this); }
+
+AGE_API void dgBangerInstance::Draw(int lod)
+{
+    auto data = this->GetData();
+
+    int LOD = lod;
+    if ((this->GetFlags() & 4) != 0 && lod < 3)
+        LOD = lod + 1;
+
+    if ((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance())
+    {
+        dgTreeRenderer::GetInstance()->AddTree(this, LOD);
+    }
+    else
+    {
+        Matrix34 dummyMatrix = Matrix34();
+        Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
+        gfxRenderState::SetWorldMatrix(bangerMatrix);
+        gfxRenderState::SetBlendSet(0, 0x80);
+
+        auto model = this->GetGeom(LOD, 0);
+        if (model != nullptr)
+        {
+            if (data->BillFlags >= 0)
+            {
+                model->DrawNoGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+            }
+            else
+            {
+                byte alphaRef = gfxRenderState::GetAlphaRef();
+                gfxRenderState::SetAlphaRef((byte)sm_RefAlpha.get());
+                gfxRenderState::SetTouchedMask(false);
+                gfxRenderState::SetLighting(false);
+                model->DrawNoGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+                gfxRenderState::SetTouchedMask(true);
+                gfxRenderState::SetLighting(true);
+                gfxRenderState::SetAlphaRef(alphaRef);
+            }
+        }
+    }
+}
+
+AGE_API void dgBangerInstance::DrawShadow()
+{ 
+    auto timeWeather = cityLevel::GetCurrentLighting();
+
+    if (MMSTATE->TimeOfDay == 3 || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
+        return;
+
+    bool prevLighting = gfxRenderState::SetLighting(true);
+
+    //invert model faces
+    auto prevCullMode = gfxRenderState::GetCullMode();
+    gfxRenderState::SetCullMode(D3DCULL_CCW);
+
+    auto shaders = this->GetShader(this->GetVariant());
+    modStatic* model = this->GetGeomBase()->GetHighestLOD();
+
+    if (model != nullptr)
+    {
+        Matrix34 shadowMatrix, dummyMatrix;
+        Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
+        if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, this->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, bangerMatrix, this))
+        {
+            gfxRenderState::SetWorldMatrix(shadowMatrix);
+            model->DrawShadowed(shaders, ComputeShadowIntensity(timeWeather->KeyColor));
+        }
+    }
+
+    //revert model faces back
+    gfxRenderState::SetCullMode(prevCullMode);
+    gfxRenderState::SetLighting(prevLighting);
+}
+
 AGE_API void dgBangerInstance::DrawShadowMap()                                   { hook::Thunk<0x4419A0>::Call<void>(this); }
-AGE_API void dgBangerInstance::DrawGlow()                                        { hook::Thunk<0x441840>::Call<void>(this); }
-AGE_API void dgBangerInstance::DrawReflected(float a1)                           { hook::Thunk<0x4417B0>::Call<void>(this, a1); }
-AGE_API phBound* dgBangerInstance::GetBound(int a1)                              { return hook::Thunk<0x442580>::Call<phBound*>(this, a1); }
+
+AGE_API void dgBangerInstance::DrawGlow()
+{
+    if (DefaultGlowTexture.get() == NULL)
+        return;
+    if ((this->GetFlags() & lvlInstance::INST_ACTIVE) == 0)
+        return;
+
+    Matrix34 dummyMatrix = Matrix34();
+    Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
+
+    //first time texture load
+    if (!GlowLoaded)
+    {
+        RedGlowTexture = gfxGetTexture("s_red_glow", true);
+        GlowLoaded = true;
+    }
+
+    //prepare glow texture
+    dgBangerData* data = this->GetData();
+    gfxTexture* lastTexture = DefaultGlowTexture.get();
+    bool swappedTexture = false;
+
+    if (!strcmp(data->GetName(), "sp_light_red_f") && lastTexture != NULL)
+    {
+        swappedTexture = true;
+        DefaultGlowTexture = RedGlowTexture;
+    }
+
+    //draw glows
+    ltLight::DrawGlowBegin();
+    for (int i = 0; i < data->NumGlows; i++)
+    {
+        Vector3 glowOffset = data->GlowOffsets[i];
+        Vector3 drawPosition = bangerMatrix.Transform(glowOffset);
+        vglBeginBatch();
+        rglWorldIdentity();
+        vglBindTexture(DefaultGlowTexture.get());
+        tglDrawParticleClipAdjusted(drawPosition, 1.5f, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+        vglEndBatch();
+    }
+    ltLight::DrawGlowEnd();
+
+    //reset glow texture
+    if (swappedTexture)
+    {
+        DefaultGlowTexture = lastTexture;
+    }
+}
+
+AGE_API void dgBangerInstance::DrawReflected(float intensity)                    { hook::Thunk<0x4417B0>::Call<void>(this, intensity); }
+
+AGE_API void dgBangerInstance::DrawReflectedParts(int lod)
+{
+    auto data = this->GetData();
+
+    int LOD = lod;
+    if ((this->GetFlags() & 4) != 0 && lod < 3)
+        LOD = lod + 1;
+
+    if (!((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance()))
+    {
+        Matrix34 dummyMatrix = Matrix34();
+        Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
+        gfxRenderState::SetWorldMatrix(bangerMatrix);
+        gfxRenderState::SetBlendSet(0, 0x80);
+
+        auto model = this->GetGeom(LOD, 0);
+        if (model != nullptr)
+        {
+            if (data->BillFlags >= 0)
+            {
+                model->DrawGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+            }
+            else
+            {
+                byte alphaRef = gfxRenderState::GetAlphaRef();
+                gfxRenderState::SetAlphaRef((byte)sm_RefAlpha.get());
+                gfxRenderState::SetTouchedMask(false);
+                gfxRenderState::SetLighting(false);
+                model->DrawGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+                gfxRenderState::SetTouchedMask(true);
+                gfxRenderState::SetLighting(true);
+                gfxRenderState::SetAlphaRef(alphaRef);
+            }
+        }
+    }
+}
+
+AGE_API phBound* dgBangerInstance::GetBound(int type)                            { return hook::Thunk<0x442580>::Call<phBound*>(this, type); }
 
 /* 
     dgBangerInstance virtuals
@@ -119,7 +281,7 @@ AGE_API dgHitBangerInstance::~dgHitBangerInstance()
 */
 
 AGE_API const Vector3& dgHitBangerInstance::GetPosition()                        { return hook::Thunk<0x441B70>::Call<const Vector3&>(this); }
-AGE_API const Matrix34& dgHitBangerInstance::GetMatrix(Matrix34* a1)             { return hook::Thunk<0x441B60>::Call<const Matrix34&>(this, a1); };
+AGE_API const Matrix34& dgHitBangerInstance::GetMatrix(Matrix34& a1)             { return hook::Thunk<0x441B60>::Call<const Matrix34&>(this, &a1); };
 AGE_API void dgHitBangerInstance::SetMatrix(const Matrix34& a1)                  { hook::Thunk<0x441B40>::Call<void>(this, a1); }
 AGE_API unsigned int dgHitBangerInstance::SizeOf(void)                           { return hook::Thunk<0x442AB0>::Call<unsigned int>(this); }
 AGE_API void dgHitBangerInstance::Detach()                                       { return hook::Thunk<0x442680>::Call<void>(this); }

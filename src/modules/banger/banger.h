@@ -29,9 +29,16 @@ namespace MM2
     // as suggested by dgUnhitBangerInstance::SizeOf in TDOR
 
     class dgBangerInstance : public lvlInstance {
+    public:
+        static bool GlowLoaded;
+        static gfxTexture* RedGlowTexture;
+    private:
+        static hook::Type<int> sm_RefAlpha;
     private:
         short DataPack; // Contains type and variant
     public:
+        static hook::Type<gfxTexture*> DefaultGlowTexture;
+
         /*
             dgBangerInstance
         */
@@ -48,16 +55,17 @@ namespace MM2
             lvlInstance virtuals
         */
 
-        virtual AGE_API void SetVariant(int a1)       override;
-        virtual AGE_API dgPhysEntity* GetEntity()     override;
-        virtual AGE_API dgPhysEntity* AttachEntity()  override;
+        virtual AGE_API void SetVariant(int variant) override;
+        virtual AGE_API dgPhysEntity* GetEntity() override;
+        virtual AGE_API dgPhysEntity* AttachEntity() override;
         virtual AGE_API Vector3 const & GetVelocity() override;
-        virtual AGE_API void Draw(int a1)             override;
-        virtual AGE_API void DrawShadow()             override;
-        virtual AGE_API void DrawShadowMap()          override;
-        virtual AGE_API void DrawGlow()               override;
-        virtual AGE_API void DrawReflected(float a1)  override;
-        virtual AGE_API phBound* GetBound(int a1)     override;
+        virtual AGE_API void Draw(int lod) override;
+        virtual AGE_API void DrawShadow() override;
+        virtual AGE_API void DrawShadowMap() override;
+        virtual AGE_API void DrawGlow() override;
+        virtual AGE_API void DrawReflected(float intensity) override;
+        virtual AGE_API void DrawReflectedParts(int lod) override;
+        virtual AGE_API phBound* GetBound(int type) override;
 
         /* 
             dgBangerInstance virtuals
@@ -96,8 +104,8 @@ namespace MM2
             dgBangerInstance virtuals
         */
 
-        virtual AGE_API void Impact(lvlInstance* a1, Vector3* a2);
-        virtual AGE_API void ImpactCB(dgHitBangerInstance* a1);
+        virtual AGE_API void Impact(lvlInstance* a1, Vector3* a2) override;
+        virtual AGE_API void ImpactCB(dgHitBangerInstance* a1) override;
 
         static void BindLua(LuaState L);
     };
@@ -115,9 +123,9 @@ namespace MM2
         */
 
         virtual AGE_API const Vector3& GetPosition() override;
-        virtual AGE_API const Matrix34& GetMatrix(Matrix34* a1);
+        virtual AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         virtual AGE_API void SetMatrix(const Matrix34& a1) override;
-        virtual AGE_API unsigned int SizeOf(void);
+        virtual AGE_API unsigned int SizeOf(void) override;
         virtual AGE_API void Detach() override;
 
         static void BindLua(LuaState L);
@@ -141,9 +149,9 @@ namespace MM2
         */
 
         virtual AGE_API const Vector3& GetPosition() override;
-        virtual AGE_API const Matrix34& GetMatrix(Matrix34& a1);
+        virtual AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         virtual AGE_API void SetMatrix(const Matrix34& a1) override;
-        virtual AGE_API unsigned int SizeOf(void);
+        virtual AGE_API unsigned int SizeOf(void) override;
 
         static void BindLua(LuaState L);
     };
@@ -160,9 +168,9 @@ namespace MM2
         */
 
         virtual AGE_API const Vector3& GetPosition() override;
-        virtual AGE_API const Matrix34& GetMatrix(Matrix34& a1);
+        virtual AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         virtual AGE_API void SetMatrix(const Matrix34& a1) override;
-        virtual AGE_API unsigned int SizeOf(void);
+        virtual AGE_API unsigned int SizeOf(void) override;
 
         static void BindLua(LuaState L);
     };

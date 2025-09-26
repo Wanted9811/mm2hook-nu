@@ -8,175 +8,35 @@ static ConfigValue<int> cfgPropShadows("3DShadows", 0);
 /*
     dgBangerInstanceHandler
 */
-hook::Type<int> sm_RefAlpha = 0x5C55F4;
-hook::Type<gfxTexture*> glowTexture = 0x62767C;
-gfxTexture* redGlowTexture;
-bool glowLoaded = false;
 
-void dgBangerInstanceHandler::Reset() {
-    redGlowTexture = NULL;
-    glowLoaded = false;
+void dgBangerInstanceHandler::Reset()
+{
+    dgBangerInstance::RedGlowTexture = NULL;
+    dgBangerInstance::GlowLoaded = false;
 }
 
 void dgBangerInstanceHandler::Draw(int lod)
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
-    auto data = banger->GetData();
-
-    int LOD = lod;
-    if ((banger->GetFlags() & 4) != 0 && lod < 3)
-        LOD = lod + 1;
-
-    if ((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance())
-    {
-        dgTreeRenderer::GetInstance()->AddTree(banger, LOD);
-    }
-    else
-    {
-        Matrix34 dummyMatrix = Matrix34();
-        Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
-        gfxRenderState::SetWorldMatrix(bangerMatrix);
-        gfxRenderState::SetBlendSet(0, 0x80);
-
-        auto model = banger->GetGeom(LOD, 0);
-        if (model != nullptr)
-        {
-            if (data->BillFlags >= 0)
-            {
-                model->DrawNoGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
-            }
-            else
-            {
-                byte alphaRef = gfxRenderState::GetAlphaRef();
-                gfxRenderState::SetAlphaRef((byte)sm_RefAlpha);
-                gfxRenderState::SetTouchedMask(false);
-                gfxRenderState::SetLighting(false);
-                model->DrawNoGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
-                gfxRenderState::SetTouchedMask(true);
-                gfxRenderState::SetLighting(true);
-                gfxRenderState::SetAlphaRef(alphaRef);
-            }
-        }
-    }
+    banger->dgBangerInstance::Draw(lod);
 }
 
 void dgBangerInstanceHandler::DrawReflectedParts(int lod)
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
-    auto data = banger->GetData();
-
-    int LOD = lod;
-    if ((banger->GetFlags() & 4) != 0 && lod < 3)
-        LOD = lod + 1;
-
-    if (!((data->BillFlags & 512) != 0 && dgTreeRenderer::GetInstance()))
-    {
-        Matrix34 dummyMatrix = Matrix34();
-        Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
-        gfxRenderState::SetWorldMatrix(bangerMatrix);
-        gfxRenderState::SetBlendSet(0, 0x80);
-
-        auto model = banger->GetGeom(LOD, 0);
-        if (model != nullptr)
-        {
-            if (data->BillFlags >= 0)
-            {
-                model->DrawGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
-            }
-            else
-            {
-                byte alphaRef = gfxRenderState::GetAlphaRef();
-                gfxRenderState::SetAlphaRef((byte)sm_RefAlpha);
-                gfxRenderState::SetTouchedMask(false);
-                gfxRenderState::SetLighting(false);
-                model->DrawGlass(banger->GetGeomBase()->pShaders[banger->GetVariant()]);
-                gfxRenderState::SetTouchedMask(true);
-                gfxRenderState::SetLighting(true);
-                gfxRenderState::SetAlphaRef(alphaRef);
-            }
-        }
-    }
+    banger->dgBangerInstance::DrawReflectedParts(lod);
 }
 
 void dgBangerInstanceHandler::DrawGlow()
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
-
-    if (glowTexture.get() == NULL)
-        return;
-    if ((banger->GetFlags() & lvlInstance::INST_ACTIVE) == 0)
-        return;
-
-    Matrix34 dummyMatrix = Matrix34();
-    Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
-
-    //first time texture load
-    if (!glowLoaded) {
-        redGlowTexture = gfxGetTexture("s_red_glow", true);
-        glowLoaded = true;
-    }
-
-    //prepare glow texture
-    dgBangerData* data = banger->GetData();
-    gfxTexture* lastTexture = glowTexture.get();
-    bool swappedTexture = false;
-
-    if (!strcmp(data->GetName(), "sp_light_red_f") && lastTexture != NULL) {
-        swappedTexture = true;
-        glowTexture = redGlowTexture;
-    }
-
-    //draw glows
-    ltLight::DrawGlowBegin();
-    for (int i = 0; i < data->NumGlows; i++)
-    {
-        Vector3 glowOffset = data->GlowOffsets[i];
-        Vector3 drawPosition = bangerMatrix.Transform(glowOffset);
-        vglBeginBatch();
-        rglWorldIdentity();
-        vglBindTexture(glowTexture);
-        tglDrawParticleClipAdjusted(drawPosition, 1.5f, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-        vglEndBatch();
-    }
-    ltLight::DrawGlowEnd();
-
-    //reset glow texture
-    if (swappedTexture) {
-        glowTexture = lastTexture;
-    }
+    banger->dgBangerInstance::DrawGlow();
 }
 
 void dgBangerInstanceHandler::DrawShadow()
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
-    auto timeWeather = cityLevel::GetCurrentLighting();
-
-    if (MMSTATE->TimeOfDay == 3 || lvlLevel::GetSingleton()->GetRoomInfo(banger->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
-        return;
-
-    bool prevLighting = gfxRenderState::SetLighting(true);
-
-    //invert model faces
-    auto prevCullMode = gfxRenderState::GetCullMode();
-    gfxRenderState::SetCullMode(D3DCULL_CCW);
-
-    auto shaders = banger->GetShader(banger->GetVariant());
-    modStatic* model = banger->GetGeomBase(0)->GetHighestLOD();
-
-    if (model != nullptr)
-    {
-        Matrix34 shadowMatrix, dummyMatrix;
-        Matrix34 bangerMatrix = banger->GetMatrix(dummyMatrix);
-        if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, banger->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, bangerMatrix, banger))
-        {
-            gfxRenderState::SetWorldMatrix(shadowMatrix);
-            model->DrawShadowed(shaders, ComputeShadowIntensity(timeWeather->KeyColor));
-        }
-    }
-
-    //revert model faces back
-    gfxRenderState::SetCullMode(prevCullMode);
-    gfxRenderState::SetLighting(prevLighting);
+    banger->dgBangerInstance::DrawShadow();
 }
 
 bool dgBangerInstanceHandler::dgBangerInstance_BeginGeom(const char* a1, const char* a2, int a3)
