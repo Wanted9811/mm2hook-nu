@@ -2830,6 +2830,9 @@
     <ClCompile Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.cpp">
       <Filter>Source Files\handlers\feature_handlers</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\banger\banger.cpp">
+      <Filter>Source Files\modules\banger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AGE.h">

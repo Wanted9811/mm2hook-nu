@@ -817,6 +817,7 @@
     <ClCompile Include="src\modules\audio\audmanagerbase.cpp" />
     <ClCompile Include="src\modules\audio\streamingmusic.cpp" />
     <ClCompile Include="src\modules\banger.cpp" />
+    <ClCompile Include="src\modules\banger\banger.cpp" />
     <ClCompile Include="src\modules\banger\tree.cpp" />
     <ClCompile Include="src\modules\city.cpp" />
     <ClCompile Include="src\modules\city\citylevel.cpp" />
