@@ -78,11 +78,11 @@ AGE_API void dgBangerInstance::Draw(int lod)
 }
 
 AGE_API void dgBangerInstance::DrawShadow()
-{ 
-    auto timeWeather = cityLevel::GetCurrentLighting();
-
+{
     if (MMSTATE->TimeOfDay == 3 || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
         return;
+
+    auto timeWeather = cityLevel::GetCurrentLighting();
 
     bool prevLighting = gfxRenderState::SetLighting(true);
 
