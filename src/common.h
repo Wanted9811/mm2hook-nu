@@ -37,6 +37,7 @@
 // Lua 5.3.2 embedded
 # include <lua/lua.hpp>
 # ifndef NO_LUAINTF
+#  undef LUAINTF_AUTO_DOWNCAST
 #  define LUAINTF_AUTO_DOWNCAST 0
 #  include <LuaIntf/LuaIntf.h>
 using namespace LuaIntf;

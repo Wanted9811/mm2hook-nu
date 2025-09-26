@@ -19,6 +19,8 @@
 **   lfs.unlock (fh)
 */
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #ifndef LFS_DO_NOT_USE_LARGE_FILE
 #ifndef _WIN32
 #ifndef _AIX

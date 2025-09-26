@@ -162,12 +162,12 @@ void ImGui_ImplAGE_RenderDrawData(ImDrawData* draw_data)
                 // Currently negative values are not handled and left unclipped
                 if (pcmd->ClipRect.x < 0 || pcmd->ClipRect.y < 0)
                 {
-                    bd->Viewport->SetWindow(0, 0, draw_data->DisplaySize.x, draw_data->DisplaySize.y, 0, 1);
+                    bd->Viewport->SetWindow(0, 0, (int)draw_data->DisplaySize.x, (int)draw_data->DisplaySize.y, 0, 1);
                     invMatrix.Identity();
                 }
                 else 
                 {
-                    bd->Viewport->SetWindow(pcmd->ClipRect.x, pcmd->ClipRect.y, pcmd->ClipRect.z - pcmd->ClipRect.x, pcmd->ClipRect.w - pcmd->ClipRect.y, 0, 1);
+                    bd->Viewport->SetWindow((int)pcmd->ClipRect.x, (int)pcmd->ClipRect.y, (int)(pcmd->ClipRect.z - pcmd->ClipRect.x), (int)(pcmd->ClipRect.w - pcmd->ClipRect.y), 0, 1);
                     float invertScaleX = (draw_data->DisplaySize.x / (pcmd->ClipRect.z - pcmd->ClipRect.x));
                     float invertScaleY = (draw_data->DisplaySize.y / (pcmd->ClipRect.w - pcmd->ClipRect.y));
                     invMatrix.MakeScale(invertScaleX, invertScaleY, 1.0f);

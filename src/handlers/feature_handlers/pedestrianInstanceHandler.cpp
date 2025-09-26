@@ -247,12 +247,12 @@ void pedestrianInstanceHandler::AnimationInstance_Update()
     if (direction == -1)
     {
         inst->SetCurrentFrame(inst->GetCurrentFrame() - delta);
-        if (inst->GetCurrentFrame() > (state->FrameCount + cutShortFrames)) return;
+        if (inst->GetCurrentFrame() > (int)(state->FrameCount + cutShortFrames)) return;
     }
     else if (direction == 1)
     {
         inst->SetCurrentFrame(inst->GetCurrentFrame() + delta);
-        if (inst->GetCurrentFrame() < (state->FrameCount - cutShortFrames)) return;
+        if (inst->GetCurrentFrame() < (int)(state->FrameCount - cutShortFrames)) return;
     }
     else if (delta == 0)
     {

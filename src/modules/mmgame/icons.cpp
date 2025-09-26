@@ -137,7 +137,7 @@ AGE_API void mmIcons::Cull()
                         tmp.Y *= invDist;
                         tmp.Z *= invDist;
 
-                        gfxPipeline::CopyBitmap(tmp.X - (icon.Bitmap->Width / 2), tmp.Y - icon.Bitmap->Height, icon.Bitmap, 0, 0, icon.Bitmap->Width, icon.Bitmap->Height, true);
+                        gfxPipeline::CopyBitmap((int)(tmp.X - (icon.Bitmap->Width / 2)), (int)(tmp.Y - icon.Bitmap->Height), icon.Bitmap, 0, 0, icon.Bitmap->Width, icon.Bitmap->Height, true);
                         //vglDrawLabelf(icon.MatrixPtr->GetRow(3), "W=%.4f, D=%.4f", tmp.W, dist);
                     }
                 }
