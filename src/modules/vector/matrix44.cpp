@@ -127,7 +127,7 @@ namespace MM2
     AGE_API void Matrix44::MakeRotY(float angle)                                     { hook::Thunk<0x4C1C50>::Call<void>(this, angle); }
     AGE_API void Matrix44::MakeRotZ(float angle)                                     { hook::Thunk<0x4C1CA0>::Call<void>(this, angle); }
     AGE_API void Matrix44::Print(LPCSTR name) const                                  { hook::Thunk<0x4C1CF0>::Call<void>(this, name); }
-    AGE_API void Matrix44::Set(const Matrix44* mtx)                                  { hook::Thunk<0x4C07B0>::Call<void>(this, mtx); }
+    AGE_API void Matrix44::Set(const Matrix44& mtx)                                  { hook::Thunk<0x4C07B0>::Call<void>(this, &mtx); }
     AGE_API void Matrix44::Subtract(const Matrix44& mtx)                             { hook::Thunk<0x4C0B70>::Call<void>(this, &mtx); }
     AGE_API void Matrix44::ToMatrix34(Matrix34 & a1) const                           { hook::Thunk<0x4C09E0>::Call<void>(this, &a1); }
     AGE_API void Matrix44::Transform4(const Vector3* in, const Vector4* out, int count) 

@@ -66,7 +66,7 @@ namespace MM2
         AGE_API void MakeRotY(float angle);
         AGE_API void MakeRotZ(float angle);
         AGE_API void Print(LPCSTR name) const;
-        AGE_API void Set(const Matrix44* mtx);
+        AGE_API void Set(const Matrix44& mtx);
         AGE_API void Subtract(const Matrix44& mtx);
         AGE_API void ToMatrix34(Matrix34& a1) const;
         AGE_API void Transform4(const Vector3* in, const Vector4* out, int count);
