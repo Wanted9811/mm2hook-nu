@@ -144,9 +144,9 @@ namespace MM2
             gfxRenderState::m_TouchedMask = gfxRenderState::m_TouchedMasks[lightingState];
         }
 
-        static void SetBlendSet(int a, int b)
+        static void SetBlendSet(int blendSet, int unused = 0x80)
         {
-            hook::Thunk<0x4B2350>::ThisCall<void>(&RSTATE, a, b);
+            hook::Thunk<0x4B2350>::ThisCall<void>(&RSTATE, blendSet, unused);
         }
 
         static gfxMaterial* SetMaterial(gfxMaterial* material)
@@ -411,9 +411,10 @@ namespace MM2
         static void BindLua(LuaState L) {
             LuaBinding(L).beginClass<gfxRenderState>("gfxRenderState")
                 .addStaticVariable("EnableTextures", &sm_EnableTextures)
-                .addStaticProperty("WorldMatrix", &GetWorldMatrix, static_cast<void(*)(const Matrix44 &)>(&gfxRenderState::SetWorldMatrix))
+                .addStaticProperty("WorldMatrix", &GetWorldMatrix, static_cast<void(*)(const Matrix44&)>(&gfxRenderState::SetWorldMatrix))
                 .addStaticProperty("ViewMatrix", &GetViewMatrix, static_cast<void(*)(const Matrix44&)>(&gfxRenderState::SetView))
                 .addStaticProperty("CameraMatrix", &GetCameraMatrix, static_cast<void(*)(const Matrix44&)>(&gfxRenderState::SetCamera))
+                .addStaticFunction("SetBlendSet", &SetBlendSet)
                 .endClass();
         }
     };
