@@ -132,11 +132,6 @@ namespace MM2
         return this->Trailer;
     }
 
-    int vehTrailerInstance::GetRandId()
-    {
-        return irand2((int)this);
-    }
-
     Matrix34 vehTrailerInstance::GetWheelMatrix(int num)
     {
         Matrix34 whlMatrix = Matrix34();

@@ -202,7 +202,6 @@ namespace MM2
         fxTexelDamage* GetTexelDamage();
         fxDamage3D* GetDamage3D();
         mmDamage* GetMM1Damage();
-        int GetRandId();
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetFenderMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);

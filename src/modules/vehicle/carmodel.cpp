@@ -121,11 +121,6 @@ namespace MM2
         return mm1Damage;
     }
 
-    int vehCarModel::GetRandId()
-    {
-        return irand2((int)this);
-    }
-
     Matrix34 vehCarModel::GetWheelMatrix(int num)
     {
         Matrix34 whlMatrix = Matrix34();
@@ -1883,7 +1878,6 @@ namespace MM2
             .addPropertyReadOnly("Breakables", &GetGenBreakableMgr)
             .addPropertyReadOnly("WheelBreakables", &GetMechBreakableMgr)
             .addPropertyReadOnly("TrailerHitchOffset", &GetTrailerHitchOffset)
-            .addPropertyReadOnly("RandId", &GetRandId)
             .addProperty("Variant", &GetVariant, &SetVariant)
             .addProperty("Visible", &GetVisible, &SetVisible)
                 

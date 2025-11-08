@@ -54,7 +54,6 @@ namespace MM2
     private:
         Vector3 getTrailerHitchOffsetLua() const;
     public:
-        int GetRandId();
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
         vehTrailer* GetTrailer(void) const;

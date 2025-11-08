@@ -333,6 +333,11 @@ int lvlInstance::GetVariantCount() const {
     return this->GeomIndex == 0 ? 1 : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->numShaders;
 }
 
+int lvlInstance::GetRandId() const
+{
+    return irand2((int)this);
+}
+
 AGE_API bool lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix)
 {
     return ComputeShadowMatrix(outMatrix, room, inMatrix, nullptr);
@@ -536,6 +541,7 @@ void lvlInstance::BindLua(LuaState L) {
         .addPropertyReadOnly("NumShaders", &GetShaderCount)
         .addPropertyReadOnly("NumVariants", &GetVariantCount)
         .addPropertyReadOnly("Name", &GetName)
+        .addPropertyReadOnly("RandId", &GetRandId)
 
         //statics
         .addStaticProperty("GeomTableSize", &GetGeomSetCount)
