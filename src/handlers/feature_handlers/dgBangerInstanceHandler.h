@@ -6,6 +6,8 @@
 class dgBangerInstanceHandler {
 public:
     bool dgBangerInstance_BeginGeom(const char* a1, const char* a2, int a3); // Shadow flag hook
+    bool Save();
+    bool Load();
 
     void Draw(int lod);
     void DrawReflectedParts(int lod);

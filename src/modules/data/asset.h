@@ -29,6 +29,11 @@ namespace MM2
         AGE_API static Stream * Open(LPCSTR directory, LPCSTR filename, LPCSTR extension, bool foo, bool readonly)
                                                                         { return hook::StaticThunk<0x4C58C0>::Call<Stream *>(directory, filename, extension, foo, readonly); }
 
+        AGE_API static Stream * Create(LPCSTR directory, LPCSTR filename, bool foo)
+                                                                        { return hook::StaticThunk<0x4C5910>::Call<Stream *>(directory, filename, foo); }
+        AGE_API static Stream * Create(LPCSTR directory, LPCSTR filename, LPCSTR extension, bool foo)
+                                                                        { return hook::StaticThunk<0x4C5960>::Call<Stream *>(directory, filename, extension, foo); }
+
         AGE_API static void FullPath(char *buffer, int length, LPCSTR directory, LPCSTR filename)
                                                                         { hook::StaticThunk<0x4C55E0>::Call<void>(buffer, length, directory, filename); }
 

@@ -11,6 +11,7 @@ namespace MM2
     // External declarations
     extern class asNode;
     extern class asBirthRule;
+    extern class dgBangerGlowData;
 
     // Class definitions
 
@@ -23,7 +24,7 @@ namespace MM2
         int dword34;
         int dword38;
         int dword3C;
-        Vector3* GlowOffsets;
+        dgBangerGlowData* GlowDatas; // This field was Vector3* GlowOffsets originally but we hooked it to add more glow data, this is only possible since it's a pointer
         short NumGlows;
         short word46;
         float Mass;
@@ -48,54 +49,29 @@ namespace MM2
         int GeomSet;
         char pad138[28];
     public:
-        Vector3 GetGlowOffset(int num) 
-        {
-            if (num >= this->NumGlows || num < 0)
-                return Vector3::ORIGIN;
-            return Vector3(this->GlowOffsets[num]);
-        }
+        Vector3 GetGlowOffset(int num) const;
 
-        void SetGlowOffset(int num, Vector3 offset)
-        {
-            if (num >= this->NumGlows || num < 0)
-                return;
-            (&this->GlowOffsets[num])->Set(offset);
-        }
+        void SetGlowOffset(int num, Vector3 offset);
     public:
-        void InitBound()                                    { hook::Thunk<0x4411C0>::Call<void>(this); }
+        void InitBound();
+
+        /*
+            asNode virtuals
+        */
+
+        AGE_API bool Save() override;
+        AGE_API bool Load() override;
+        AGE_API char* GetClassName() override;
+        AGE_API const char* GetDirName() override;
 
         //lua
-        static void BindLua(LuaState L) {
-            LuaBinding(L).beginExtendClass<dgBangerData, asNode>("dgBangerData")
-                .addVariable("Index", &dgBangerData::Index, false)
-                .addVariable("NumGlows", &dgBangerData::NumGlows, false)
-                .addVariable("NumParts", &dgBangerData::NumParts, false)
-                .addVariable("GeometrySetIndex", &dgBangerData::GeomSet, false)
-                .addVariableRef("BirthRule", &dgBangerData::BirthRule, false)
-
-                .addVariable("CG", &dgBangerData::CG)
-                .addVariable("Size", &dgBangerData::Size)
-                .addVariable("Mass", &dgBangerData::Mass)
-                .addVariable("Elasticity", &dgBangerData::Elasticity)
-                .addVariable("Friction", &dgBangerData::Friction)
-                .addVariable("ImpulseLimit2", &dgBangerData::ImpulseLimit2)
-                .addVariable("YRadius", &dgBangerData::YRadius)
-                .addVariable("ColliderId", &dgBangerData::ColliderId)
-                .addVariable("TexNumber", &dgBangerData::TexNumber)
-                .addVariable("BillFlags", &dgBangerData::BillFlags)
-                .addVariable("SpinAxis", &dgBangerData::SpinAxis)
-                .addVariable("Flash", &dgBangerData::Flash)
-                .addVariable("CollisionType", &dgBangerData::CollisionType)
-                .addVariable("CollisionPrim", &dgBangerData::CollisionPrim)
-                .addVariable("AudioId", &dgBangerData::AudioId)
-                .addVariableRef("Bound", &dgBangerData::Bound)
-
-                .addFunction("GetGlowOffset", &GetGlowOffset)
-                .addFunction("SetGlowOffset", &SetGlowOffset)
-                .endClass();
-        }
+        static void BindLua(LuaState L);
     };
     ASSERT_SIZEOF(dgBangerData, 0x154);
+
+    /*
+        dgBangerDataManager
+    */
 
     class dgBangerDataManager : public asNode 
     {
@@ -107,43 +83,29 @@ namespace MM2
         gfxTexture* ParticleSheetTextures[20];
         byte buffer[0x58];
     public:
-        int GetDataCount() const
-        {
-            return dataCount;
-        }
+        int GetDataCount() const;
 
-        dgBangerData* GetData(int id) 
-        {
-            if (id >= dataCount || id < 0)
-                return nullptr;
-            return &datas[id];
-        }
+        dgBangerData* GetData(int id);
     protected:
         static hook::Type<dgBangerDataManager*> Instance;
     public:
-        inline static dgBangerDataManager* GetInstance()
-        {
-            return Instance.get();
-        }
+        static dgBangerDataManager* GetInstance();
     
         /*
             asNode virtuals
         */
-        AGE_API char* GetClassName() override               { return hook::Thunk<0x4415B0>::Call<char*>(this); }
+
+        AGE_API char* GetClassName() override;
 
         /*
             dgBangerDataManager
         */
-        int AddBangerDataEntry(char const* name, char const* partName)
-                                                            { return hook::Thunk<0x440940>::Call<int>(this, name, partName); }
-        void ChangeData()                                   { hook::Thunk<0x440A60>::Call<void>(this); }
 
-        static void BindLua(LuaState L) {
-            LuaBinding(L).beginExtendClass<dgBangerDataManager, asNode>("dgBangerDataManager")
-                .addStaticProperty("Instance", &dgBangerDataManager::GetInstance)
-                .addFunction("AddBangerDataEntry", &AddBangerDataEntry, LUA_ARGS(LPCSTR, _opt<LPCSTR>))
-                .endClass();
-        }
+        AGE_API int AddBangerDataEntry(char const* name, char const* partName);
+
+        AGE_API void ChangeData();
+
+        static void BindLua(LuaState L);
     };
     ASSERT_SIZEOF(dgBangerDataManager, 0x2A8C4);
 

@@ -241,6 +241,21 @@ namespace MM2
             this->Put(str, static_cast<unsigned int>(strlen(str)));
         }
     public:
+        //helpers
+        void AddToken(LPCSTR name, char *buf, int bufsize)         { if (CheckToken(name, true)) GetToken(buf, bufsize); }
+        void AddToken(LPCSTR name, int &value)                     { if (CheckToken(name, true)) value = GetInt(); }
+        void AddToken(LPCSTR name, float &value)                   { if (CheckToken(name, true)) value = GetFloat(); }
+        void AddToken(LPCSTR name, Vector2 &value)                 { if (CheckToken(name, true)) { value.X = GetFloat(); value.Y = GetFloat(); } }
+        void AddToken(LPCSTR name, Vector3 &value)                 { if (CheckToken(name, true)) { value.X = GetFloat(); value.Y = GetFloat(); value.Z = GetFloat(); } }
+        void AddToken(LPCSTR name, Vector4 &value)                 { if (CheckToken(name, true)) { value.X = GetFloat(); value.Y = GetFloat(); value.Z = GetFloat(); value.W = GetFloat(); } }
+
+        void PutToken(LPCSTR name, char *value)                    { Put(name, 0); Put(value, static_cast<unsigned int>(strlen(value))); Put("\n  ", 0); }
+        void PutToken(LPCSTR name, int value)                      { Put(name, 0); Put(value); Put("\n  ", 0); }
+        void PutToken(LPCSTR name, float value)                    { Put(name, 0); Put(value); Put("\n  ", 0); }
+        void PutToken(LPCSTR name, Vector2 &value)                 { Put(name, 0); Put(value); Put("\n  ", 0); }
+        void PutToken(LPCSTR name, Vector3 &value)                 { Put(name, 0); Put(value); Put("\n  ", 0); }
+        void PutToken(LPCSTR name, Vector4 &value)                 { Put(name, 0); Put(value); Put("\n  ", 0); }
+
         void Init(const char* name, Stream* stream)                { hook::Thunk<0x4C8210>::Call<void>(this, name, stream); }
         int GetToken(char* buf, int bufsize)                       { return hook::Thunk<0x4C82F0>::Call<int>(this, buf, bufsize); }
         int GetBlock(char* buf, int bufsize)                       { return hook::Thunk<0x4C8440>::Call<int>(this, buf, bufsize); }

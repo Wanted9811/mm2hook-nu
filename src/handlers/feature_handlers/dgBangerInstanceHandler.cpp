@@ -39,6 +39,18 @@ void dgBangerInstanceHandler::DrawShadow()
     banger->dgBangerInstance::DrawShadow();
 }
 
+bool dgBangerInstanceHandler::Save()
+{
+    auto data = reinterpret_cast<dgBangerData*>(this);
+    return data->dgBangerData::Save();
+}
+
+bool dgBangerInstanceHandler::Load()
+{
+    auto data = reinterpret_cast<dgBangerData*>(this);
+    return data->dgBangerData::Load();
+}
+
 bool dgBangerInstanceHandler::dgBangerInstance_BeginGeom(const char* a1, const char* a2, int a3)
 {
     //We hook this to set flag 64 (shadow)
@@ -96,6 +108,18 @@ void dgBangerInstanceHandler::Install()
         }
     );
 
+    InstallVTableHook("dgBangerData::Save",
+        &Save, {
+            0x5B1484
+        }
+    );
+
+    InstallVTableHook("dgBangerData::Load",
+        &Load, {
+            0x5B1488
+        }
+    );
+
     GameEventDispatcher::RegisterStateEndCallback(Reset);
 
     if (cfgPropShadows.Get())
@@ -106,7 +130,6 @@ void dgBangerInstanceHandler::Install()
                 0x5B153C,
                 0x5B15E8,
                 0x5B1658,
-                0x5B54DC,
                 0x5B5704,
                 0x5B57C8,
                 0x5B5FBC,

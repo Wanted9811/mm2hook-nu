@@ -60,6 +60,16 @@ AGE_API asBirthRule::~asBirthRule(void)
     hook::Thunk<0x45FBF0>::Call<void>(this);
 }
 
+AGE_API void asBirthRule::Save(datBaseTokenizer* baseTokenizer, int a2)
+{
+    hook::Thunk<0x45F240>::Call<void>(this, baseTokenizer, a2);
+}
+
+AGE_API void asBirthRule::Load(datBaseTokenizer* baseTokenizer)
+{
+    hook::Thunk<0x45F720>::Call<void>(this, baseTokenizer);
+}
+
 //overrides
 AGE_API char* asBirthRule::GetClassName() 
 {

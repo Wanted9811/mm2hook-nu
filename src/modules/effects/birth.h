@@ -82,6 +82,9 @@ namespace MM2
         AGE_API asBirthRule(void);
         AGE_API virtual ~asBirthRule(void);
 
+        AGE_API void Save(datBaseTokenizer* baseTokenizer, int a2);
+        AGE_API void Load(datBaseTokenizer* baseTokenizer);
+
         //overrides
         AGE_API char* GetClassName() override;
         AGE_API const char* GetDirName() override;
