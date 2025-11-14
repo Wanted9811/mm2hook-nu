@@ -198,7 +198,7 @@ void MM2::tglDrawCustomShadowedParticle(const Matrix34& matrix, const Vector3& p
     Matrix34 shadowMatrix = Matrix34();
     shadowMatrix.Set(matrix);
 
-    int index = glowData->Index;
+    int index = glowData->FlashPerIndex ? glowData->Index : 0;
     int invFlashTime = glowData->InvFlashTime;
 
     float heightDifference = (position.Y - shadowMatrix.m31);
