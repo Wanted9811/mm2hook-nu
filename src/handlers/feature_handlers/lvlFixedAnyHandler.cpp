@@ -40,7 +40,7 @@ void lvlFixedAnyHandler::DrawReflectedParts(int lod)
 
 void lvlFixedAnyHandler::Install()
 {
-    InstallVTableHook("lvlFixedAnyHandler::Draw",
+    InstallVTableHook("lvlFixedAny::Draw",
         &Draw, {
             0x5B1AB4,
             0x5B1B3C,
@@ -49,7 +49,7 @@ void lvlFixedAnyHandler::Install()
         }
     );
 
-    InstallVTableHook("lvlFixedAnyHandler::DrawReflectedParts",
+    InstallVTableHook("lvlFixedAny::DrawReflectedParts",
         &DrawReflectedParts, {
             0x5B1AC8,
             0x5B1B50,
