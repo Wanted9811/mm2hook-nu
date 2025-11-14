@@ -1083,15 +1083,15 @@ namespace MM2
             //suspension
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].getSuspensionMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
             }
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].getSuspensionMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
             }
             for (int i = 0; i < 2; i++)
             {
-                DrawPart(lod, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].getSuspensionMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
             }
 
             DrawPart(lod, AXLE0_GEOM_ID, this->carSim->AxleFront.GetAxleMatrix(), shaders, alphaDrawing);
@@ -1226,7 +1226,7 @@ namespace MM2
                     {
                         Matrix34 armShadowMatrix = Matrix34();
                         armShadowMatrix.Identity();
-                        armShadowMatrix.SetRow(3, this->carSim->ArmSuspensions[i].getSuspensionPivot().GetRow(3));
+                        armShadowMatrix.SetRow(3, this->carSim->ArmSuspensions[i].GetSuspensionPivot().GetRow(3));
                         armShadowMatrix.RotateY((i % 2 == 0) ? 1.570796f : -1.570796f); //rotate arm 90 degrees if id is even, if it's odd then rotate -90 degrees
                         armShadowMatrix.ScaleFull(1.0f - this->carSim->GetWheel(i)->GetBumpDisplacement(), 1.0f, 1.0f);
                         armShadowMatrix.Dot(shadowMatrix);
@@ -1633,15 +1633,15 @@ namespace MM2
         //suspension
         for (int i = 0; i < 4; i++)
         {
-            DrawPartReflected(3, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].getSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            DrawPartReflected(3, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].GetSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
         }
         for (int i = 0; i < 4; i++)
         {
-            DrawPartReflected(3, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].getSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            DrawPartReflected(3, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].GetSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
         }
         for (int i = 0; i < 2; i++)
         {
-            DrawPartReflected(3, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].getSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            DrawPartReflected(3, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].GetSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
         }
 
         DrawPartReflected(3, AXLE0_GEOM_ID, this->carSim->AxleFront.GetAxleMatrix(), shaders, intensity, vehCarModel::PartReflections);
@@ -1838,15 +1838,15 @@ namespace MM2
             //suspension
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].getSuspensionMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
             }
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].getSuspensionMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
             }
             for (int i = 0; i < 2; i++)
             {
-                DrawPart(lod, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].getSuspensionMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
             }
 
             DrawPart(lod, AXLE0_GEOM_ID, this->carSim->AxleFront.GetAxleMatrix(), shaders, alphaDrawing);
