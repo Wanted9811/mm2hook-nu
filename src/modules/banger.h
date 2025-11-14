@@ -10,6 +10,7 @@
 #include "banger\data.h"
 #include "banger\banger.h"
 #include "banger\glass.h"
+#include "banger\glowdata.h"
 #include "banger\tree.h"
 
 namespace MM2
