@@ -64,6 +64,19 @@ namespace MM2
             hook::Thunk<0x4B14C0>::Call<void>(this, left, top, width, height, dvMinZ, dvMaxZ);
         }
 
+        AGE_API int IsSphereVisible(float positionX, float positionY, float positionZ, float radius, float* outDistance) const
+        {
+            return hook::Thunk<0x4B19D0>::Call<int>(this, positionX, positionY, positionZ, radius, outDistance);
+        }
+
+        int IsSphereVisible(const Vector4& vector, float* distance) const
+        {
+            float outDistance = 0.0f;
+            int sphereVisible = IsSphereVisible(vector.X, vector.Y, vector.Z, vector.W, &outDistance);
+            *distance = outDistance - vector.W;
+            return sphereVisible;
+        }
+
         D3DVIEWPORT7& GetD3DViewport()
         {
             return m_Viewport;
