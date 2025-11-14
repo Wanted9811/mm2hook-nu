@@ -17,6 +17,7 @@ namespace MM2
 
     // External declarations
     extern class lvlInstance;
+    extern class dgBangerData;
 
     // Class definitions
     
@@ -51,6 +52,8 @@ namespace MM2
 
         unsigned short GetBangerType() const;
 
+        void DrawGlowShadow();
+
         /*
             lvlInstance virtuals
         */
@@ -76,7 +79,6 @@ namespace MM2
         virtual AGE_API void Impact(lvlInstance* a1, Vector3* a2)  PURE;
         virtual AGE_API void ImpactCB(dgHitBangerInstance * a1)    PURE;
 
-                                                     
         static void BindLua(LuaState L);
     };
 

@@ -42,6 +42,19 @@ void MM2::vglUnbindTexture()
     vglBindTexture(nullptr);
 }
 
+void MM2::vglCreateVertex(float curS, float curT, const Vector3 &vertexPosition)
+{
+    vglCurrentS = curS;
+    vglCurrentT = curT;
+    vglVCT1->position = vertexPosition;
+    vglVCT1->reserved = 0;
+    vglVCT1->color = vglCurrentColor;
+    vglVCT1->specular = 0;
+    vglVCT1->texCoords = Vector2(vglCurrentS, vglCurrentT);
+    ++vglCount;
+    ++vglVCT1;
+}
+
 /* psdl.obj */
 
 void    MM2::vglTexCoord2f          (Vector2 uv)                                                { vglTexCoord2f(uv.X, uv.Y); }
@@ -163,16 +176,172 @@ void    MM2::tglDrawParticle        (const Vector3& position, float size, const 
 void    MM2::tglDrawRotatedParticle (const Vector3 &p1, float p2, float p3, const Vector4 &p4)  { return _StaticThunk<0x4A6550>::Call<void>(&p1, p2, p3, &p4); }
 uint    MM2::mkfrgba                (float r, float g, float b, float a)                        { return _StaticThunk<0x4A7880>::Call<uint>(r, g, b, a); }
 
-void MM2::tglDrawParticleClipAdjusted(const Vector3& position, float size, const Vector4& color)
+void MM2::tglParticleClipAdjust(const Vector3& position, Vector3& outAdjustedPos)
 {
     // move towards camera by anticlip
     Vector3 camPosAAA = static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3));
-    Vector3 particlePosAAA = position;
+    outAdjustedPos = position;
     Vector3 positionDifference = (position - camPosAAA);
     positionDifference.Scale(positionDifference.InvMag());
-    particlePosAAA.Subtract(positionDifference);
+    outAdjustedPos.Subtract(positionDifference);
+}
+
+void MM2::tglDrawParticleClipAdjusted(const Vector3& position, float size, const Vector4& color)
+{
+    Vector3 particlePosAAA;
+    tglParticleClipAdjust(position, particlePosAAA);
     tglDrawParticle(particlePosAAA, size, color);
-    return;
+}
+
+void MM2::tglDrawCustomShadowedParticle(const Matrix34& matrix, const Vector3& position, dgBangerGlowData* glowData, lvlInstance* instance)
+{
+    Matrix34 shadowMatrix = Matrix34();
+    shadowMatrix.Set(matrix);
+
+    int index = glowData->Index;
+    int invFlashTime = glowData->InvFlashTime;
+
+    float heightDifference = (position.Y - shadowMatrix.m31);
+    float size = heightDifference * glowData->Size;
+    float intensity = fminf(fmaxf(heightDifference * 0.08f, 0.0f), 0.8f);
+    Vector4 color = glowData->Color * glowData->Color.W * (1.0f - intensity);
+
+    shadowMatrix.SetRow(3, Vector3(position.X, shadowMatrix.m31, position.Z));
+
+    if (glowData->FlatMode)
+    {
+        Vector3 angle = Vector3(glowData->FlatRotation * 0.017453f); // Degrees to Radians
+        Vector3 rotationSpeed = Vector3(glowData->RotationSpeed * datTimeManager::ElapsedTime);
+        shadowMatrix.Rotate(shadowMatrix.GetRow(1), angle.Y + rotationSpeed.Y);
+        shadowMatrix.SetRow(3, shadowMatrix.GetRow(3) + (shadowMatrix.GetRow(2) * size));
+    }
+
+    Vector2 flashFreq1 = glowData->FlashFreq;
+    bool flashingTime1 = !flashFreq1.X || (fmodf(datTimeManager::ElapsedTime + (float)(index + instance->GetRandId()), flashFreq1.X) > flashFreq1.Y);
+    if ((flashingTime1 && !invFlashTime) || (!flashingTime1 && invFlashTime))
+    {
+        Vector2 flashFreq2 = glowData->FlashFreq2;
+        bool flashingTime2 = !flashFreq2.X || (fmodf(datTimeManager::ElapsedTime + (float)(index + instance->GetRandId()), flashFreq2.X) > flashFreq2.Y);
+        if (flashingTime2)
+            tglDrawShadowedParticle(shadowMatrix, size, color);
+    }
+}
+
+void MM2::tglDrawShadowedParticle(const Matrix34& shadowMatrix, float size, const Vector4& color)
+{
+    //get world matrix
+    Matrix34 worldMatrix = Matrix34();
+    gfxRenderState::GetWorldMatrix().ToMatrix34(worldMatrix);
+    worldMatrix.RotateTo(shadowMatrix.GetRow(1), worldMatrix.GetRow(2));
+
+    //get sizes
+    float negativeSize = -size;
+    float doubleSize = size + size;
+
+    //prepare vertex positions
+    Vector3 position = static_cast<Vector3>(worldMatrix.GetColumn(0)) * negativeSize + shadowMatrix.GetRow(3);
+    Vector3 vertice1 = static_cast<Vector3>(worldMatrix.GetColumn(1)) * negativeSize + position;
+    Vector3 vertice2 = static_cast<Vector3>(worldMatrix.GetColumn(0)) * doubleSize + vertice1;
+    Vector3 vertice3 = static_cast<Vector3>(worldMatrix.GetColumn(1)) * doubleSize + vertice2;
+    Vector3 vertice4 = static_cast<Vector3>(worldMatrix.GetColumn(1)) * doubleSize + vertice1;
+
+    //setup draw mode, set color and draw particle
+    vglBegin(gfxDrawMode::DRAWMODE_TRIANGLEFAN, 4);
+    vglCurrentColor = color.PackColorBGRA();
+    vglCreateVertex(0.0f, 0.0f, vertice1);
+    vglCreateVertex(1.0f, 0.0f, vertice2);
+    vglCreateVertex(1.0f, 1.0f, vertice3);
+    vglCreateVertex(0.0f, 1.0f, vertice4);
+    vglEnd();
+}
+
+void MM2::tglDrawCustomParticle(const Matrix34& matrix, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture, lvlInstance* instance)
+{
+    int index = glowData->FlashPerIndex ? glowData->Index : 0;
+    int flatMode = glowData->FlatMode;
+    int fadeStyle = glowData->FadeStyle;
+    int enableFade = glowData->EnableFade;
+    int invFlashTime = glowData->InvFlashTime;
+    int fadeDirection = glowData->FadeDirection;
+    int invFadeDirection = glowData->InvFadeDirection;
+
+    Matrix34 modelMatrix = Matrix34();
+    modelMatrix.Set(matrix);
+
+    Vector3 drawPosition = modelMatrix.Transform(glowData->Offset);
+    Vector3 cameraPosition = static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3));
+    Vector3 positionDifference = cameraPosition - drawPosition;
+
+    if (flatMode)
+    {
+        Vector3 angle = Vector3(glowData->FlatRotation * 0.017453f); // Degrees to Radians
+        Vector3 rotationSpeed = Vector3(glowData->RotationSpeed * datTimeManager::ElapsedTime);
+        modelMatrix.Rotate(modelMatrix.GetRow(0), angle.X + rotationSpeed.X);
+        modelMatrix.Rotate(modelMatrix.GetRow(1), angle.Y + rotationSpeed.Y);
+        modelMatrix.Rotate(modelMatrix.GetRow(2), angle.Z + rotationSpeed.Z);
+    }
+
+    float direction = (enableFade || flatMode) ? positionDifference.InvMag() * positionDifference.Dot(modelMatrix.GetRow(fadeDirection) * (invFadeDirection ? 1.0f : -1.0f)) : 1.0f;
+    float size = fadeStyle ? fmaxf(glowData->Size, 0.0f) : fminf(fmaxf(direction, 0.0f), 1.0f) * fmaxf(glowData->Size, 0.0f);
+    float intensity = (fadeStyle || flatMode) ? fminf(fmaxf(direction, 0.0f), 1.0f) : 1.0f;
+    Vector4 color = glowData->Color * glowData->Color.W * intensity;
+
+    gfxTexture* glowTexture = gfxGetTexture(glowData->Name, true);
+    glowTexture != nullptr ? vglBindTexture(glowTexture) : vglBindTexture(defaultGlowTexture);
+
+    Vector2 flashFreq = glowData->FlashFreq;
+    bool flashTime = !flashFreq.X || (fmodf(datTimeManager::ElapsedTime + (float)(index + instance->GetRandId()), flashFreq.X) > flashFreq.Y);
+    if ((flashTime && !invFlashTime) || (!flashTime && invFlashTime))
+    {
+        Vector2 flashFreq2 = glowData->FlashFreq2;
+        bool flashTime2 = !flashFreq2.X || (fmodf(datTimeManager::ElapsedTime + (float)(index + instance->GetRandId()), flashFreq2.X) > flashFreq2.Y);
+        if (flashTime2)
+        {
+            if (flatMode)
+                tglDrawFlatParticle(modelMatrix, drawPosition, color, glowData, defaultGlowTexture);
+            else
+                tglDrawParticleClipAdjusted(drawPosition, size, color);
+        }
+    }
+}
+
+void MM2::tglDrawFlatParticle(const Matrix34& matrix, const Vector3& particlePosition, const Vector4& color, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture)
+{
+    //make flat particle double sided
+    auto previousCullMode = gfxRenderState::GetCullMode();
+    gfxRenderState::SetCullMode(D3DCULL_NONE);
+    rglWorldIdentity();
+    vglBeginBatch();
+
+    //swap texture if it exists otherwise use the default one
+    gfxTexture* glowTexture = gfxGetTexture(glowData->Name, true);
+    glowTexture != nullptr ? vglBindTexture(glowTexture) : vglBindTexture(defaultGlowTexture);
+
+    //fix particle clipping
+    Vector3 particlePosAAA;
+    tglParticleClipAdjust(particlePosition, particlePosAAA);
+
+    //get size
+    Vector2 size = glowData->FlatSize;
+
+    //prepare vertex positions
+    Vector3 position = (matrix.GetRow(0) * size.X * -1.0f) + particlePosAAA;
+    Vector3 vertice1 = (matrix.GetRow(1) * size.Y * -1.0f) + position;
+    Vector3 vertice2 = (matrix.GetRow(0) * size.X * 2.0f) + vertice1;
+    Vector3 vertice3 = (matrix.GetRow(1) * size.Y * 2.0f) + vertice2;
+    Vector3 vertice4 = (matrix.GetRow(1) * size.Y * 2.0f) + vertice1;
+
+    //setup draw mode, set color and draw particle
+    vglBegin(gfxDrawMode::DRAWMODE_TRIANGLEFAN, 4);
+    vglCurrentColor = color.PackColorBGRA();
+    vglCreateVertex(0.0f, 0.0f, vertice1);
+    vglCreateVertex(1.0f, 0.0f, vertice2);
+    vglCreateVertex(1.0f, 1.0f, vertice3);
+    vglCreateVertex(0.0f, 1.0f, vertice4);
+    vglEnd();
+
+    vglEndBatch();
+    gfxRenderState::SetCullMode(previousCullMode);
 }
 
 /* rglext.obj */

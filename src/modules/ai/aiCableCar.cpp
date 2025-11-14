@@ -175,13 +175,7 @@ AGE_API void aiCableCarInstance::DrawGlow()
     ltLight::DrawGlowBegin();
     for (int i = 0; i < data->NumGlows; i++)
     {
-        Vector3 glowOffset = data->GlowOffsets[i];
-        Vector3 drawPosition = cableCarMatrix.Transform(glowOffset);
-        Vector3 cameraPosition = static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3));
-        Vector3 positionDifference = cameraPosition - drawPosition;
-        Vector4 glowColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        float glowSize = positionDifference.InvMag() * positionDifference.Dot(cableCarMatrix.GetRow(2) * -1.0f);
-        tglDrawParticleClipAdjusted(drawPosition, fminf(fmaxf(glowSize, 0.0f), 1.0f), glowColor * ltLight::GlowIntensity.get());
+        tglDrawCustomParticle(cableCarMatrix, &data->GlowDatas[i], ltLight::GlowTexture.get(), this);
     }
     ltLight::DrawGlowEnd();
 }

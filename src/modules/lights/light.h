@@ -17,6 +17,7 @@ namespace MM2
         static bool PreventGeometryClipping;
         static hook::Type<float> GlowIntensity;
         static hook::Type<float> GlowScale;
+        static hook::Type<gfxTexture*> GlowTexture;
     public:
         int Type;
         Vector3 Position;

@@ -188,6 +188,7 @@
     <ClInclude Include="src\handlers\bugfix_handlers\vehTrailerHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aiTrafficLightInstanceHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\asCullManagerHandler.h" />
@@ -330,6 +331,7 @@
     <ClInclude Include="src\modules\banger\banger.h" />
     <ClInclude Include="src\modules\banger\data.h" />
     <ClInclude Include="src\modules\banger\glass.h" />
+    <ClInclude Include="src\modules\banger\glowdata.h" />
     <ClInclude Include="src\modules\banger\tree.h" />
     <ClInclude Include="src\modules\banger\__template__.h" />
     <ClInclude Include="src\modules\city.h" />
@@ -709,6 +711,7 @@
     <ClCompile Include="src\handlers\bugfix_handlers\vehTrailerHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aiTrafficLightInstanceHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiVehicleInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiVehiclePhysicsFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\asCullManagerHandler.cpp" />
@@ -808,6 +811,7 @@
     <ClCompile Include="src\modules\ai\aiPedestrian.cpp" />
     <ClCompile Include="src\modules\ai\aiPoliceForce.cpp" />
     <ClCompile Include="src\modules\ai\aiPoliceOfficer.cpp" />
+    <ClCompile Include="src\modules\ai\aiTrafficLight.cpp" />
     <ClCompile Include="src\modules\ai\aiVehicle.cpp" />
     <ClCompile Include="src\modules\ai\aiVehicleAmbient.cpp" />
     <ClCompile Include="src\modules\ai\aiVehiclePhysics.cpp" />
@@ -818,6 +822,8 @@
     <ClCompile Include="src\modules\audio\streamingmusic.cpp" />
     <ClCompile Include="src\modules\banger.cpp" />
     <ClCompile Include="src\modules\banger\banger.cpp" />
+    <ClCompile Include="src\modules\banger\data.cpp" />
+    <ClCompile Include="src\modules\banger\glowdata.cpp" />
     <ClCompile Include="src\modules\banger\tree.cpp" />
     <ClCompile Include="src\modules\city.cpp" />
     <ClCompile Include="src\modules\city\citylevel.cpp" />

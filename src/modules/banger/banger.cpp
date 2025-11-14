@@ -27,6 +27,50 @@ unsigned short dgBangerInstance::GetBangerType() const
     return this->DataPack & 0xFFF;
 }
 
+void dgBangerInstance::DrawGlowShadow()
+{
+    //get glow shadow textures
+    gfxTexture* ltGlowShadow = gfxGetTexture("lt_glow_shadow", true);
+    gfxTexture* yelGlowShadow = gfxGetTexture("lt_yel_glow_shadow", true);
+
+    //no need to draw glow shadows if they don't exist
+    if (ltGlowShadow == NULL && yelGlowShadow == NULL)
+        return;
+    if (DefaultGlowTexture.get() == NULL)
+        return;
+
+    //get matrix
+    Matrix34 dummyMatrix, shadowMatrix = Matrix34();
+    Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
+
+    //get data
+    auto data = this->GetData();
+
+    //draw light shadows
+    gfxRenderState::SetFogEnabled(false);
+    gfxRenderState::SetBlendSet(7);
+    rglWorldIdentity();
+    vglBeginBatch();
+    for (int i = 0; i < data->NumGlows; i++)
+    {
+        auto glowData = &data->GlowDatas[i];
+        if (!glowData->EnableShadow)
+            continue;
+
+        glowData->CustomShadow ? vglBindTexture(ltGlowShadow) : vglBindTexture(yelGlowShadow);
+
+        Vector3 position = bangerMatrix.Transform(glowData->Offset);
+
+        if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), bangerMatrix))
+        {
+            tglDrawCustomShadowedParticle(shadowMatrix, position, glowData, this);
+        }
+    }
+    vglEndBatch();
+    gfxRenderState::SetBlendSet(0);
+    gfxRenderState::SetFogEnabled(!useSoftware);
+}
+
 /*
     lvlInstance virtuals
 */
@@ -79,6 +123,8 @@ AGE_API void dgBangerInstance::Draw(int lod)
 
 AGE_API void dgBangerInstance::DrawShadow()
 {
+    DrawGlowShadow();
+
     if (MMSTATE->TimeOfDay == 3 || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
         return;
 
@@ -143,13 +189,7 @@ AGE_API void dgBangerInstance::DrawGlow()
     ltLight::DrawGlowBegin();
     for (int i = 0; i < data->NumGlows; i++)
     {
-        Vector3 glowOffset = data->GlowOffsets[i];
-        Vector3 drawPosition = bangerMatrix.Transform(glowOffset);
-        vglBeginBatch();
-        rglWorldIdentity();
-        vglBindTexture(DefaultGlowTexture.get());
-        tglDrawParticleClipAdjusted(drawPosition, 1.5f, Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-        vglEndBatch();
+        tglDrawCustomParticle(bangerMatrix, &data->GlowDatas[i], DefaultGlowTexture.get(), this);
     }
     ltLight::DrawGlowEnd();
 

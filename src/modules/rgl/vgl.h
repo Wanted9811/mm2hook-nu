@@ -1,5 +1,7 @@
 #pragma once
 #include <modules\gfx.h>
+#include <modules\banger\glowdata.h>
+#include <modules\level\inst.h>
 
 namespace MM2
 {
@@ -15,6 +17,7 @@ namespace MM2
     extern void vglVertex3f(const Vector3 position);
     extern void vgl_VERTEX_VCT1(float x, float y, float z);
     extern void vgl_VERTEX_VNT1(float x, float y, float z);
+    extern void vglCreateVertex(float curS, float curT, const Vector3 &vertexPosition);
     extern void vglSetFormat(uint p1, uint p2, uint p3, uint p4);
     extern void vglBegin(gfxDrawMode drawMode, int p2);
     extern void vglEnd(void);
@@ -39,6 +42,11 @@ namespace MM2
     extern void tglDrawParticle(const Vector3 &position, float size, const Vector4& color);
     extern void tglDrawParticleClipAdjusted(const Vector3& position, float size, const Vector4& color);
     extern void tglDrawRotatedParticle(const Vector3 &p1, float p2, float p3, const Vector4 &p4);
+    extern void tglDrawShadowedParticle(const Matrix34& matrix, float size, const Vector4 &color);
+    extern void tglDrawFlatParticle(const Matrix34& matrix, const Vector3& position, const Vector4 &color, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture);
+    extern void tglDrawCustomParticle(const Matrix34& matrix, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture, lvlInstance* instance);
+    extern void tglDrawCustomShadowedParticle(const Matrix34& matrix, const Vector3& position, dgBangerGlowData* glowData, lvlInstance* instance);
+    extern void tglParticleClipAdjust(const Vector3 &position, Vector3& outAdjustedPos);
 
     extern uint mkfrgba(float r, float g, float b, float a);
 

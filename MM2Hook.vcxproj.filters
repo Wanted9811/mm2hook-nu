@@ -1874,6 +1874,12 @@
     <ClInclude Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.h">
       <Filter>Source Files\handlers\feature_handlers</Filter>
     </ClInclude>
+    <ClInclude Include="src\handlers\feature_handlers\aiTrafficLightInstanceHandler.h">
+      <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\banger\glowdata.h">
+      <Filter>Source Files\modules\banger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lua\lapi.c">
@@ -2831,6 +2837,18 @@
       <Filter>Source Files\handlers\feature_handlers</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\banger\banger.cpp">
+      <Filter>Source Files\modules\banger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\feature_handlers\aiTrafficLightInstanceHandler.cpp">
+      <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\ai\aiTrafficLight.cpp">
+      <Filter>Source Files\modules\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\banger\data.cpp">
+      <Filter>Source Files\modules\banger</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\banger\glowdata.cpp">
       <Filter>Source Files\modules\banger</Filter>
     </ClCompile>
   </ItemGroup>
