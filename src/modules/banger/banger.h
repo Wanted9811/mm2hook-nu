@@ -31,6 +31,7 @@ namespace MM2
 
     class dgBangerInstance : public lvlInstance {
     public:
+        static bool LightShadows;
         static bool GlowLoaded;
         static gfxTexture* RedGlowTexture;
     private:

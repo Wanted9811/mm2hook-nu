@@ -159,7 +159,8 @@ AGE_API void aiTrafficLightInstance::Draw(int lod)                         { hoo
 
 AGE_API void aiTrafficLightInstance::DrawShadow()
 {
-	DrawGlowShadow();
+	if (dgBangerInstance::LightShadows)
+		DrawGlowShadow();
 
 	if (MMSTATE->TimeOfDay == 3 ||
 		MMSTATE->WeatherType != 0 ||

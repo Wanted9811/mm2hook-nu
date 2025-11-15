@@ -123,7 +123,8 @@ AGE_API void dgBangerInstance::Draw(int lod)
 
 AGE_API void dgBangerInstance::DrawShadow()
 {
-    DrawGlowShadow();
+    if (dgBangerInstance::LightShadows)
+        DrawGlowShadow();
 
     if (MMSTATE->TimeOfDay == 3 ||
         MMSTATE->WeatherType != 0 ||

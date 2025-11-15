@@ -22,5 +22,6 @@ declfield(dgBangerActiveManager::Instance)(0x627630);
 declfield(dgBangerInstance::sm_RefAlpha)(0x5C55F4);
 declfield(dgBangerInstance::DefaultGlowTexture)(0x62767C);
 
+bool dgBangerInstance::LightShadows = true;
 bool dgBangerInstance::GlowLoaded = false;
 gfxTexture* dgBangerInstance::RedGlowTexture = NULL;

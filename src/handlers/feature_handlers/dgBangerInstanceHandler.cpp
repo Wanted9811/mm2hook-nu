@@ -4,6 +4,7 @@
 using namespace MM2;
 
 static ConfigValue<int> cfgPropShadows("3DShadows", 0);
+static ConfigValue<bool> cfgLightShadows("LightShadows", true);
 
 /*
     dgBangerInstanceHandler
@@ -63,6 +64,7 @@ bool dgBangerInstanceHandler::dgBangerInstance_BeginGeom(const char* a1, const c
 
 void dgBangerInstanceHandler::Install()
 {
+    dgBangerInstance::LightShadows = cfgLightShadows.Get();
     InstallCallback("aiTrafficLightInstance::DrawGlow", "Make traffic light banger lights double sided.",
         &DrawGlow, {
             cb::call(0x53CCFD),
