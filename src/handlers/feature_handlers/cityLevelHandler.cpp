@@ -269,11 +269,7 @@ void cityLevelHandler::DrawRoadDecals(const gfxViewport& viewport, const cityRoo
                             {
                                 if ((j->GetFlags() & lvlInstance::INST_SHADOW_RGL) != 0)
                                 {
-                                    int lod = j->IsVisible(viewport);
-                                    if (lod)
-                                    {
-                                        j->DrawShadow();
-                                    }
+                                    j->DrawShadow();
                                 }
                             }
                         }
@@ -351,11 +347,7 @@ void cityLevelHandler::DrawStaticShadows(const gfxViewport& viewport, const city
                             {
                                 if ((j->GetFlags() & lvlInstance::INST_SHADOW) != 0)
                                 {
-                                    int lod = j->IsVisible(viewport);
-                                    if (lod)
-                                    {
-                                        j->DrawShadow();
-                                    }
+                                    j->DrawShadow();
                                 }
                             }
                         }
@@ -434,11 +426,7 @@ void cityLevelHandler::DrawPropShadows(const gfxViewport& viewport, const cityRo
                                 if ((j->GetFlags() & lvlInstance::INST_SHADOW) != 0 &&
                                     (j->GetFlags() & lvlInstance::INST_BANGER) != 0)
                                 {
-                                    int lod = j->IsVisible(viewport);
-                                    if (lod)
-                                    {
-                                        j->DrawShadow();
-                                    }
+                                    j->DrawShadow();
                                 }
                             }
                         }
@@ -575,11 +563,7 @@ void cityLevelHandler::DrawMoverShadows(const gfxViewport& viewport, const cityR
                         {
                             if ((j->GetFlags() & lvlInstance::INST_VISIBLE) != 0 && (j->GetFlags() & lvlInstance::INST_BANGER) == 0)
                             {
-                                int lod = j->IsVisible(viewport);
-                                if (lod)
-                                {
-                                    j->DrawShadow();
-                                }
+                                j->DrawShadow();
                             }
                         }
                     }
@@ -725,11 +709,7 @@ void cityLevelHandler::DrawLights(const gfxViewport& viewport, const cityRoomRec
                 {
                     if ((j->GetFlags() & lvlInstance::INST_GLOW) != 0 || (j->GetFlags() & lvlInstance::INST_SHADOW) != 0)
                     {
-                        int lod = j->IsVisible(viewport);
-                        if (lod)
-                        {
-                            j->DrawGlow();
-                        }
+                        j->DrawGlow();
                     }
                 }
             }
