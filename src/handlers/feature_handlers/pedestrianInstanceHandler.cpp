@@ -80,7 +80,9 @@ void pedestrianInstanceHandler::DrawShadow()
     auto pedanim = animationInstance->GetAnimation();
     auto timeWeather = cityLevel::GetCurrentLighting();
 
-    if (MMSTATE->TimeOfDay == 3 || lvlLevel::GetSingleton()->GetRoomInfo(inst->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
+    if (MMSTATE->TimeOfDay == 3 ||
+        MMSTATE->WeatherType != 0 ||
+        lvlLevel::GetSingleton()->GetRoomInfo(inst->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
         return;
 
     Vector3 lightDirection;

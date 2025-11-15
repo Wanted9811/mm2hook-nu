@@ -161,7 +161,9 @@ AGE_API void aiTrafficLightInstance::DrawShadow()
 {
 	DrawGlowShadow();
 
-	if (MMSTATE->TimeOfDay == 3 || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
+	if (MMSTATE->TimeOfDay == 3 ||
+		MMSTATE->WeatherType != 0 ||
+		lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
 		return;
 
 	auto timeWeather = cityLevel::GetCurrentLighting();

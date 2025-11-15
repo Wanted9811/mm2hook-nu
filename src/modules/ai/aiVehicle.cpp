@@ -229,6 +229,7 @@ namespace MM2
     {
         if (vehCarModel::Enable3DShadows <= 2
             || MMSTATE->TimeOfDay == 3
+            || MMSTATE->WeatherType != 0
             || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
         {
             // draw drop shadow
