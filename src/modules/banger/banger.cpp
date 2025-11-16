@@ -40,7 +40,7 @@ void dgBangerInstance::DrawGlowShadow()
         return;
 
     //get matrix
-    Matrix34 dummyMatrix, shadowMatrix = Matrix34();
+    Matrix34 dummyMatrix, shadowMatrix, lightMatrix = Matrix34();
     Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
 
     //get data
@@ -60,9 +60,12 @@ void dgBangerInstance::DrawGlowShadow()
         glowData->CustomShadow ? vglBindTexture(ltGlowShadow) : vglBindTexture(yelGlowShadow);
 
         Vector3 position = bangerMatrix.Transform(glowData->Offset);
+        lightMatrix.Set(bangerMatrix);
+        lightMatrix.SetRow(3, position);
 
-        if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), bangerMatrix))
+        if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), lightMatrix))
         {
+            shadowMatrix.m31 += 0.15f; //sidewalk height
             tglDrawCustomShadowedParticle(shadowMatrix, position, glowData, this);
         }
     }

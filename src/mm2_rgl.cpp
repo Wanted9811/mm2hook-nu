@@ -206,8 +206,6 @@ void MM2::tglDrawCustomShadowedParticle(const Matrix34& matrix, const Vector3& p
     float intensity = fminf(fmaxf(heightDifference * 0.08f, 0.0f), 0.8f);
     Vector4 color = glowData->Color * glowData->Color.W * (1.0f - intensity);
 
-    shadowMatrix.SetRow(3, Vector3(position.X, shadowMatrix.m31, position.Z));
-
     if (glowData->FlatMode)
     {
         Vector3 angle = Vector3(glowData->FlatRotation * 0.017453f); // Degrees to Radians

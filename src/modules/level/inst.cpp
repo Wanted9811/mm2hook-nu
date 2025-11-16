@@ -358,7 +358,7 @@ AGE_API bool MM2::lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room
     {
         // Try colliding with a larger range
         startPos = inMatrix.GetRow(3) + (Vector3::YAXIS * 1.0f);
-        endPos = inMatrix.GetRow(3) - (Vector3::YAXIS * 10.0f); // Default is 5.0 but we need this to be larger for billboard shadowing purposes
+        endPos = inMatrix.GetRow(3) - (Vector3::YAXIS * 15.0f); // Default is 5.0 but we need this to be larger for billboard shadowing purposes
         segment.Set(startPos, endPos, 0xFFFFFFFF, nullptr);
 
         if (!physmgr->Collide(segment, &isect, room, ignoreInstance, lvlInstance::INST_WHEELCOLLISION))
