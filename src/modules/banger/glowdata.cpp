@@ -23,6 +23,6 @@ dgBangerGlowData::dgBangerGlowData()
 	this->FlashPerIndex = 0;
 	this->EnableShadow = 1;
 	this->CustomShadow = 0;
-	this->ShadowSize = 1.0f;
+	this->ShadowSize = 1.5f;
 	this->ShadowIntensity = 1.0f;
 }

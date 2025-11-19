@@ -202,7 +202,7 @@ void MM2::tglDrawCustomShadowedParticle(const Matrix34& matrix, const Vector3& p
     int invFlashTime = glowData->InvFlashTime;
 
     float heightDifference = (position.Y - shadowMatrix.m31);
-    float size = heightDifference * glowData->ShadowSize * 1.5f;
+    float size = heightDifference * glowData->ShadowSize;
     float intensity = fminf(fmaxf(heightDifference * 0.08f, 0.0f), 0.8f);
     Vector4 color = glowData->Color * glowData->Color.W * glowData->ShadowIntensity * (1.0f - intensity);
 
