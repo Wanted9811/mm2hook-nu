@@ -32,6 +32,8 @@ namespace MM2
         int FlashPerIndex;
         int EnableShadow;
         int CustomShadow;
+        float ShadowSize;
+        float ShadowIntensity;
     public:
         dgBangerGlowData();
     };

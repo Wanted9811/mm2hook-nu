@@ -116,6 +116,8 @@ AGE_API bool dgBangerData::Save()
             writeTokenizer->PutToken("FlashPerIndex ", glowData->FlashPerIndex);
             writeTokenizer->PutToken("EnableShadow ", glowData->EnableShadow);
             writeTokenizer->PutToken("CustomShadow ", glowData->CustomShadow);
+            writeTokenizer->PutToken("ShadowSize ", glowData->ShadowSize);
+            writeTokenizer->PutToken("ShadowIntensity ", glowData->ShadowIntensity);
 
             writeTokenizer->Put(" }\n", 0);
         }
@@ -250,6 +252,8 @@ AGE_API bool dgBangerData::Load()
                     readTokenizer->AddToken("FlashPerIndex", glowData->FlashPerIndex);
                     readTokenizer->AddToken("EnableShadow", glowData->EnableShadow);
                     readTokenizer->AddToken("CustomShadow", glowData->CustomShadow);
+                    readTokenizer->AddToken("ShadowSize", glowData->ShadowSize);
+                    readTokenizer->AddToken("ShadowIntensity", glowData->ShadowIntensity);
                     readTokenizer->IgnoreToken();
                 }
             }
