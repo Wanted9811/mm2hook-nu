@@ -1,12 +1,16 @@
 #include "glowdata.h"
+#include <modules\gfx\gettex.h>
 
 using namespace MM2;
 
 dgBangerGlowData::dgBangerGlowData()
 {
+	this->RedGlow = gfxGetTexture("s_red_glow", true);
+	this->GlowShadow = gfxGetTexture("lt_glow_shadow", true);
+	this->YelGlowShadow = gfxGetTexture("lt_yel_glow_shadow", true);
 	this->Offset = Vector3(0.0f, 0.0f, 0.0f);
 	this->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	this->Name[0] = NULL;
+	strcpy_s(this->Name, "s_yel_glow");
 	this->Size = 1.5f;
 	this->Index = 0;
 	this->FlatMode = 0;

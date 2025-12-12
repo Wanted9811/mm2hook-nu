@@ -1,5 +1,6 @@
 #pragma once
 #include "mm2_common.h"
+#include <modules\gfx\texture.h>
 
 namespace MM2
 {
@@ -13,6 +14,9 @@ namespace MM2
     class dgBangerGlowData
     {
     public:
+        gfxTexture* RedGlow;
+        gfxTexture* GlowShadow;
+        gfxTexture* YelGlowShadow;
         Vector3 Offset;
         Vector4 Color;
         char Name[64];

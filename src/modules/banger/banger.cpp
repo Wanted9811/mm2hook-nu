@@ -29,13 +29,6 @@ unsigned short dgBangerInstance::GetBangerType() const
 
 void dgBangerInstance::DrawGlowShadow()
 {
-    //get glow shadow textures
-    gfxTexture* ltGlowShadow = gfxGetTexture("lt_glow_shadow", true);
-    gfxTexture* yelGlowShadow = gfxGetTexture("lt_yel_glow_shadow", true);
-
-    //no need to draw glow shadows if they don't exist
-    if (ltGlowShadow == NULL && yelGlowShadow == NULL)
-        return;
     if (DefaultGlowTexture.get() == NULL)
         return;
 
@@ -57,7 +50,7 @@ void dgBangerInstance::DrawGlowShadow()
         if (!glowData->EnableShadow)
             continue;
 
-        glowData->CustomShadow ? vglBindTexture(ltGlowShadow) : vglBindTexture(yelGlowShadow);
+        strstr(glowData->Name, "yel") ? vglBindTexture(glowData->YelGlowShadow) : vglBindTexture(glowData->GlowShadow);
 
         Vector3 position = bangerMatrix.Transform(glowData->Offset);
         lightMatrix.Set(bangerMatrix);
@@ -174,23 +167,8 @@ AGE_API void dgBangerInstance::DrawGlow()
     Matrix34 dummyMatrix = Matrix34();
     Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
 
-    //first time texture load
-    if (!GlowLoaded)
-    {
-        RedGlowTexture = gfxGetTexture("s_red_glow", true);
-        GlowLoaded = true;
-    }
-
-    //prepare glow texture
+    //get data
     dgBangerData* data = this->GetData();
-    gfxTexture* lastTexture = DefaultGlowTexture.get();
-    bool swappedTexture = false;
-
-    if (!strcmp(data->GetName(), "sp_light_red_f") && lastTexture != NULL)
-    {
-        swappedTexture = true;
-        DefaultGlowTexture = RedGlowTexture;
-    }
 
     //draw glows
     ltLight::DrawGlowBegin();
@@ -199,12 +177,6 @@ AGE_API void dgBangerInstance::DrawGlow()
         tglDrawCustomParticle(bangerMatrix, &data->GlowDatas[i], DefaultGlowTexture.get(), this);
     }
     ltLight::DrawGlowEnd();
-
-    //reset glow texture
-    if (swappedTexture)
-    {
-        DefaultGlowTexture = lastTexture;
-    }
 }
 
 AGE_API void dgBangerInstance::DrawReflected(float intensity)                    { hook::Thunk<0x4417B0>::Call<void>(this, intensity); }

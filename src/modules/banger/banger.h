@@ -33,8 +33,6 @@ namespace MM2
     public:
         static int PropShadows;
         static bool LightShadows;
-        static bool GlowLoaded;
-        static gfxTexture* RedGlowTexture;
     private:
         static hook::Type<int> sm_RefAlpha;
     private:

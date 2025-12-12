@@ -12,8 +12,7 @@ static ConfigValue<bool> cfgLightShadows("LightShadows", true);
 
 void dgBangerInstanceHandler::Reset()
 {
-    dgBangerInstance::RedGlowTexture = NULL;
-    dgBangerInstance::GlowLoaded = false;
+
 }
 
 void dgBangerInstanceHandler::Draw(int lod)
