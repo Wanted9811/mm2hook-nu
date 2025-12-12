@@ -6,5 +6,6 @@
 class aiTrafficLightInstanceHandler {
 public:
 	void DrawShadow();
+	static void Reset();
 	static void Install();
 };

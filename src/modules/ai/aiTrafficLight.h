@@ -37,6 +37,11 @@ namespace MM2
     ASSERT_SIZEOF(aiTrafficLightSet, 0x34);
 
     class aiTrafficLightInstance : public dgUnhitYBangerInstance {
+    public:
+        static bool GlowsLoaded;
+        static gfxTexture* RedGlowShadow;
+        static gfxTexture* YelGlowShadow;
+        static gfxTexture* GrnGlowShadow;
     private:
         __int16 State;
     private:

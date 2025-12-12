@@ -67,16 +67,17 @@ void aiTrafficLightInstance::DrawGlowShadow()
 	if (!data->isActive())
 		return;
 
-	//get glow shadow textures
-	gfxTexture* redGlowShadow = gfxGetTexture("s_red_glow_shadow", true);
-	gfxTexture* yelGlowShadow = gfxGetTexture("s_yel_glow_shadow", true);
-	gfxTexture* grnGlowShadow = gfxGetTexture("s_grn_glow_shadow", true);
-
-	//no need to draw glow shadows if they don't exist
-	if (redGlowShadow == NULL && yelGlowShadow == NULL && grnGlowShadow == NULL)
-		return;
 	if (dgBangerInstance::DefaultGlowTexture.get() == NULL)
 		return;
+
+	//first time textures load
+	if (!GlowsLoaded)
+	{
+		RedGlowShadow = gfxGetTexture("s_red_glow_shadow", true);
+		YelGlowShadow = gfxGetTexture("s_yel_glow_shadow", true);
+		GrnGlowShadow = gfxGetTexture("s_grn_glow_shadow", true);
+		GlowsLoaded = true;
+	}
 
 	//get matrix
 	Matrix34 dummyMatrix, shadowMatrix = Matrix34();
@@ -98,17 +99,17 @@ void aiTrafficLightInstance::DrawGlowShadow()
 	if (state == 1 || state == 4 || state == 5) // REDLIGHT
 	{
 		heightDifference += 1.5f;
-		vglBindTexture(redGlowShadow);
+		vglBindTexture(RedGlowShadow);
 	}
 	if (state == 2) // YELLOWLIGHT
 	{
 		heightDifference += 1.0f;
-		vglBindTexture(yelGlowShadow);
+		vglBindTexture(YelGlowShadow);
 	}
 	if (state == 3) // GREENLIGHT
 	{
 		heightDifference += 0.5f;
-		vglBindTexture(grnGlowShadow);
+		vglBindTexture(GrnGlowShadow);
 	}
 
 	isCentered ? movementMultiplier = 0.0f : movementMultiplier = 0.5f;
