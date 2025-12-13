@@ -1,5 +1,7 @@
 #include "mm2_rgl.h"
 #include <modules\city\citylevel.h>
+#include <modules\mmcityinfo\state.h>
+
 using namespace MM2;
 
 declfield(MM2::vglIndices)          (0x5C9EBC);
@@ -251,6 +253,77 @@ void MM2::tglDrawShadowedParticle(const Matrix34& shadowMatrix, float size, cons
     vglCreateVertex(1.0f, 1.0f, vertice3);
     vglCreateVertex(0.0f, 1.0f, vertice4);
     vglEnd();
+}
+
+void MM2::tglDrawCustomProjection(const Matrix34& modelMatrix, dgBangerGlowData* glowData, lvlInstance* instance)
+{
+    strstr(glowData->Name, "yel") ? vglBindTexture(glowData->YelLightBeam) : vglBindTexture(glowData->LightBeam);
+
+    int index = glowData->FlashPerIndex ? glowData->Index : 0;
+    int flatMode = glowData->FlatMode;
+    int invFlashTime = glowData->InvFlashTime;
+
+    Vector2 flashFreq = glowData->FlashFreq;
+    bool flashTime = !flashFreq.X || (fmodf(datTimeManager::ElapsedTime + (float)(index + instance->GetRandId()), flashFreq.X) > flashFreq.Y);
+    if ((flashTime && !invFlashTime) || (!flashTime && invFlashTime))
+    {
+        Vector2 flashFreq2 = glowData->FlashFreq2;
+        bool flashTime2 = !flashFreq2.X || (fmodf(datTimeManager::ElapsedTime + (float)(index + instance->GetRandId()), flashFreq2.X) > flashFreq2.Y);
+        if (flashTime2)
+        {
+            tglDrawProjectionParticle(modelMatrix, glowData);
+        }
+    }
+}
+
+void MM2::tglDrawProjectionParticle(const Matrix34& modelMatrix, dgBangerGlowData* glowData)
+{
+    //make projection particle double sided
+    auto previousCullMode = gfxRenderState::GetCullMode();
+    gfxRenderState::SetCullMode(D3DCULL_NONE);
+    rglWorldIdentity();
+    vglBeginBatch();
+
+    strstr(glowData->Name, "yel") ? vglBindTexture(glowData->YelLightBeam) : vglBindTexture(glowData->LightBeam);
+
+    Vector3 lightPosition = modelMatrix.Transform(glowData->Offset);
+    Vector3 particlePosAAA;
+    tglParticleClipAdjust(lightPosition, particlePosAAA);
+
+    float sizeX = 6.0f;
+    float sizeY = 4.0f;
+
+    Vector3 drawPosition = Vector3(particlePosAAA.X, particlePosAAA.Y - (sizeY - 0.2f), particlePosAAA.Z);
+    float intensity = MMSTATE->WeatherType == 2 ? 0.5f : 0.25f;
+    Vector4 color = glowData->Color * glowData->Color.W * intensity;
+
+    //get model view matrix
+    Matrix34 modelViewMatrix = Matrix34();
+    gfxRenderState::GetModelViewMatrix().ToMatrix34(modelViewMatrix);
+
+    //face the camera vertically
+    modelViewMatrix.m01 = 0.0f;
+    modelViewMatrix.m11 = 1.0f;
+    modelViewMatrix.m21 = 0.0f;
+
+    //prepare vertex positions
+    Vector3 position = static_cast<Vector3>(modelViewMatrix.GetColumn(0)) * sizeX * -1.0f + drawPosition;
+    Vector3 vertice1 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * sizeY * -1.0f + position;
+    Vector3 vertice2 = static_cast<Vector3>(modelViewMatrix.GetColumn(0)) * sizeX * 2.0f + vertice1;
+    Vector3 vertice3 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * sizeY * 2.0f + vertice2;
+    Vector3 vertice4 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * sizeY * 2.0f + vertice1;
+
+    //setup draw mode, set color and draw particle
+    vglBegin(gfxDrawMode::DRAWMODE_TRIANGLEFAN, 4);
+    vglCurrentColor = color.PackColorBGRA();
+    vglCreateVertex(0.0f, 0.0f, vertice1);
+    vglCreateVertex(1.0f, 0.0f, vertice2);
+    vglCreateVertex(1.0f, 1.0f, vertice3);
+    vglCreateVertex(0.0f, 1.0f, vertice4);
+    vglEnd();
+
+    vglEndBatch();
+    gfxRenderState::SetCullMode(previousCullMode);
 }
 
 void MM2::tglDrawCustomParticle(const Matrix34& matrix, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture, lvlInstance* instance)

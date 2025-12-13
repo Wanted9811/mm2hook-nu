@@ -17,6 +17,8 @@ namespace MM2
         gfxTexture* RedGlow;
         gfxTexture* GlowShadow;
         gfxTexture* YelGlowShadow;
+        gfxTexture* LightBeam;
+        gfxTexture* YelLightBeam;
         Vector3 Offset;
         Vector4 Color;
         char Name[64];
@@ -35,9 +37,9 @@ namespace MM2
         int InvFlashTime;
         int FlashPerIndex;
         int EnableShadow;
-        int CustomShadow;
         float ShadowSize;
         float ShadowIntensity;
+        int EnableProjection;
     public:
         dgBangerGlowData();
     };

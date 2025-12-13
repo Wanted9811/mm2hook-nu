@@ -5,9 +5,11 @@ using namespace MM2;
 
 dgBangerGlowData::dgBangerGlowData()
 {
-	this->RedGlow = gfxGetTexture("s_red_glow", true);
-	this->GlowShadow = gfxGetTexture("lt_glow_shadow", true);
-	this->YelGlowShadow = gfxGetTexture("lt_yel_glow_shadow", true);
+	this->RedGlow = gfxGetTexture("s_red_glow");
+	this->GlowShadow = gfxGetTexture("lt_glow_shadow");
+	this->YelGlowShadow = gfxGetTexture("lt_yel_glow_shadow");
+	this->LightBeam = gfxGetTexture("lt_beam");
+	this->YelLightBeam = gfxGetTexture("lt_yel_beam");
 	this->Offset = Vector3(0.0f, 0.0f, 0.0f);
 	this->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	strcpy_s(this->Name, "s_yel_glow");
@@ -26,7 +28,7 @@ dgBangerGlowData::dgBangerGlowData()
 	this->InvFlashTime = 0;
 	this->FlashPerIndex = 0;
 	this->EnableShadow = 1;
-	this->CustomShadow = 0;
 	this->ShadowSize = 1.5f;
 	this->ShadowIntensity = 1.0f;
+	this->EnableProjection = 0;
 }

@@ -115,9 +115,9 @@ AGE_API bool dgBangerData::Save()
             writeTokenizer->PutToken("InvFlashTime ", glowData->InvFlashTime);
             writeTokenizer->PutToken("FlashPerIndex ", glowData->FlashPerIndex);
             writeTokenizer->PutToken("EnableShadow ", glowData->EnableShadow);
-            writeTokenizer->PutToken("CustomShadow ", glowData->CustomShadow);
             writeTokenizer->PutToken("ShadowSize ", glowData->ShadowSize);
             writeTokenizer->PutToken("ShadowIntensity ", glowData->ShadowIntensity);
+            writeTokenizer->PutToken("EnableProjection ", glowData->EnableProjection);
 
             writeTokenizer->Put(" }\n", 0);
         }
@@ -251,9 +251,9 @@ AGE_API bool dgBangerData::Load()
                     readTokenizer->AddToken("InvFlashTime", glowData->InvFlashTime);
                     readTokenizer->AddToken("FlashPerIndex", glowData->FlashPerIndex);
                     readTokenizer->AddToken("EnableShadow", glowData->EnableShadow);
-                    readTokenizer->AddToken("CustomShadow", glowData->CustomShadow);
                     readTokenizer->AddToken("ShadowSize", glowData->ShadowSize);
                     readTokenizer->AddToken("ShadowIntensity", glowData->ShadowIntensity);
+                    readTokenizer->AddToken("EnableProjection", glowData->EnableProjection);
                     readTokenizer->IgnoreToken();
                 }
             }
