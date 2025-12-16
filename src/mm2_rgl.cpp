@@ -290,10 +290,8 @@ void MM2::tglDrawProjectionParticle(const Matrix34& modelMatrix, dgBangerGlowDat
     Vector3 particlePosAAA;
     tglParticleClipAdjust(lightPosition, particlePosAAA);
 
-    float sizeX = 6.0f;
-    float sizeY = 4.0f;
-
-    Vector3 drawPosition = Vector3(particlePosAAA.X, particlePosAAA.Y - (sizeY - 0.2f), particlePosAAA.Z);
+    float size = fminf(fmaxf(glowData->Offset.Y + 0.4f, 0.0f), 4.0f);
+    Vector3 drawPosition = Vector3(particlePosAAA.X, particlePosAAA.Y - (size - 0.25f), particlePosAAA.Z);
     float intensity = MMSTATE->WeatherType == 2 ? 0.5f : 0.25f;
     Vector4 color = glowData->Color * glowData->Color.W * intensity;
 
@@ -307,11 +305,11 @@ void MM2::tglDrawProjectionParticle(const Matrix34& modelMatrix, dgBangerGlowDat
     modelViewMatrix.m21 = 0.0f;
 
     //prepare vertex positions
-    Vector3 position = static_cast<Vector3>(modelViewMatrix.GetColumn(0)) * sizeX * -1.0f + drawPosition;
-    Vector3 vertice1 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * sizeY * -1.0f + position;
-    Vector3 vertice2 = static_cast<Vector3>(modelViewMatrix.GetColumn(0)) * sizeX * 2.0f + vertice1;
-    Vector3 vertice3 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * sizeY * 2.0f + vertice2;
-    Vector3 vertice4 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * sizeY * 2.0f + vertice1;
+    Vector3 position = static_cast<Vector3>(modelViewMatrix.GetColumn(0)) * size * -1.0f + drawPosition;
+    Vector3 vertice1 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * size * -1.0f + position;
+    Vector3 vertice2 = static_cast<Vector3>(modelViewMatrix.GetColumn(0)) * size * 2.0f + vertice1;
+    Vector3 vertice3 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * size * 2.0f + vertice2;
+    Vector3 vertice4 = static_cast<Vector3>(modelViewMatrix.GetColumn(1)) * size * 2.0f + vertice1;
 
     //setup draw mode, set color and draw particle
     vglBegin(gfxDrawMode::DRAWMODE_TRIANGLEFAN, 4);
