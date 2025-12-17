@@ -208,6 +208,9 @@ AGE_API bool dgBangerData::Load()
     if (strstr(this->GetName(), "_tree"))
         this->BillFlags |= 0x200;
 
+    for (int i = 0; i < this->NumGlows; i++)
+        if (strstr(this->GetName(), "light")) this->GlowDatas[i].EnableProjection = 1;
+
     /*
         dgBangerGlowData
     */
