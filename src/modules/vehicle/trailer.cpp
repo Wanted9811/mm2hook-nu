@@ -167,7 +167,7 @@ namespace MM2
         else
         {
             auto wheel = this->Trailer->GetWheel(num - 2);
-            whlShadowMatrix.SetRow(3, extraWhlPosDiff[num - 4]);
+            whlShadowMatrix.SetRow(3, wheel->GetCenter() + extraWhlPosDiff[num - 4]);
             whlShadowMatrix.Rotate(whlShadowMatrix.GetRow(0), wheel->GetAccumulatedRotation());
             whlShadowMatrix.RotateY(wheel->GetSteerAmount());
             whlShadowMatrix.m31 += wheel->GetBumpDisplacement();
