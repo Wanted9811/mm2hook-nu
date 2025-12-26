@@ -56,7 +56,7 @@ void dgBangerInstance::DrawGlowShadow()
         lightMatrix.Set(bangerMatrix);
         lightMatrix.SetRow(3, position);
 
-        if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), lightMatrix))
+        if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), lightMatrix, this, 15.0f))
         {
             shadowMatrix.m31 += 0.15f; //sidewalk height
             tglDrawCustomShadowedParticle(shadowMatrix, position, glowData, this);

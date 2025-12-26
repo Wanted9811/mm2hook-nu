@@ -113,7 +113,7 @@ namespace MM2
         int GetRandId() const;
 
         static AGE_API bool ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix);
-        static AGE_API bool ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix, lvlInstance* ignoreInstance);
+        static AGE_API bool ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix, lvlInstance* ignoreInstance, float maxShadowHeight = 10.0f);
         static AGE_API bool ComputeShadowProjectionMatrix(Matrix34& outMatrix, int room, float lightPitch, float lightHeading, Matrix34 const& inMatrix);
         static AGE_API bool ComputeShadowProjectionMatrix(Matrix34& outMatrix, int room, float lightPitch, float lightHeading, Matrix34 const& inMatrix, lvlInstance* ignoreInstance);
         static AGE_API void ResetInstanceHeap();

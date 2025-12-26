@@ -343,7 +343,7 @@ AGE_API bool lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room, Mat
     return ComputeShadowMatrix(outMatrix, room, inMatrix, nullptr);
 }
 
-AGE_API bool MM2::lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix, lvlInstance* ignoreInstance)
+AGE_API bool MM2::lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix, lvlInstance* ignoreInstance, float maxShadowHeight)
 {
     auto physmgr = dgPhysManager::Instance.get();
     lvlIntersection isect = lvlIntersection();
@@ -358,7 +358,7 @@ AGE_API bool MM2::lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room
     {
         // Try colliding with a larger range
         startPos = inMatrix.GetRow(3) + (Vector3::YAXIS * 1.0f);
-        endPos = inMatrix.GetRow(3) - (Vector3::YAXIS * 15.0f); // Default is 5.0 but we need this to be larger for billboard shadowing purposes
+        endPos = inMatrix.GetRow(3) - (Vector3::YAXIS * maxShadowHeight); // Default is 5.0 but we need this to be larger for billboard shadowing purposes
         segment.Set(startPos, endPos, 0xFFFFFFFF, nullptr);
 
         if (!physmgr->Collide(segment, &isect, room, ignoreInstance, lvlInstance::INST_WHEELCOLLISION))
