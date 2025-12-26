@@ -131,11 +131,9 @@ namespace MM2
         }
         else
         {
-            Matrix34 extraWhlMatrix = Matrix34();
-            Vector3 extraWhlPosDiff[2] = { this->carSim->BackBackLeftWheelPosDiff, this->carSim->BackBackRightWheelPosDiff };
-            extraWhlMatrix.Set(this->carSim->GetWheel(num - 2)->GetMatrix());
-            extraWhlMatrix.SetRow(3, extraWhlMatrix.GetRow(3) + this->carSim->GetWorldMatrix()->Transform3x3(extraWhlPosDiff[num - 4]));
-            whlMatrix.Set(extraWhlMatrix);
+            Vector3 whlPosDiff[2] = { this->carSim->BackBackLeftWheelPosDiff, this->carSim->BackBackRightWheelPosDiff };
+            whlMatrix.Set(this->carSim->GetWheel(num - 2)->GetMatrix());
+            whlMatrix.SetRow(3, whlMatrix.GetRow(3) + this->carSim->GetWorldMatrix()->Transform3x3(whlPosDiff[num - 4]));
         }
 
         return whlMatrix;
