@@ -15,7 +15,7 @@ namespace MM2
     public:
         unsigned int Color;
         bool Enabled;
-        Matrix34* MatrixPtr;
+        Matrix34* Matrix;
         int IconIndex;
         char Text[16];
         gfxBitmap* Bitmap;

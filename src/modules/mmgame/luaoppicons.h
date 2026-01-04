@@ -27,7 +27,7 @@ namespace MM2
 
             for (int i = 0; i < numIcons; i++)
             {
-                icons[i].MatrixPtr = &matrices[i];
+                icons[i].Matrix = &matrices[i];
             }
         }
 

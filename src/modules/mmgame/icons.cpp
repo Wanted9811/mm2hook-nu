@@ -51,10 +51,10 @@ AGE_API void mmIcons::Cull()
     for (int i = 0; i < IconCount; i++)
     {
         auto icon = IconInfo[i];
-        if (icon.Enabled && icon.MatrixPtr != nullptr && icon.Scale > 0.0f)
+        if (icon.Enabled && icon.Matrix != nullptr && icon.Scale > 0.0f)
         {
             // setup render state
-            gfxRenderState::SetCard(icon.MatrixPtr->GetRow(3));
+            gfxRenderState::SetCard(icon.Matrix->GetRow(3));
             vglBindTexture(nullptr);
             vglCurrentColor = icon.Color;
 
@@ -112,22 +112,22 @@ AGE_API void mmIcons::Cull()
         gfxRenderState::Regenerate();
 
         // we use the render state camera matrix as the one given to mmIcons
-        // points to the camera the player was using wen they *initially loaded*
+        // points to the camera the player was using when they *initially loaded*
         auto cameraMatrix = gfxRenderState::GetCameraMatrix();
         Vector3 cameraPosition = static_cast<Vector3>(cameraMatrix.GetRow(3));
 
         for (int i = 0; i < IconCount; i++)
         {
             auto icon = IconInfo[i];
-            if (icon.Enabled && icon.MatrixPtr != nullptr)
+            if (icon.Enabled && icon.Matrix != nullptr)
             {
-                Vector3 camPosDiff = icon.MatrixPtr->GetRow(3) - cameraPosition;
+                Vector3 camPosDiff = icon.Matrix->GetRow(3) - cameraPosition;
                 float camDist2 = camPosDiff.Mag2();
                 
                 if (camDist2 < MaxDistance2)
                 {
                     Vector4 tmp;
-                    Vector4 textPosition = Vector4(icon.MatrixPtr->m30, icon.MatrixPtr->m31 + 2.0f, icon.MatrixPtr->m32, 1.0f);
+                    Vector4 textPosition = Vector4(icon.Matrix->m30, icon.Matrix->m31 + 2.0f, icon.Matrix->m32, 1.0f);
                     tmp.Dot(textPosition, gfxRenderState::GetFullComposite());
 
                     if (tmp.W > 0.0f)

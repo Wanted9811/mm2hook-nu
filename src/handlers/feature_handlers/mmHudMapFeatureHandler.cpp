@@ -22,12 +22,30 @@ static ConfigValue<int> cfgPoliceTriOutlineColor("PoliceTriOutlineColor", 0);
 static ConfigValue<int> cfgOpponentTriColor("OpponentTriColor", 7);
 static ConfigValue<int> cfgOpponentTriOutlineColor("OpponentTriOutlineColor", 0);
 
-hook::Type<unsigned int> HudmapIconColors(0x5C4740);
-Matrix34 mtx;
+unsigned int HudmapIconColors[14] = {
+    0xFF000000, // Black
+    0xFFFF0000, // Red
+    0xFF0000EF, // Blue
+    0xFF00EF00, // Green
+    0xFFEF0000, // Dark Red
+    0xFFFFFF00, // Yellow
+    0xFFFF5A00, // Orange
+    0xFFB400FF, // Purple
+    0xFF00FFFF, // Aqua
+    0xFFFF0390, // Pink
 
-void mmHudMapFeatureHandler::DrawColoredTri(unsigned int color, const Matrix34& a2) {
+    /* NEW ADDITIONAL COLORS */
+
+    0xFFFFFFFF, // White
+    0xFF3F3F3F, // Grey
+    0xFFFDBF72, // Light Orange
+    0xFFC0EC42, // Light Green
+};
+
+void mmHudMapFeatureHandler::DrawColoredTri(unsigned int color, const Matrix34& matrix)
+{
     rglEnableDisable(RGL_DEPTH_TEST, false);
-    gfxRenderState::SetWorldMatrix(a2);
+    gfxRenderState::SetWorldMatrix(matrix);
     vglBindTexture(0);
     vglBegin(DRAWMODE_TRIANGLELIST, 0);
     vglCurrentColor = color;
@@ -38,22 +56,11 @@ void mmHudMapFeatureHandler::DrawColoredTri(unsigned int color, const Matrix34& 
     rglEnableDisable(RGL_DEPTH_TEST, true);
 }
 
-void mmHudMapFeatureHandler::DrawWhiteTri(const Matrix34& a1) 
+void mmHudMapFeatureHandler::DrawIcon(int iconColor, const Matrix34& matrix)
 {
-    DrawColoredTri(0xFFFFFFFF, a1);
-}
-
-void mmHudMapFeatureHandler::DrawLightOrangeTri(const Matrix34& a1) 
-{
-    DrawColoredTri(0xFFFDBF72, a1);
-}
-
-void mmHudMapFeatureHandler::DrawLightGreenTri(const Matrix34& a1) {
-    DrawColoredTri(0xFFC0EC42, a1);
-}
-
-void mmHudMapFeatureHandler::DrawIcon(int iconType, const Matrix34& matrix) {
     auto map = reinterpret_cast<mmHudMap*>(this);
+
+    Matrix34 mtx = Matrix34();
     mtx.Set(matrix);
 
     mtx.SetRow(1, Vector3::YAXIS);
@@ -62,13 +69,10 @@ void mmHudMapFeatureHandler::DrawIcon(int iconType, const Matrix34& matrix) {
     mtx.m31 += 15.f;
     mtx.Scale(map->GetIconScale());
 
-    if (iconType >= 0)
-        DrawColoredTri(HudmapIconColors.ptr()[iconType], mtx);
-    if (iconType < 0)
-        DrawWhiteTri(mtx);
+    DrawColoredTri(HudmapIconColors[iconColor], mtx);
 }
 
-void mmHudMapFeatureHandler::DrawOutlinedIcon(int iconType, int iconOutlineType, const MM2::Matrix34& matrix)
+void mmHudMapFeatureHandler::DrawOutlinedIcon(int iconColor, int iconOutlineColor, const Matrix34& matrix)
 {
     Matrix34 tempMatrix;
     tempMatrix.Set(matrix);
@@ -77,68 +81,40 @@ void mmHudMapFeatureHandler::DrawOutlinedIcon(int iconType, int iconOutlineType,
     float iconScaleOld = map->GetIconScale();
     map->SetIconScale(iconScaleOld * 1.3f);
 
-    DrawIcon(iconOutlineType, tempMatrix);
+    DrawIcon(iconOutlineColor, tempMatrix);
 
     map->SetIconScale(iconScaleOld);
 
     tempMatrix.m31 += 1.1f;
-    DrawIcon(iconType, tempMatrix);
+    DrawIcon(iconColor, tempMatrix);
 }
 
-void mmHudMapFeatureHandler::DrawOutlinedIcon(int iconType, const MM2::Matrix34& matrix)
+void mmHudMapFeatureHandler::DrawOutlinedIcon(int iconColor, const Matrix34& matrix)
 {
-    DrawOutlinedIcon(iconType, 0, matrix);
+    DrawOutlinedIcon(iconColor, 0, matrix);
 }
 
-
-void mmHudMapFeatureHandler::DrawNfsMwPlayerIcon(const Matrix34 &matrix) {
+void mmHudMapFeatureHandler::DrawPlayer()
+{
     auto map = reinterpret_cast<mmHudMap*>(this);
-    mtx.Set(matrix);
-
-    mtx.SetRow(1, Vector3::YAXIS);
-    mtx.Normalize();
-
-    mtx.m31 += 15.f;
-    mtx.Scale(map->GetIconScale());
-
-    DrawLightOrangeTri(mtx);
-}
-
-void mmHudMapFeatureHandler::DrawNfsMwOpponentIcon(const Matrix34 &matrix) {
-    auto map = reinterpret_cast<mmHudMap*>(this);
-    mtx.Set(matrix);
-
-    mtx.SetRow(1, Vector3::YAXIS);
-    mtx.Normalize();
-
-    mtx.m31 += 15.f;
-    mtx.Scale(map->GetIconScale());
-
-    DrawLightGreenTri(mtx);
-}
-
-void mmHudMapFeatureHandler::DrawPlayer() {
-    auto map = reinterpret_cast<mmHudMap*>(this);
-    auto mgr = *mmGameManager::Instance;
-    auto game = mgr->getGame();
-    auto player = game->GetPlayer();
+    auto player = map->GetPlayer();
+    auto playerMtx = *map->GetPlayerMatrix();
     auto car = player->GetCar();
     auto audio = car->GetCarAudioContainerPtr();
     auto siren = car->GetSiren();
     char *vehName = car->GetCarDamage()->GetName();
-    bool elapsedTime1 = fmod(datTimeManager::ElapsedTime, 0.15f) > 0.1f;
-    bool elapsedTime2 = fmod(datTimeManager::ElapsedTime, 0.125f) > 0.1f;
+
+    float time = 0.115f;
+    bool elapsedTime1 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.25f;
+    bool elapsedTime2 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.5f;
     bool elapsedTime3 = fmod(datTimeManager::ElapsedTime, 0.5f) > 0.25f;
 
-    // draw triangle outline
-    auto playerMtx = player->GetCar()->GetICS()->GetMatrix();;
-    float outlineSize = map->GetIconScale() * 1.3f;
-    auto oldSize = map->GetIconScale();
-
-    if (hudMapColorStyle == 0) {
+    if (hudMapColorStyle == 0) // MM2
+    {
         DrawOutlinedIcon(5, playerMtx);
     }
-    if (hudMapColorStyle == 1) 
+
+    if (hudMapColorStyle == 1) // MM1
     {
         if (audio->IsPolice(vehName)) 
         {
@@ -146,67 +122,61 @@ void mmHudMapFeatureHandler::DrawPlayer() {
         }
         else 
         {
-            DrawOutlinedIcon(0, -1, playerMtx);
+            DrawOutlinedIcon(0, 10, playerMtx);
         }
     }
-    if (hudMapColorStyle == 2) 
+
+    if (hudMapColorStyle == 2) // NFSHP2
     {
         int iconColor = 5;
-        if (audio->IsPolice(vehName)) {
+        if (audio->IsPolice(vehName))
+        {
             iconColor = 2;
-            if (siren != nullptr && siren->IsActive()) {
+            if (siren != nullptr && siren->IsActive())
+            {
                 if (elapsedTime3)
                     iconColor = 1;
             }
         }
         DrawOutlinedIcon(iconColor, playerMtx);
     }
-    if (hudMapColorStyle == 3) 
-    {
-        map->SetIconScale(outlineSize);
-        DrawIcon(0, playerMtx);
-        map->SetIconScale(oldSize);
 
+    if (hudMapColorStyle == 3) // NFSMW
+    {
+        int iconColor = 12;
         if (audio->IsPolice(vehName)) 
         {
+            iconColor = 10;
             if (siren != nullptr && siren->IsActive()) 
             {
-                DrawIcon(2, playerMtx);
                 if (elapsedTime1)
-                    DrawIcon(1, playerMtx);
+                    iconColor = 1;
                 if (elapsedTime2)
-                    DrawIcon(-1, playerMtx);
-            }
-            if (siren != nullptr && !siren->IsActive())
-            {
-                DrawIcon(-1, playerMtx);
+                    iconColor = 2;
             }
         }
-        else 
-        {
-            DrawNfsMwPlayerIcon(playerMtx);
-        }
+        DrawOutlinedIcon(iconColor, playerMtx);
     }
-    if (hudMapColorStyle == 4) 
+
+    if (hudMapColorStyle == 4) // NFSC
     {
-        int iconIndex = 8;
-        if (audio->IsPolice(vehName)) {
+        int iconColor = 8;
+        if (audio->IsPolice(vehName))
+        {
+            iconColor = 4;
             if (siren != nullptr && siren->IsActive())
             {
-                iconIndex = 2;
+                iconColor = 10;
                 if (elapsedTime1)
-                    iconIndex = 1;
+                    iconColor = 1;
                 if (elapsedTime2)
-                    iconIndex = -1;
-            }
-            if (siren != nullptr && !siren->IsActive())
-            {
-                iconIndex = 4;
+                    iconColor = 2;
             }
         }
-        DrawOutlinedIcon(iconIndex, playerMtx);
+        DrawOutlinedIcon(iconColor, playerMtx);
     }
-    if (hudMapColorStyle >= 5) 
+
+    if (hudMapColorStyle >= 5) // CUSTOM
     {
         DrawOutlinedIcon(playerTriColor, playerTriOutlineColor, playerMtx);
     }
@@ -215,123 +185,132 @@ void mmHudMapFeatureHandler::DrawPlayer() {
     MM2Lua::OnRenderHudmap();
 }
 
-void mmHudMapFeatureHandler::DrawCops() {
+void mmHudMapFeatureHandler::DrawCops()
+{
     auto map = reinterpret_cast<mmHudMap*>(this);
     auto AIMAP = aiMap::GetInstance();
-    bool elapsedTime1 = fmod(datTimeManager::ElapsedTime, 0.15f) > 0.1f;
-    bool elapsedTime2 = fmod(datTimeManager::ElapsedTime, 0.125f) > 0.1f;
+
+    float time = 0.115f;
+    bool elapsedTime1 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.25f;
+    bool elapsedTime2 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.5f;
     bool elapsedTime3 = fmod(datTimeManager::ElapsedTime, 0.5f) > 0.25f;
     bool showAllCops = map->GetShowAllCops();
 
-    for (int i = 0; i < AIMAP->numCops; i++) {
+    for (int i = 0; i < AIMAP->numCops; i++)
+    {
         auto police = AIMAP->Police(i);
         auto policeMtx = police->GetCar()->GetICS()->GetMatrix();
         WORD policeState = police->GetPoliceState();
 
         // check if the cop in pursuit
-        if (policeState || showAllCops) {
-            if (hudMapColorStyle == 0) {
-
+        if (policeState || showAllCops)
+        {
+            if (hudMapColorStyle == 0) // MM2
+            {
                 DrawOutlinedIcon(1, policeMtx);
             }
-            if (hudMapColorStyle == 1) {
+
+            if (hudMapColorStyle == 1) // MM1
+            {
                 DrawOutlinedIcon(1, 2, policeMtx);
             }
-            if (hudMapColorStyle == 2) {
-                int iconIndex = 2;
+
+            if (hudMapColorStyle == 2) // NFSHP2
+            {
+                int iconColor = 2;
                 if (elapsedTime3)
-                    iconIndex = 1;
+                    iconColor = 1;
                 if (policeState == 12 || policeState == 0)
-                    iconIndex = 2;
-                DrawOutlinedIcon(iconIndex, policeMtx);
+                    iconColor = 2;
+                DrawOutlinedIcon(iconColor, policeMtx);
             }
-            if (hudMapColorStyle == 3) {
-                int iconIndex = 2;
+
+            if (hudMapColorStyle == 3) // NFSMW
+            {
+                int iconColor = 10;
                 if (elapsedTime1)
-                    iconIndex = 1;
+                    iconColor = 1;
                 if (elapsedTime2)
-                    iconIndex = -1;
+                    iconColor = 2;
                 if (policeState == 12 || policeState == 0)
-                    iconIndex = -1;
-                DrawOutlinedIcon(iconIndex, policeMtx);
+                    iconColor = 10;
+                DrawOutlinedIcon(iconColor, policeMtx);
             }
-            if (hudMapColorStyle == 4) {
-                int iconIndex = 2;
+
+            if (hudMapColorStyle == 4) // NFSC
+            {
+                int iconColor = 10;
                 if (elapsedTime1)
-                    iconIndex = 1;
+                    iconColor = 1;
                 if (elapsedTime2)
-                    iconIndex = -1;
+                    iconColor = 2;
                 if (policeState == 12 || policeState == 0)
-                    iconIndex = 4;
-                DrawOutlinedIcon(iconIndex, policeMtx);
+                    iconColor = 4;
+                DrawOutlinedIcon(iconColor, policeMtx);
             }
-            if (hudMapColorStyle >= 5) {
+
+            if (hudMapColorStyle >= 5) // CUSTOM
+            {
                 DrawOutlinedIcon(policeTriColor, policeTriOutlineColor, policeMtx);
             }
         }
     }
 }
 
-void mmHudMapFeatureHandler::DrawOpponents() 
+void mmHudMapFeatureHandler::DrawOpponents()
 {
     auto AIMAP = aiMap::GetInstance();
     auto map = reinterpret_cast<mmHudMap*>(this);
 
-    float outlineSize = map->GetIconScale() * 1.3f;
-    auto oldSize = map->GetIconScale();
-
-    for (int i = 0; i < map->GetOpponentCount(); i++) 
+    for (int i = 0; i < map->GetOpponentCount(); i++)
     {
         auto iconInfo = map->GetOpponentIcon(i);
-        if (iconInfo->Enabled && iconInfo->MatrixPtr != nullptr) 
+        if (iconInfo->Enabled && iconInfo->Matrix != nullptr)
         {
-            auto opponentMtx = *iconInfo->MatrixPtr;
+            auto opponentMtx = *iconInfo->Matrix;
 
             // check if we're in multiplayer
-            if (MMSTATE->unk_EC) 
+            if (MMSTATE->unk_EC)
             {
                 DrawOutlinedIcon(i + 2, opponentMtx);
             }
-            else  
+            else
             {
                 auto opponent = AIMAP->Opponent(i);
                 auto car = opponent->GetCar();
                 auto curDamage = car->GetCarDamage()->GetCurDamage();
                 auto maxDamage = car->GetCarDamage()->GetMaxDamage();
 
-                if (curDamage < maxDamage) 
+                if (curDamage < maxDamage)
                 {
                     switch (hudMapColorStyle)
                     {
-                        case 0: 
+                        case 0: // MM2
                         {
                             DrawOutlinedIcon(7, opponentMtx);
                             break;
                         }
-                        case 1:
+                        case 1: // MM1
                         {
                             DrawOutlinedIcon(i + 2, opponentMtx);
                             break;
                         }
-                        case 2:
+                        case 2: // NFSHP2
                         {
                             DrawOutlinedIcon(3, opponentMtx);
                             break;
                         }
-                        case 3:
+                        case 3: // NFSMW
                         {
-                            map->SetIconScale(outlineSize);
-                            DrawIcon(0, opponentMtx);
-                            map->SetIconScale(oldSize);
-                            DrawNfsMwOpponentIcon(opponentMtx);
+                            DrawOutlinedIcon(13, opponentMtx);
                             break;
                         }
-                        case 4:
+                        case 4: // NFSC
                         {
                             DrawOutlinedIcon(6, opponentMtx);
                             break; 
                         }
-                        case 5:
+                        case 5: // CUSTOM
                         {
                             DrawOutlinedIcon(opponentTriColor, opponentTriOutlineColor, opponentMtx);
                             break;
@@ -345,7 +324,7 @@ void mmHudMapFeatureHandler::DrawOpponents()
                 }
                 else 
                 {
-                    DrawOutlinedIcon(16, opponentMtx);
+                    DrawOutlinedIcon(11, opponentMtx);
                 }
             }
         }

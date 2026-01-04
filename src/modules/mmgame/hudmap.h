@@ -22,14 +22,14 @@ namespace MM2
         Vector3* BankLocation;
         Vector3* HideoutLocation;
         int dword_2c;
-        mmPlayer* PlayerPtr;
+        mmPlayer* Player;
         OppIconInfo* OpponentIcons;
         BOOL ShowAllCops;
         bool MapOnLeft;
         bool MapMissing;
         int LastNonFSMapMode;
         int MapMode;
-        Matrix34* PlayerMatrixPtr;
+        Matrix34* PlayerMatrix;
         float ApproachRate;
         float ZoomLevel;
         float ZoomInDist;
@@ -123,6 +123,16 @@ namespace MM2
                 return nullptr;
 
             return &OpponentIcons[index];
+        }
+
+        mmPlayer* GetPlayer()
+        {
+            return this->Player;
+        }
+
+        Matrix34* GetPlayerMatrix()
+        {
+            return this->PlayerMatrix;
         }
 
         static void BindLua(LuaState L) {
