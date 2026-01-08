@@ -104,7 +104,7 @@ void mmHudMapFeatureHandler::DrawPlayer()
     auto siren = car->GetSiren();
     char *vehName = car->GetCarDamage()->GetName();
 
-    float time = 0.115f;
+    float time = 0.1f;
     bool elapsedTime1 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.25f;
     bool elapsedTime2 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.5f;
     bool elapsedTime3 = fmod(datTimeManager::ElapsedTime, 0.5f) > 0.25f;
@@ -190,7 +190,7 @@ void mmHudMapFeatureHandler::DrawCops()
     auto map = reinterpret_cast<mmHudMap*>(this);
     auto AIMAP = aiMap::GetInstance();
 
-    float time = 0.115f;
+    float time = 0.1f;
     bool elapsedTime1 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.25f;
     bool elapsedTime2 = fmod(datTimeManager::ElapsedTime, time * 0.75f) > time * 0.5f;
     bool elapsedTime3 = fmod(datTimeManager::ElapsedTime, 0.5f) > 0.25f;
