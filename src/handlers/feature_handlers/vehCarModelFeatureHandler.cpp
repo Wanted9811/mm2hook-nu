@@ -20,18 +20,24 @@ void vehCarModelFeatureHandler::Draw(int a1)
 
 void vehCarModelFeatureHandler::ApplyImpact(vehDamageImpactInfo* a1)
 {
-    auto damage = reinterpret_cast<vehCarDamage*>(this);
     hook::Thunk<0x4CB140>::Call<void>(this, a1); // Call original
 
-    if (a1->Damage >= damage->GetImpactThreshold() && (damage->GetCar()->GetCarSim()->GetSpeedMPH() >= 10.0f || a1->OtherCollider->GetICS()))
+    auto damage = reinterpret_cast<vehCarDamage*>(this);
+    auto car = damage->GetCar();
+    auto model = car->GetModel();
+    auto carSim = car->GetCarSim();
+
+    carSim->SetCollisionState(true);
+
+    if (a1->Damage >= damage->GetImpactThreshold() && (carSim->GetSpeedMPH() >= 10.0f || a1->OtherCollider->GetICS()))
     {
-        auto damage3d = damage->GetCar()->GetModel()->GetDamage3D();
+        auto damage3d = model->GetDamage3D();
         if (damage3d)
         {
             damage3d->Impact(a1->LocalPosition, vehCarModel::Enable3DDynamicDamage);
         }
 
-        auto mm1Damage = damage->GetCar()->GetModel()->GetMM1Damage();
+        auto mm1Damage = model->GetMM1Damage();
         if (mm1Damage)
         {
             mm1Damage->Apply(a1->LocalPosition, 0.25f, false);

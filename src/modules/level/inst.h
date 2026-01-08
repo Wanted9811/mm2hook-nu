@@ -33,6 +33,7 @@ namespace MM2
         static const int INST_VISIBLE = 1 << 9;
         static const int INST_STATIC = 1 << 10;
         static const int INST_SHADOW_RGL = 1 << 13;
+        static const int INST_PLAYER = 1 << 15;
     private:
         byte Owner;
         byte Subtype;

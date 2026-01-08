@@ -133,6 +133,14 @@ void vehCarSim::SetResetRotation(float rotation) {
     this->ResetRotation = rotation;
 }
 
+BOOL vehCarSim::GetCollisionState() const {
+    return this->HasCollided;
+}
+
+void vehCarSim::SetCollisionState(bool collided) {
+    collided ? this->HasCollided = TRUE : this->HasCollided = FALSE;
+}
+
 lvlInstance * vehCarSim::GetInstance() {
     return this->LvlInstancePtr;
 }
@@ -262,6 +270,7 @@ void vehCarSim::BindLua(LuaState L) {
         .addProperty("Brake", &GetBrake, &SetBrake)
         .addProperty("Handbrake", &GetHandbrake, &SetHandbrake)
         .addProperty("Throttle", &GetThrottle, &SetThrottle)
+        .addProperty("CollisionState", &GetCollisionState , &SetCollisionState)
 
         .addFunction("GetWheel", &GetWheel)
                 

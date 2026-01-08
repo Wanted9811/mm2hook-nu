@@ -88,14 +88,6 @@ void aiPoliceOfficerHandler::Install() {
         }
     );
 
-    // fix aiPoliceOfficer::Collision
-    // todo: do this properly, this currently makes the collision function
-    // point to phInertialCS::LastImpactPosition, instead of a boolean value
-    // the proper fix would be to set the carmodel flags which are being read here
-    InstallPatch({ 0x8B, 0x91, 0xF4, 0x0, 0x0, 0x0 }, {
-        0x53E37E,
-    });
-
     // fix the physics bug that causes cops to rapidly accelerate while in the air
     aiPoliceOfficer::s_EnableRubberBanding = !cfgFlyingCopFix.Get();
 }
@@ -111,6 +103,8 @@ void vehCarDamageHandler::Update() {
     auto car = carDamage->GetCar();
     auto carsim = car->GetCarSim();
     auto model = car->GetModel();
+
+    carsim->SetCollisionState(false);
 
     for (int i = 0; i < 4; i++)
     {

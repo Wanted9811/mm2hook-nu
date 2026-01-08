@@ -397,8 +397,15 @@ AGE_API bool aiPoliceOfficer::Fov(vehCar* perpCar)
 	return angle > -1.57f && angle < 1.57f;
 }
 
-AGE_API BOOL aiPoliceOfficer::Collision(vehCar* perpCar)             { return hook::Thunk<0x53E370>::Call<BOOL>(this, perpCar); }
-AGE_API BOOL aiPoliceOfficer::HitMe(vehCar* perpCar)                 { return hook::Thunk<0x53E390>::Call<BOOL>(this, perpCar); }
+AGE_API BOOL aiPoliceOfficer::Collision(vehCar* perpCar)
+{
+	return perpCar->GetCarSim()->GetCollisionState() != FALSE;
+}
+
+AGE_API BOOL aiPoliceOfficer::HitMe(vehCar* perpCar)
+{
+	return (this->GetCar()->GetModel()->GetFlags() & lvlInstance::INST_PLAYER) != 0;
+}
 
 AGE_API bool aiPoliceOfficer::IsPerpACop(vehCar* perpCar)
 {
@@ -514,7 +521,7 @@ void AGE_API aiPoliceOfficer::DetectPerpetrator()
 			auto ourCar = m_VehiclePhysics.GetCar();
 			float dist2 = (playerCar->GetICS()->GetPosition() - ourCar->GetICS()->GetPosition()).Mag2();
 
-			if (dist2 < 5625.0f && this->Fov(playerCar) && this->IsPerpBreakingTheLaw(playerCar))
+			if (dist2 < 5625.0f && (this->Fov(playerCar) || this->HitMe(playerCar)) && this->IsPerpBreakingTheLaw(playerCar))
 			{
 				if (this->ChaseVehicle(playerCar))
 				{
@@ -565,7 +572,7 @@ bool MM2::aiPoliceOfficer::IsPerpBreakingTheLaw(vehCar* perpCar)
 	{
 		return true;
 	}
-	return !this->IsPerpACop(perpCar) && (this->OffRoad(perpCar) || this->Speeding(perpCar) || this->WrongWay(perpCar));
+	return !this->IsPerpACop(perpCar) && (this->OffRoad(perpCar) || this->Speeding(perpCar) || this->WrongWay(perpCar) || this->Collision(perpCar));
 }
 
 void aiPoliceOfficer::BindLua(LuaState L) {
