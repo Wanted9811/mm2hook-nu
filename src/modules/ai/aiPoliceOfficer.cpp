@@ -302,6 +302,15 @@ AGE_API void MM2::aiPoliceOfficer::Update()
 				auto ics = m_VehiclePhysics.GetCar()->GetICS();
 				ics->SetVelocity(ics->GetVelocity() * 1.03f);
 			}
+
+			// Release handbrake when throttle is active
+			// This fixes a bug where handbrake is active while accelerating
+			// Which makes cops stuck trying to get out from off road areas after being completely stopped there
+			if (this->GetCar()->GetCarSim()->GetHandbrake() > 0.0f)
+			{
+				if (this->GetCar()->GetCarSim()->GetEngine()->GetThrottleInput() > 0.0f)
+					this->GetCar()->GetCarSim()->SetHandbrake(0.0f);
+			}
 		}
 		else
 		{
