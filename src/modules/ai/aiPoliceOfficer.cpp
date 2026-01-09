@@ -564,7 +564,14 @@ void AGE_API aiPoliceOfficer::DetectPerpetrator()
 	}
 }
 
-void AGE_API aiPoliceOfficer::PerpEscapes(bool playExplosion)        { hook::Thunk<0x53F170>::Call<void>(this, playExplosion); }
+void AGE_API aiPoliceOfficer::PerpEscapes(bool playExplosion)
+{
+	auto siren = this->GetCar()->GetSiren();
+	if (siren != nullptr && siren->GetHasLights())
+		siren->SetActive(false);
+
+	hook::Thunk<0x53F170>::Call<void>(this, playExplosion);
+}
 
 bool MM2::aiPoliceOfficer::IsPerpBreakingTheLaw(vehCar* perpCar)
 {
