@@ -97,8 +97,8 @@ namespace MM2
         AGE_API bool InPersuit() const;
         AGE_API void StartSiren();
         AGE_API void StopSiren();
-        AGE_API BOOL Collision(vehCar* perpCar);
-        AGE_API BOOL HitMe(vehCar* perpCar);
+        AGE_API bool Collision(vehCar* perpCar);
+        AGE_API bool HitMe(vehCar* perpCar);
         AGE_API bool IsPerpACop(vehCar* perpCar);
         AGE_API bool WrongWay(vehCar* perpCar);
         AGE_API bool OffRoad(vehCar* perpCar);

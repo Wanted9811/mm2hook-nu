@@ -133,12 +133,12 @@ void vehCarSim::SetResetRotation(float rotation) {
     this->ResetRotation = rotation;
 }
 
-BOOL vehCarSim::GetCollisionState() const {
+bool vehCarSim::GetCollisionState() const {
     return this->HasCollided;
 }
 
 void vehCarSim::SetCollisionState(bool collided) {
-    collided ? this->HasCollided = TRUE : this->HasCollided = FALSE;
+    this->HasCollided = collided;
 }
 
 lvlInstance * vehCarSim::GetInstance() {

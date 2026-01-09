@@ -397,12 +397,12 @@ AGE_API bool aiPoliceOfficer::Fov(vehCar* perpCar)
 	return angle > -1.57f && angle < 1.57f;
 }
 
-AGE_API BOOL aiPoliceOfficer::Collision(vehCar* perpCar)
+AGE_API bool aiPoliceOfficer::Collision(vehCar* perpCar)
 {
-	return perpCar->GetCarSim()->GetCollisionState() != FALSE;
+	return perpCar->GetCarSim()->GetCollisionState() != false;
 }
 
-AGE_API BOOL aiPoliceOfficer::HitMe(vehCar* perpCar)
+AGE_API bool aiPoliceOfficer::HitMe(vehCar* perpCar)
 {
 	return (this->GetCar()->GetModel()->GetFlags() & lvlInstance::INST_PLAYER) != 0;
 }

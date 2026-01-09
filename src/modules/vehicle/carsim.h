@@ -61,7 +61,7 @@ namespace MM2
     protected:
         vehAero Aero;
         float CarFrictionHandling;
-        BOOL HasCollided;
+        bool HasCollided;
         float unknown5444;
         int unknown5448;
         float BrakeInput;
@@ -107,7 +107,7 @@ namespace MM2
         Vector3 GetResetPos() const;
         float GetResetRotation() const;
         void SetResetRotation(float rotation);
-        BOOL GetCollisionState() const;
+        bool GetCollisionState() const;
         void SetCollisionState(bool collided);
         lvlInstance* GetInstance();
         vehTransmission* GetTransmission();
