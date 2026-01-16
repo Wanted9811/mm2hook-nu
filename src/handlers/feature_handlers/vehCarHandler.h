@@ -11,6 +11,7 @@ public:
 
     void Mm1StyleTransmission();
     void Update();
+    void PreUpdate();
 
     static void Install(void);
 };

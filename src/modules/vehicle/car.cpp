@@ -3,6 +3,8 @@
 
 using namespace MM2;
 
+float weatherFriction = vehWheel::GetWeatherFriction();
+
 void vehCar::setDrivable(bool drivable, int mode)
 {
 	this->SetDrivable(drivable ? TRUE : FALSE, mode);
@@ -98,7 +100,59 @@ AGE_API lvlInstance* vehCar::GetInst()             { return hook::Thunk<0x42CA80
 AGE_API phInertialCS* vehCar::GetICS()             { return hook::Thunk<0x42CA70>::Call<phInertialCS *>(this); }
 AGE_API void vehCar::PostUpdate()                  { hook::Thunk<0x42C8B0>::Call<void>(this); }
 AGE_API void vehCar::Update()                      { hook::Thunk<0x42C690>::Call<void>(this); }
-AGE_API void vehCar::PreUpdate()                   { hook::Thunk<0x42C480>::Call<void>(this); }
+AGE_API void vehCar::PreUpdate()
+{
+	if ((this->Flags & 2) == 0)
+	{
+		switch (this->StopMode)
+		{
+		case 1:
+			if (this->GetCarDamage()->GetCurDamage() < this->GetCarDamage()->GetMaxDamage())
+			{
+				vehWheel::SetWeatherFriction(0.15f);
+				if (!this->IsPlayer())
+				{
+					this->CarSim->GetEngine()->SetThrottleInput(1.0f);
+					this->CarSim->SetHandbrake(0.f);
+				}
+				this->CarSim->GetTransmission()->SetGearChangeTimer(0.f);
+				this->CarSim->GetICS()->SetVelocity(Vector3(0.0f, this->CarSim->GetICS()->GetVelocity().Y, 0.0f));
+				this->CarSim->GetICS()->SetForce(Vector3(0.0f, this->CarSim->GetICS()->GetForce().Y, 0.0f));
+			}
+			else
+			{
+				this->CarSim->SetBrake(1.0f);
+			}
+			break;
+		case 2:
+			this->CarSim->SetBrake(1.0f);
+			this->CarSim->GetEngine()->SetThrottleInput(0.f);
+			this->CarSim->SetSteering(0.f);
+			this->CarSim->SetHandbrake(0.f);
+			break;
+		case 3:
+			this->CarSim->SetBrake(1.0f);
+			this->CarSim->GetEngine()->SetThrottleInput(0.f);
+			this->CarSim->SetSteering(0.f);
+			this->CarSim->SetHandbrake(0.f);
+			break;
+		}
+	}
+	else
+	{
+		char* vehName = this->CarDamage->GetName();
+		if (!this->CarAudioContainer->IsPolice(vehName))
+		{
+			vehWheel::SetWeatherFriction(weatherFriction);
+		}
+	}
+
+	if (this->WheelPtx != nullptr)
+	{
+		if (this->WheelPtx->isActive())
+			lvlLevel::GetSingleton()->SetPtxHeight(*this->WheelPtx->GetParticles());
+	}
+}
 
 void vehCar::BindLua(LuaState L) {
 	LuaBinding(L).beginExtendClass<vehCar, dgPhysEntity>("vehCar")

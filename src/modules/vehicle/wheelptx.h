@@ -21,6 +21,11 @@ namespace MM2
         asParticles m_Particles;
         float m_PtxTimers[2];
     public:
+        asParticles* GetParticles()
+        {
+            return &this->m_Particles;
+        }
+
         AGE_API vehWheelPtx()                                  { hook::Thunk<0x4D1C00>::Call<void>(this); }
         AGE_API ~vehWheelPtx()                                 { hook::Thunk<0x4D1C60>::Call<void>(this); }
 

@@ -123,6 +123,11 @@ namespace MM2
             ManualRatios[gear] = ratio;
         }
 
+        void SetGearChangeTimer(float timer)
+        {
+            this->GearChangeTimer = timer;
+        }
+
         static void BindLua(LuaState L) {
             LuaBinding(L).beginExtendClass<vehTransmission, asNode>("vehTransmission")
                 //properties / lua functions
