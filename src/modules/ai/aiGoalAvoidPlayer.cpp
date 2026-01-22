@@ -133,33 +133,35 @@ void MM2::aiGoalAvoidPlayer::AvoidPlayer()
     auto railSet = Vehicle->GetRailSet();
     float decelRate = (Vehicle->GetSpeed() / (zDist - player->BackBumperDistance() - 0.25f)); // Stop just behind the players bumper
     float maxSpeed = RailSet->GetCurrentLink()->GetBaseSpeedLimit() + RailSet->GetExheedLimit();
-    if (((xDist <= 0.5f && dirDot >= 0.75f) || (player->Speed() <= -3.5f)) && decelRate < 10.0f)
+    if (((xDist <= 0.5f && xDist >= -0.5f && dirDot >= 0.75f) || (player->Speed() <= -3.5f)) && decelRate < 10.0f)
     {
         // Brake instead
-        //railSet->SetAccelFactor(-decelRate);
         railSet->SetAccelFactor(railSet->GetAccelFactor() - (10.0f * datTimeManager::Seconds));
     }
     else
     {
         float rotationAmount = 0.0f;
         railSet->SetAccelFactor(railSet->GetAccelFactor() - (10.0f * datTimeManager::Seconds));
-        if (xDist > 0.0f)
+
+        Vector3 positionDifference = playerPosition - ourPosition;
+        float xDist = positionDifference.Dot(ourMtx.GetRow(0));
+        float zDist = positionDifference.Dot(ourMtx.GetRow(2) * -1.0f);
+
+        if (Side >= 0.f)
         {
-            rotationAmount = atan2f(xDist + PlayerSideReactDist, zDist);
+            rotationAmount = atan2f(xDist - PlayerSideReactDist, zDist);
         }
         else
         {
-            rotationAmount = atan2f(xDist - PlayerSideReactDist, zDist);
+            rotationAmount = atan2f(xDist + PlayerSideReactDist, zDist);
         }
         if (rotationAmount < -0.02f) rotationAmount = -0.02f;
         if (rotationAmount > 0.02f) rotationAmount = 0.02f;
 
         // applied mathematics
         float rotationRateMul = Vehicle->GetSpeed() / maxSpeed;
-        Heading += rotationAmount * aimap->avoidThing_2 * rotationRateMul * (datTimeManager::Seconds * 30.0f);
+        Heading -= rotationRateMul * rotationAmount;
     }
-
-    
 
     // adjust speed and set orientation
     Vehicle->SetSpeed((RailSet->GetAccelFactor() * datTimeManager::Seconds) + Vehicle->GetSpeed());
