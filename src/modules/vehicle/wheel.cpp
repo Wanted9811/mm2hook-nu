@@ -13,19 +13,18 @@ namespace MM2
         return std::make_tuple(functionalFriction, visualFriction);
     }
 
-    AGE_API void vehWheel::Init(vehCarSim* carSimPtr, const char* vehicleBasename, const char* wheelName, Vector3 centerOfGravity, phInertialCS* inertialCs, int a6, int a7)
+    AGE_API void vehWheel::Init(vehCarSim* carSimPtr, const char* vehicleBasename, const char* wheelName, Vector3 centerOfGravity, phInertialCS* inertialCs, int wheelCount, int flag)
     {
         Matrix34 outMatrix;
 
         this->m_CarSimPtr = carSimPtr;
-        this->WheelFlags |= a7;
-        *getPtr<int>(this, 0x94) = a6;
+        this->WheelFlags |= flag;
+        this->WheelCount = wheelCount;
         this->m_InertialCSPtr = inertialCs;
 
-        if (GetPivot(outMatrix, vehicleBasename, wheelName)) {
-            this->Center.X = outMatrix.m30;
-            this->Center.Y = outMatrix.m31;
-            this->Center.Z = outMatrix.m32;
+        if (GetPivot(outMatrix, vehicleBasename, wheelName))
+        {
+            this->Center = outMatrix.GetRow(3);
 
             float halfHeight = (outMatrix.m11 - outMatrix.m01) * 0.5f;
             this->Radius = fabsf(halfHeight);
