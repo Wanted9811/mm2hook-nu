@@ -16,7 +16,7 @@ namespace MM2
     private:
         Matrix34 m_SuspensionPivot;
         Matrix34 m_SuspensionMatrix;
-        vehCarSim* m_CarSimPtr;
+        vehCarSim* m_CarSim;
         vehWheel* m_Wheel;
         float m_InvRestLength;
         BOOL m_IsVertical;
@@ -26,21 +26,21 @@ namespace MM2
             return this->m_Wheel;
         }
 
-        Matrix34 GetSuspensionMatrix()
+        Matrix34 GetSuspensionMatrix() const
         {
             return this->m_SuspensionMatrix;
         }
 
-        Matrix34 GetSuspensionPivot()
+        Matrix34 GetSuspensionPivot() const
         {
             return this->m_SuspensionPivot;
         }
     public:
-        AGE_API vehSuspension()                             { hook::Thunk<0x4D9990>::Call<void>(this); }
+        AGE_API vehSuspension()                             { hook::Thunk<0x4D97A0>::Call<void>(this); }
 
         AGE_API void Init(vehCarSim* carSim, const char* vehicleBasename, const char* suspensionName, vehWheel* wheel)
         {
-            m_CarSimPtr = carSim;
+            m_CarSim = carSim;
             m_Wheel = wheel;
 
             if (GetPivot(m_SuspensionPivot, vehicleBasename, suspensionName))
