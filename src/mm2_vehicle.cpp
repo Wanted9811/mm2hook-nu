@@ -28,9 +28,11 @@ bool vehCarModel::RightSignalLightState = false;
 
 bool vehCarModel::mm1StyleTransmission = false;
 bool vehCarModel::mm1StyleDamage = true;
+bool vehCarModel::MM1StyleWobble = true;
 
 bool vehCarModel::Enable3DDamage = true;
 bool vehCarModel::Enable3DDynamicDamage = false;
+bool vehCarModel::EnableWheelWobble = true;
 
 /*
    vehBreakableMgr

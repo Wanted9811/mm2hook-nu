@@ -33,6 +33,8 @@ static init_handler g_feature_handlers[] = {
     CreateHandler<ImGuiFeatureHandler>("ImGuiFeatureHandler"),
     CreateHandler<FadeHandler>("FadeHandler"),
 
+    CreateHandler<camPovCSHandler>("camPovCS"),
+
     CreateHandler<mmHudMapFeatureHandler>("mmHudMapFeatureHandler"),
     CreateHandler<mmIconsHandler>("mmIconsHandler"),
     CreateHandler<mmInterfaceFeatureHandler>("mmInterfaceFeatureHandler"),

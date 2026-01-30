@@ -4,6 +4,7 @@ using namespace MM2;
 
 static ConfigValue<bool> cfgMm1StyleTransmission("MM1StyleTransmission", false);
 static ConfigValue<bool> cfgMm1StyleDamage("MM1StyleDamage", true);
+static ConfigValue<bool> cfgMM1StyleWobble("MM1StyleWobble", true);
 static ConfigValue<bool> cfgEnable3DDamage("3DDamage", true);
 static ConfigValue<bool> cfgEnable3DDynamicDamage("3DDynamicDamage", false);
 static ConfigValue<int> cfgCarShadows("3DShadows", 0);
@@ -157,6 +158,7 @@ void vehCarModelFeatureHandler::Install()
     ConfigValue<bool> cfgPartReflections("ReflectionsOnCarParts", false);
     ConfigValue<bool> cfgDamageReflections("ReflectionsOnDamagedParts", false);
     ConfigValue<bool> cfgHeadlightFlashing("EnableHeadlightFlashing", true);
+    ConfigValue<bool> cfgWheelWobble("PhysicalWheelWobble", true);
     ConfigValue<bool> cfgNfsMwStyleTotaledCar("NFSMWStyleTotaledCar", false);
     ConfigValue<int> cfgSirenStyle("SirenStyle", 0);
     ConfigValue<int> cfgHeadlightStyle("HeadlightStyle", 0);
@@ -165,6 +167,7 @@ void vehCarModelFeatureHandler::Install()
 
     vehCarModel::EnableSpinningWheels = cfgEnableSpinningWheels.Get();
     vehCarModel::EnableHeadlightFlashing = cfgHeadlightFlashing.Get();
+    vehCarModel::EnableWheelWobble = cfgWheelWobble.Get();
     vehCarModel::SirenType = cfgSirenStyle.Get();
     vehCarModel::HeadlightType = cfgHeadlightStyle.Get();
     vehCarModel::SirenCycle = cfgSirenCycleRate.Get();
@@ -177,6 +180,7 @@ void vehCarModelFeatureHandler::Install()
 
     vehCarModel::mm1StyleTransmission = cfgMm1StyleTransmission.Get();
     vehCarModel::mm1StyleDamage = cfgMm1StyleDamage.Get();
+    vehCarModel::MM1StyleWobble = cfgMM1StyleWobble.Get();
     
     vehCarModel::Enable3DDamage = cfgEnable3DDamage.Get();
     vehCarModel::Enable3DDynamicDamage = cfgEnable3DDynamicDamage.Get();

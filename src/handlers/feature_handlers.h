@@ -18,6 +18,7 @@
 #include "feature_handlers/audControlHandler.h"
 #include "feature_handlers/Aud3DObjectManagerHandler.h"
 #include "feature_handlers/BridgeFerryHandler.h"
+#include "feature_handlers/camPovCSHandler.h"
 #include "feature_handlers/cityLevelHandler.h"
 #include "feature_handlers/cityTimeWeatherLightingHandler.h"
 #include "feature_handlers/datCallbackExtensionHandler.h"

@@ -31,24 +31,31 @@ void mmDashViewHandler::UpdateCS() {
     auto car = player->GetCar();
     auto carModel = car->GetModel();
 
-    sm_DashOffset = carModel->GetMatrix(sm_DashOffset);
+    if (cfgEnableHeadBobbing.Get())
+    {
+        sm_DashOffset = carModel->GetMatrix(sm_DashOffset);
 
-    auto steering = *getPtr<float>(player, 0x2264);
-    auto wheelFact = *getPtr<float>(this, 0x400);
+        auto steering = *getPtr<float>(player, 0x2264);
+        auto wheelFact = *getPtr<float>(this, 0x400);
 
-    Vector3 velocity = carModel->GetVelocity();
+        Vector3 velocity = carModel->GetVelocity();
 
-    auto velY = (velocity.Y * cfgHeadBobVelocityScaleY);
-    auto velZ = (velocity.Z - (velocity.Y + velocity.X)) * -cfgHeadBobVelocityScaleZ;
+        auto velY = (velocity.Y * cfgHeadBobVelocityScaleY);
+        auto velZ = (velocity.Z - (velocity.Y + velocity.X)) * -cfgHeadBobVelocityScaleZ;
 
-    auto bodyRoll = -(steering * wheelFact) * (cfgHeadBobSteeringFactor * (cfgHeadBobSteeringSpeedFactor * velZ));
+        auto bodyRoll = -(steering * wheelFact) * (cfgHeadBobSteeringFactor * (cfgHeadBobSteeringSpeedFactor * velZ));
 
-    auto headBobY = ((sm_DashOffset.m31 - dashCam->m31) * -cfgHeadBobOffsetScaleY) + velY + bodyRoll;
-    auto headBobZ = ((sm_DashOffset.m32 - dashCam->m32) * -cfgHeadBobOffsetScaleZ) * velZ;
+        auto headBobY = ((sm_DashOffset.m31 - dashCam->m31) * -cfgHeadBobOffsetScaleY) + velY + bodyRoll;
+        auto headBobZ = ((sm_DashOffset.m32 - dashCam->m32) * -cfgHeadBobOffsetScaleZ) * velZ;
 
-    dashCam->m31 += (headBobY * cfgHeadBobMultiplierY);
-    dashCam->m32 += (headBobZ * cfgHeadBobMultiplierZ);
+        dashCam->m31 += (headBobY * cfgHeadBobMultiplierY);
+        dashCam->m32 += (headBobZ * cfgHeadBobMultiplierZ);
+    }
 
+    // setup dash cam wobble
+    dashCam->Set(carModel->GetBodyWobbleMatrix(*dashCam, car->GetCarSim()->GetWheel(1), 0.005f));
+
+    // call original
     hook::Thunk<0x4A3370>::Call<void>(this);
 }
 
@@ -62,16 +69,14 @@ void mmDashViewHandler::FileIO(datParser* parser) {
 }
 
 void mmDashViewHandler::Install() {
-    if (cfgEnableHeadBobbing) {
-        InstallCallback("mmDashView::Update", "Allows for a custom implementation of head-bobbing in dashboards.",
-            &UpdateCS, {
-                cb::call(0x430F87), // replaces call to asLinearCS::Update
-            }
-        );
-    }
+    InstallCallback("mmDashView::Update", "Allows for a custom implementation of head-bobbing in dashboards.",
+        &UpdateCS, {
+            cb::call(0x430F87), // replaces call to asLinearCS::Update
+        }
+    );
 
     // add missing variables from MM1
     InstallVTableHook("mmDashView::FileIO", &FileIO, {
         0x5B0D90
-        });
+    });
 }

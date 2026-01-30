@@ -6,8 +6,6 @@ using namespace MM2;
     vehWheelHandler
 */
 
-static ConfigValue<bool> cfgWheelWobble("PhysicalWheelWobble", false);
-
 float vehWheelHandler::GetBumpDisplacement(float a1)
 {
     //call original
@@ -48,15 +46,6 @@ void vehWheelHandler::Install()
             cb::call(0x4D74E9),
             cb::call(0x4D751A),
             cb::call(0x4D754B),
-        }
-    );
-
-    if (!cfgWheelWobble.Get())
-        return;
-
-    InstallCallback("vehWheel::ComputeDwtdw", "Implementation of physical wheel wobbling.",
-        &GetBumpDisplacement, {
-            cb::call(0x4D2EDA), // vehWheel::ComputeDwtdw
         }
     );
 }

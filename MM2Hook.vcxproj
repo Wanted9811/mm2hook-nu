@@ -198,6 +198,7 @@
     <ClInclude Include="src\handlers\feature_handlers\Aud3DObjectManagerHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\audControlHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\BridgeFerryHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\camPovCSHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\cityLevelHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\cityTimeWeatherLightingHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\datCallbackExtensionHandler.h" />
@@ -723,6 +724,7 @@
     <ClCompile Include="src\handlers\feature_handlers\Aud3DObjectManagerHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\audControlHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\BridgeFerryHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\camPovCSHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\cityLevelHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\cityTimeWeatherLightingHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\datCallbackExtensionHandler.cpp" />
@@ -888,6 +890,7 @@
     <ClCompile Include="src\modules\model\shader.cpp" />
     <ClCompile Include="src\modules\model\static2.cpp" />
     <ClCompile Include="src\modules\node.cpp" />
+    <ClCompile Include="src\modules\node\camera.cpp" />
     <ClCompile Include="src\modules\node\dof.cpp" />
     <ClCompile Include="src\modules\node\linear.cpp" />
     <ClCompile Include="src\modules\parse.cpp" />

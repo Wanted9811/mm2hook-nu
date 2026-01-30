@@ -14,7 +14,7 @@ namespace MM2
     // Class definitions
     class vehAxle : public asNode {
     private:
-        vehCarSim *m_CarSimPtr;
+        vehCarSim *m_CarSim;
         Matrix34 AxlePivot;
         Matrix34 AxleMatrix;
         vehWheel *LeftWheel;
@@ -49,15 +49,23 @@ namespace MM2
         float GetDampCoef() const                           { return this->DampCoef; }
         void SetDampCoef(float dampCoef)                    { this->DampCoef = dampCoef;}
 
-        Matrix34 GetAxleMatrix() const {
+        Matrix34 GetAxlePivot() const
+        {
+            return this->AxlePivot;
+        }
+
+        Matrix34 GetAxleMatrix() const
+        {
             return this->AxleMatrix;
         }
 
-        vehWheel* GetLeftWheel() const {
+        vehWheel* GetLeftWheel() const
+        {
             return this->LeftWheel;
         }
 
-        vehWheel* GetRightWheel() const {
+        vehWheel* GetRightWheel() const
+        {
             return this->RightWheel;
         }
 

@@ -133,7 +133,7 @@ namespace MM2
         {
             Vector3 whlPosDiff[2] = { this->carSim->BackBackLeftWheelPosDiff, this->carSim->BackBackRightWheelPosDiff };
             whlMatrix.Set(this->carSim->GetWheel(num - 2)->GetMatrix());
-            whlMatrix.SetRow(3, whlMatrix.GetRow(3) + this->carSim->GetWorldMatrix()->Transform3x3(whlPosDiff[num - 4]));
+            whlMatrix.SetRow(3, whlMatrix.GetRow(3) + this->GetWorldMatrix().Transform3x3(whlPosDiff[num - 4]));
         }
 
         return whlMatrix;
@@ -144,7 +144,7 @@ namespace MM2
         Matrix34 fndrMatrix = Matrix34();
         fndrMatrix.Identity();
 
-        Matrix34 carMatrix = *this->carSim->GetWorldMatrix();
+        Matrix34 carMatrix = this->GetWorldMatrix();
         fndrMatrix.SetRow(1, carMatrix.GetRow(1));
 
         Vector3 fndrOffsets[6] = { fndr0offset, fndr1offset, fndr2offset, fndr3offset, fndr4offset, fndr5offset };
@@ -231,6 +231,58 @@ namespace MM2
 
         fndrShadowMatrix.Dot(shadowMatrix);
         return fndrShadowMatrix;
+    }
+
+    float vehCarModel::GetWobbleAngle(vehWheel* wheel, float wobbleMultiplier)
+    {
+        float rotation = (fabsf(wheel->GetRotationRate()) * datTimeManager::Seconds - 1.5707964f) * 0.31830987f;
+        float rotationAmount = fmaxf(0.0f, fminf(rotation, 1.0f));
+        float invRotationAmount = 1.0f - rotationAmount;
+
+        auto carDamage = this->car->GetCarDamage();
+        float damagePercent = (carDamage->GetCurDamage() - carDamage->GetMedDamage()) / (carDamage->GetMaxDamage() - carDamage->GetMedDamage());
+        float damageAmount = fmaxf(0.0f, fminf(damagePercent, 1.0f));
+        float angle = sinf(wheel->GetAccumulatedRotation()) * damageAmount * invRotationAmount * wobbleMultiplier;
+
+        if (!vehCarModel::MM1StyleWobble)
+            angle = sinf(wheel->GetAccumulatedRotation()) * damageAmount * wheel->GetWobbleAmount() * 0.5f * (wobbleMultiplier / 0.1f);
+
+        return angle;
+    }
+
+    // We created this matrix to draw car body with wobble angling
+    Matrix34 vehCarModel::GetBodyWobbleMatrix(const Matrix34& matrix, vehWheel* wheel, float wobbleMultiplier)
+    {
+        if (!vehCarModel::EnableWheelWobble || !this->carSim->OnGround())
+            return matrix;
+
+        Matrix34 wobbleMatrix = Matrix34();
+        wobbleMatrix.Set(matrix);
+
+        Vector3 axis = wobbleMatrix.GetRow(2) + wobbleMatrix.GetRow(0);
+        wobbleMatrix.Rotate(axis, GetWobbleAngle(wheel, wobbleMultiplier));
+
+        return wobbleMatrix;
+    }
+
+    Matrix34 vehCarModel::GetPartWobbleMatrix(const Matrix34& matrix, vehWheel* wheel, float wobbleMultiplier)
+    {
+        if (!vehCarModel::EnableWheelWobble)
+            return matrix;
+
+        Matrix34 wobbleMatrix = Matrix34();
+        wobbleMatrix.Set(matrix);
+
+        Vector3 axis = wobbleMatrix.GetRow(2) + wobbleMatrix.GetRow(0);
+        wobbleMatrix.Dot(GetWorldMatrix());
+        wobbleMatrix.Rotate(axis, GetWobbleAngle(wheel, wobbleMultiplier));
+
+        return wobbleMatrix;
+    }
+
+    Matrix34 vehCarModel::GetWorldMatrix()
+    {
+        return GetBodyWobbleMatrix(*this->carSim->GetWorldMatrix(), this->carSim->GetWheel(1));
     }
 
     AGE_API void vehCarModel::GetSurfaceColor(modStatic* model, Vector3* outVector)
@@ -459,7 +511,7 @@ namespace MM2
         }
         else
         {
-            auto carMatrix = this->carSim->GetWorldMatrix();
+            auto carMatrix = &this->GetWorldMatrix();
             this->headlights[0].Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
             this->headlights[1].Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
         }
@@ -477,7 +529,7 @@ namespace MM2
 
             auto light = &this->headlights[i];
             auto lightPos = this->headlightPositions[i];
-            auto carMatrix = this->carSim->GetWorldMatrix();
+            auto carMatrix = &this->GetWorldMatrix();
 
             light->Position = carMatrix->Transform(lightPos);
             light->DrawGlow(static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3)));
@@ -505,13 +557,13 @@ namespace MM2
             }
             else
             {
-                auto carMatrix = this->carSim->GetWorldMatrix();
+                auto carMatrix = &this->GetWorldMatrix();
                 this->extraHeadlights[i]->Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
             }
 
             auto light = this->extraHeadlights[i];
             auto lightPos = this->extraHeadlightPositions[i];
-            auto carMatrix = this->carSim->GetWorldMatrix();
+            auto carMatrix = &this->GetWorldMatrix();
 
             light->Position = carMatrix->Transform(lightPos);
             light->DrawGlow(static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3)));
@@ -953,7 +1005,7 @@ namespace MM2
         }
 
         //setup renderer
-        gfxRenderState::SetWorldMatrix(*this->carSim->GetWorldMatrix());
+        gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
         //draw the body
         modStatic* bodyGeom = this->GetGeom(lod, 0);
@@ -993,17 +1045,17 @@ namespace MM2
         }
 
         //draw breakables
-        this->genBreakableMgr->Draw(*this->carSim->GetWorldMatrix(), shaders, lod, alphaDrawing);
+        this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod, alphaDrawing);
 
         //draw pop-up lights
         if (lod >= 1)
         {
             if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
                 //plighton
-                DrawPart(lod, PLIGHTON_GEOM_ID, *this->carSim->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, PLIGHTON_GEOM_ID, this->GetWorldMatrix(), shaders, alphaDrawing);
             else
                 //plightoff
-                DrawPart(lod, PLIGHTOFF_GEOM_ID, *this->carSim->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, PLIGHTOFF_GEOM_ID, this->GetWorldMatrix(), shaders, alphaDrawing);
         }
 
         //get wheels
@@ -1081,19 +1133,25 @@ namespace MM2
             //suspension
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
+                auto shock = &this->carSim->ShockSuspensions[i];
+                DrawPart(lod, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shock->GetSuspensionPivot(), shock->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
+                auto arm = &this->carSim->ArmSuspensions[i];
+                DrawPart(lod, ARM0_GEOM_ID + i, GetPartWobbleMatrix(arm->GetSuspensionPivot(), arm->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 2; i++)
             {
-                DrawPart(lod, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
+                auto shaft = &this->carSim->ShaftSuspensions[i];
+                DrawPart(lod, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaft->GetSuspensionPivot(), shaft->GetWheel()), shaders, alphaDrawing);
             }
 
-            DrawPart(lod, AXLE0_GEOM_ID, this->carSim->AxleFront.GetAxleMatrix(), shaders, alphaDrawing);
-            DrawPart(lod, AXLE1_GEOM_ID, this->carSim->AxleRear.GetAxleMatrix(), shaders, alphaDrawing);
+            auto axleFront = &this->carSim->AxleFront;
+            DrawPart(lod, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFront->GetAxlePivot(), axleFront->GetRightWheel()), shaders, alphaDrawing);
+
+            auto axleRear = &this->carSim->AxleRear;
+            DrawPart(lod, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRear->GetAxlePivot(), axleRear->GetLeftWheel()), shaders, alphaDrawing);
                 
             //engine
             if ((this->wheelBrokenStatus & 0x40000) != 0)
@@ -1278,7 +1336,7 @@ namespace MM2
             return;
 
         //setup renderer
-        gfxRenderState::SetWorldMatrix(*this->carSim->GetWorldMatrix());
+        gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
         //draw signals
         modStatic* slight0 = this->GetGeomBase(SLIGHT0_GEOM_ID)->GetHighestLOD();
@@ -1448,7 +1506,7 @@ namespace MM2
             if (vehCarModel::HeadlightType == 1 || vehCarModel::HeadlightType == 2)
             {
                 //MM1 headlights
-                gfxRenderState::SetWorldMatrix(*this->carSim->GetWorldMatrix());
+                gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
                 if (enabledElectrics[2] || enabledElectrics[3])
                 {
@@ -1467,12 +1525,12 @@ namespace MM2
             {
                 //MM2 siren
                 if (siren != nullptr && siren->IsActive())
-                    siren->Draw(*this->carSim->GetWorldMatrix());
+                    siren->Draw(this->GetWorldMatrix());
             }
             if (vehCarModel::SirenType == 1 || vehCarModel::SirenType == 2)
             {
                 //MM1 siren
-                gfxRenderState::SetWorldMatrix(*this->carSim->GetWorldMatrix());
+                gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
                 if (siren != nullptr && siren->IsActive())
                 {
@@ -1517,7 +1575,7 @@ namespace MM2
         }
 
         //setup renderer
-        gfxRenderState::SetWorldMatrix(*this->carSim->GetWorldMatrix());
+        gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
         //draw the body
         modStatic* bodyGeom = this->GetGeom(3, 0);
@@ -1531,7 +1589,7 @@ namespace MM2
                 {
                     modStatic* bodyDamage = damage3D->GetDeformDamageModel();
                     if (bodyDamage != nullptr)
-                        bodyDamage->DrawReflected(shaders, this->GetRoomId(), *this->carSim->GetWorldMatrix(), intensity);
+                        bodyDamage->DrawReflected(shaders, this->GetRoomId(), this->GetWorldMatrix(), intensity);
                 }
             }
         }
@@ -1545,24 +1603,24 @@ namespace MM2
                 {
                     modStatic* bodyDamage = mm1Damage->GetDamageModel();
                     if (bodyDamage != nullptr)
-                        bodyDamage->DrawReflected(shaders, this->GetRoomId(), *this->carSim->GetWorldMatrix(), intensity);
+                        bodyDamage->DrawReflected(shaders, this->GetRoomId(), this->GetWorldMatrix(), intensity);
                 }
             }
         }
 
         if (bodyGeom != nullptr)
-            bodyGeom->DrawReflected(shaders, this->GetRoomId(), *this->carSim->GetWorldMatrix(), intensity);
+            bodyGeom->DrawReflected(shaders, this->GetRoomId(), this->GetWorldMatrix(), intensity);
 
         //draw breakables
-        this->genBreakableMgr->DrawReflected(*this->carSim->GetWorldMatrix(), shaders, 3, this->GetRoomId());
+        this->genBreakableMgr->DrawReflected(this->GetWorldMatrix(), shaders, 3, this->GetRoomId());
 
         //draw pop-up lights
         if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
             //plighton
-            DrawPartReflected(3, PLIGHTON_GEOM_ID, *this->carSim->GetWorldMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            DrawPartReflected(3, PLIGHTON_GEOM_ID, this->GetWorldMatrix(), shaders, intensity, vehCarModel::PartReflections);
         else
             //plightoff
-            DrawPartReflected(3, PLIGHTOFF_GEOM_ID, *this->carSim->GetWorldMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            DrawPartReflected(3, PLIGHTOFF_GEOM_ID, this->GetWorldMatrix(), shaders, intensity, vehCarModel::PartReflections);
 
         //get wheels
         auto carSim = this->carSim;
@@ -1632,19 +1690,25 @@ namespace MM2
         //suspension
         for (int i = 0; i < 4; i++)
         {
-            DrawPartReflected(3, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].GetSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            auto shock = &this->carSim->ShockSuspensions[i];
+            DrawPartReflected(3, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shock->GetSuspensionPivot(), shock->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
         }
         for (int i = 0; i < 4; i++)
         {
-            DrawPartReflected(3, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].GetSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            auto arm = &this->carSim->ArmSuspensions[i];
+            DrawPartReflected(3, ARM0_GEOM_ID + i, GetPartWobbleMatrix(arm->GetSuspensionPivot(), arm->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
         }
         for (int i = 0; i < 2; i++)
         {
-            DrawPartReflected(3, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].GetSuspensionMatrix(), shaders, intensity, vehCarModel::PartReflections);
+            auto shaft = &this->carSim->ShaftSuspensions[i];
+            DrawPartReflected(3, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaft->GetSuspensionPivot(), shaft->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
         }
 
-        DrawPartReflected(3, AXLE0_GEOM_ID, this->carSim->AxleFront.GetAxleMatrix(), shaders, intensity, vehCarModel::PartReflections);
-        DrawPartReflected(3, AXLE1_GEOM_ID, this->carSim->AxleRear.GetAxleMatrix(), shaders, intensity, vehCarModel::PartReflections);
+        auto axleFront = &this->carSim->AxleFront;
+        DrawPartReflected(3, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFront->GetAxlePivot(), axleFront->GetRightWheel()), shaders, intensity, vehCarModel::PartReflections);
+
+        auto axleRear = &this->carSim->AxleRear;
+        DrawPartReflected(3, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRear->GetAxlePivot(), axleRear->GetLeftWheel()), shaders, intensity, vehCarModel::PartReflections);
 
         //engine
         if ((this->wheelBrokenStatus & 0x40000) != 0)
@@ -1700,7 +1764,7 @@ namespace MM2
         }
 
         //setup renderer
-        gfxRenderState::SetWorldMatrix(*this->carSim->GetWorldMatrix());
+        gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
         //draw the body
         modStatic* bodyGeom = this->GetGeom(lod, 0);
@@ -1740,14 +1804,14 @@ namespace MM2
         }
 
         //draw breakables
-        this->genBreakableMgr->Draw(*this->carSim->GetWorldMatrix(), shaders, lod, alphaDrawing);
+        this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod, alphaDrawing);
 
         //draw decal
         auto decalGeom = this->GetGeom(lod, DECAL_GEOM_ID);
         if (decalGeom != nullptr)
         {
             auto oldAlphaRef2 = gfxRenderState::SetAlphaRef(0);
-            DrawPart(decalGeom, *this->carSim->GetWorldMatrix(), shaders);
+            DrawPart(decalGeom, this->GetWorldMatrix(), shaders);
             gfxRenderState::SetAlphaRef(oldAlphaRef2);
         }
 
@@ -1756,10 +1820,10 @@ namespace MM2
         {
             if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
                 //plighton
-                DrawPart(lod, PLIGHTON_GEOM_ID, *this->carSim->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, PLIGHTON_GEOM_ID, this->GetWorldMatrix(), shaders, alphaDrawing);
             else
                 //plightoff
-                DrawPart(lod, PLIGHTOFF_GEOM_ID, *this->carSim->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, PLIGHTOFF_GEOM_ID, this->GetWorldMatrix(), shaders, alphaDrawing);
         }
 
         //get wheels
@@ -1837,19 +1901,25 @@ namespace MM2
             //suspension
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, SHOCK0_GEOM_ID + i, this->carSim->ShockSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
+                auto shock = &this->carSim->ShockSuspensions[i];
+                DrawPart(lod, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shock->GetSuspensionPivot(), shock->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 4; i++)
             {
-                DrawPart(lod, ARM0_GEOM_ID + i, this->carSim->ArmSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
+                auto arm = &this->carSim->ArmSuspensions[i];
+                DrawPart(lod, ARM0_GEOM_ID + i, GetPartWobbleMatrix(arm->GetSuspensionPivot(), arm->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 2; i++)
             {
-                DrawPart(lod, SHAFT2_GEOM_ID + i, this->carSim->ShaftSuspensions[i].GetSuspensionMatrix(), shaders, alphaDrawing);
+                auto shaft = &this->carSim->ShaftSuspensions[i];
+                DrawPart(lod, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaft->GetSuspensionPivot(), shaft->GetWheel()), shaders, alphaDrawing);
             }
 
-            DrawPart(lod, AXLE0_GEOM_ID, this->carSim->AxleFront.GetAxleMatrix(), shaders, alphaDrawing);
-            DrawPart(lod, AXLE1_GEOM_ID, this->carSim->AxleRear.GetAxleMatrix(), shaders, alphaDrawing);
+            auto axleFront = &this->carSim->AxleFront;
+            DrawPart(lod, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFront->GetAxlePivot(), axleFront->GetRightWheel()), shaders, alphaDrawing);
+
+            auto axleRear = &this->carSim->AxleRear;
+            DrawPart(lod, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRear->GetAxlePivot(), axleRear->GetLeftWheel()), shaders, alphaDrawing);
 
             //engine
             if ((this->wheelBrokenStatus & 0x40000) != 0)

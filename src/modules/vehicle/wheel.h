@@ -17,8 +17,8 @@ namespace MM2
     // Class definitions
     class vehWheel : public asNode {
     private:
-        vehCarSim *m_CarSimPtr;
-        phInertialCS *m_InertialCSPtr;
+        vehCarSim *m_CarSim;
+        phInertialCS *m_InertialCS;
         int WheelFlags;
         Matrix34 WheelMatrix;
         float TireDispLimitLat;
@@ -102,7 +102,7 @@ namespace MM2
     public:
         AGE_API vehWheel();
 
-        AGE_API void Init(vehCarSim* carSimPtr, const char* vehicleBasename, const char* wheelName, Vector3 centerOfGravity, phInertialCS* inertialCs, int wheelCount, int flag);
+        AGE_API void Init(vehCarSim* carSim, const char* vehicleBasename, const char* wheelName, Vector3 centerOfGravity, phInertialCS* inertialCs, int wheelCount, int flag);
 
         AGE_API void CopyVars(vehWheel* copyFrom);
 

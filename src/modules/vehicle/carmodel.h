@@ -119,6 +119,7 @@ namespace MM2
     public:
         static bool EnableSpinningWheels;
         static bool EnableHeadlightFlashing;
+        static bool EnableWheelWobble;
         static bool MWStyleTotaledCar;
         static int Enable3DShadows;
         static int SirenType;
@@ -130,6 +131,7 @@ namespace MM2
         static bool DamageReflections;
         static bool mm1StyleTransmission;
         static bool mm1StyleDamage;
+        static bool MM1StyleWobble;
 
         //light states
         static bool ShowHeadlights;
@@ -206,6 +208,10 @@ namespace MM2
         Matrix34 GetFenderMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
         Matrix34 GetFenderShadowMatrix(int num, const Matrix34& shadowMatrix);
+        float GetWobbleAngle(vehWheel* wheel, float wobbleMultiplier);
+        Matrix34 GetBodyWobbleMatrix(const Matrix34& matrix, vehWheel* wheel, float wobbleMultiplier = 0.02f);
+        Matrix34 GetPartWobbleMatrix(const Matrix34& matrix, vehWheel* wheel, float wobbleMultiplier = 0.02f);
+        Matrix34 GetWorldMatrix();
 
         AGE_API void GetSurfaceColor(modStatic* model, Vector3* outVector);
         AGE_API void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int someId);
