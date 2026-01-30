@@ -219,6 +219,7 @@
     <ClInclude Include="src\handlers\feature_handlers\lvlHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\memSafeHeapHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\MenuManagerHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmArrowHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmCityListHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmDashViewHandler.h" />
@@ -745,6 +746,7 @@
     <ClCompile Include="src\handlers\feature_handlers\lvlHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\lvlInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\memSafeHeapHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\MenuManagerHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmArrowHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmCityListHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmDashViewHandler.cpp" />

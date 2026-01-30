@@ -1,5 +1,6 @@
 #pragma once
 #include <modules\node\node.h>
+//#include <modules\audio\sound.h>
 
 namespace MM2
 {
@@ -10,6 +11,7 @@ namespace MM2
     extern class UIMenu;
     extern class asCamera;
     extern class asViewCS;
+    extern class AudSoundBase;
 
     // Class definitions
     class MenuManager : public asNode {
@@ -22,6 +24,7 @@ namespace MM2
         static hook::Field<0x20, asViewCS*> _view;
         static hook::Field<0xEC, int> _activeDialogID;
         static hook::Field<0xF8, UIMenu**> _menus;
+        static hook::Field<0x148, AudSoundBase*> _menuSwitchSound;
         static hook::Field<0x138, int> _currentMenuId;
         static hook::Field<0x114, int> _lastMenuId;
         static hook::Field<0x10C, int> _menuCount;
@@ -71,6 +74,11 @@ namespace MM2
         asViewCS* GetView() const
         {
             return _view.get(this);
+        }
+
+        AudSoundBase* GetMenuSwitchSound() const
+        {
+            return _menuSwitchSound.get(this);
         }
 
        AGE_API int AddMenu2(UIMenu* menu)                                { return hook::Thunk<0x4E5B20>::Call<int>(this, menu); }

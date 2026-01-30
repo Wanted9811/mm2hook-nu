@@ -39,6 +39,7 @@
 #include "feature_handlers/lvlHandler.h"
 #include "feature_handlers/lvlInstanceFeatureHandler.h"
 #include "feature_handlers/memSafeHeapHandler.h"
+#include "feature_handlers/MenuManagerHandler.h"
 #include "feature_handlers/mmArrowHandler.h"
 #include "feature_handlers/mmCityListHandler.h"
 #include "feature_handlers/mmDashViewHandler.h"
