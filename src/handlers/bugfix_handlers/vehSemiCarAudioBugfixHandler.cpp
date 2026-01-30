@@ -139,7 +139,7 @@ void vehSemiCarAudioBugfixHandler::SetNon3DParams()
 
 void vehSemiCarAudioBugfixHandler::Install()
 {
-    if (vehCarModel::mm1StyleTransmission) {
+    if (vehCarModel::MM1StyleTransmission) {
         InstallCallback("vehSemiCarAudio::Init", "Fix semi reverse audio.",
             &UpdateReverse, {
                 cb::call(0x4DCB35),

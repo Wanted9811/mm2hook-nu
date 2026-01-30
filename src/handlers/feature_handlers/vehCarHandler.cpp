@@ -131,7 +131,7 @@ void vehCarHandler::Update()
         }
     }
 
-    if (vehCarModel::mm1StyleTransmission)
+    if (vehCarModel::MM1StyleTransmission)
     {
         vehCarHandler::Mm1StyleTransmission();
     }
@@ -188,7 +188,7 @@ void vehCarHandler::Install(void)
         }
     );
 
-    if (vehCarModel::mm1StyleTransmission)
+    if (vehCarModel::MM1StyleTransmission)
     {
         // deactivate auto Handbrake system
         InstallPatch({ 0xD8, 0x1D, 0x3C, 0x4, 0x5B, 0x0 }, {

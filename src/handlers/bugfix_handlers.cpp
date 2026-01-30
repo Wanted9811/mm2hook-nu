@@ -200,7 +200,7 @@ void mmGearIndicatorHandler::Draw() {
 }
 
 void mmGearIndicatorHandler::Install() {
-    if (vehCarModel::mm1StyleTransmission) {
+    if (vehCarModel::MM1StyleTransmission) {
         InstallCallback("mmGearIndicatorHandler::Draw", "Adds the unused P gear indicator to the HUD.",
             &Draw, {
                 cb::call(0x431B26),

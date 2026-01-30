@@ -76,7 +76,7 @@ namespace MM2
             {
                 delete damage3D;
                 damage3D = new fxDamage3D();
-                damage3D->Init(bodyEntry->GetHighLOD(), bodyDamageEntry->GetHighLOD() != nullptr ? bodyDamageEntry->GetHighLOD() : bodyEntry->GetHighLOD(), vehCarModel::mm1StyleDamage);
+                damage3D->Init(bodyEntry->GetHighLOD(), bodyDamageEntry->GetHighLOD() != nullptr ? bodyDamageEntry->GetHighLOD() : bodyEntry->GetHighLOD(), vehCarModel::MM1StyleDamage);
                 damage3D->SetShaders(bodyEntry->pShaders[variant], bodyEntry->numShadersPerVariant);
             }
         }
@@ -769,7 +769,7 @@ namespace MM2
         //pre-load our variant
         lvlInstance::PreLoadShader(this->variant);
 
-        if (!vehCarModel::mm1StyleDamage)
+        if (!vehCarModel::MM1StyleDamage)
         {
             //init fxTexelDamage
             if (this->texelDamage != nullptr)
@@ -795,7 +795,7 @@ namespace MM2
             }
         }
 
-        if (vehCarModel::mm1StyleDamage && !vehCarModel::Enable3DDamage)
+        if (vehCarModel::MM1StyleDamage && !vehCarModel::Enable3DDamage)
         {
             //init mm1Damage
             if (this->mm1Damage != nullptr)
@@ -833,7 +833,7 @@ namespace MM2
                 if (bodyEntry->GetHighLOD() != nullptr)
                 {
                     this->damage3D = new fxDamage3D();
-                    damage3D->Init(bodyEntry->GetHighLOD(), bodyDamageEntry->GetHighLOD() != nullptr ? bodyDamageEntry->GetHighLOD() : bodyEntry->GetHighLOD(), vehCarModel::mm1StyleDamage);
+                    damage3D->Init(bodyEntry->GetHighLOD(), bodyDamageEntry->GetHighLOD() != nullptr ? bodyDamageEntry->GetHighLOD() : bodyEntry->GetHighLOD(), vehCarModel::MM1StyleDamage);
                     damage3D->SetShaders(bodyEntry->pShaders[this->GetVariant()], bodyEntry->numShadersPerVariant);
                 }
             }
@@ -995,7 +995,7 @@ namespace MM2
             shaders = this->mm1Damage->GetCleanShaders();
         }
 
-        if (Enable3DDamage && mm1StyleDamage)
+        if (Enable3DDamage && MM1StyleDamage)
         {
             //use 3d damage
             if (lod >= 2 && this->damage3D != nullptr)
@@ -1017,7 +1017,7 @@ namespace MM2
                 if (bodyGeom != nullptr)
                     bodyGeom->DrawNoAlpha(shaders);
 
-                if (mm1StyleDamage)
+                if (MM1StyleDamage)
                 {
                     modStatic* bodyDamage = lod >= 2 ? damage3D->GetDeformDamageModel() : this->GetGeom(lod, 0);
                     if (bodyDamage != nullptr)
@@ -1025,7 +1025,7 @@ namespace MM2
                 }
             }
         }
-        else if (mm1StyleDamage)
+        else if (MM1StyleDamage)
         {
             if (mm1Damage != nullptr)
             {
@@ -1199,7 +1199,7 @@ namespace MM2
                 float intensity = ComputeShadowIntensity(timeWeather->KeyColor);
                 model->DrawShadowed(shaders, intensity);
 
-                if (mm1StyleDamage && damage3D != nullptr) damage3D->GetDeformDamageModel()->DrawShadowed(shaders, intensity);
+                if (MM1StyleDamage && damage3D != nullptr) damage3D->GetDeformDamageModel()->DrawShadowed(shaders, intensity);
 
                 //draw breakables
                 this->genBreakableMgr->DrawShadowed(shadowMatrix, shaders, intensity);
@@ -1444,7 +1444,7 @@ namespace MM2
 
             //draw rlight
             modStatic* rlight = this->GetGeomBase(RLIGHT_GEOM_ID)->GetHighestLOD();
-            if (mm1StyleTransmission)
+            if (MM1StyleTransmission)
             {
                 auto throttle = carsim->GetEngine()->GetThrottleInput();
                 auto speedMPH = carsim->GetSpeedMPH();
@@ -1565,7 +1565,7 @@ namespace MM2
             shaders = this->mm1Damage->GetCleanShaders();
         }
 
-        if (Enable3DDamage && mm1StyleDamage)
+        if (Enable3DDamage && MM1StyleDamage)
         {
             //use 3d damage
             if (this->damage3D != nullptr)
@@ -1585,7 +1585,7 @@ namespace MM2
             {
                 bodyGeom = damage3D->GetDeformModel();
 
-                if (mm1StyleDamage && DamageReflections)
+                if (MM1StyleDamage && DamageReflections)
                 {
                     modStatic* bodyDamage = damage3D->GetDeformDamageModel();
                     if (bodyDamage != nullptr)
@@ -1593,7 +1593,7 @@ namespace MM2
                 }
             }
         }
-        else if (mm1StyleDamage)
+        else if (MM1StyleDamage)
         {
             if (mm1Damage != nullptr)
             {
@@ -1744,7 +1744,7 @@ namespace MM2
             shaders = this->mm1Damage->GetCleanShaders();
         }
 
-        if (Enable3DDamage && mm1StyleDamage)
+        if (Enable3DDamage && MM1StyleDamage)
         {
             //use 3d damage
             if (lod >= 2 && this->damage3D != nullptr)
@@ -1776,7 +1776,7 @@ namespace MM2
                 if (bodyGeom != nullptr)
                     bodyGeom->DrawAlpha(shaders);
 
-                if (mm1StyleDamage)
+                if (MM1StyleDamage)
                 {
                     modStatic* bodyDamage = lod >= 2 ? damage3D->GetDeformDamageModel() : this->GetGeom(lod, 0);
                     if (bodyDamage != nullptr)
@@ -1784,7 +1784,7 @@ namespace MM2
                 }
             }
         }
-        else if (mm1StyleDamage)
+        else if (MM1StyleDamage)
         {
             if (mm1Damage != nullptr)
             {

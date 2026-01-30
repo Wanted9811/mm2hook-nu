@@ -448,7 +448,7 @@ namespace MM2
         modStatic* tslight0 = this->GetGeomBase(TSLIGHT0_GEOM_ID)->GetHighestLOD();
         modStatic* tslight1 = this->GetGeomBase(TSLIGHT1_GEOM_ID)->GetHighestLOD();
 
-        if (vehCarModel::mm1StyleTransmission)
+        if (vehCarModel::MM1StyleTransmission)
         {
             auto throttle = carsim->GetEngine()->GetThrottleInput();
             auto speedMPH = carsim->GetSpeedMPH();

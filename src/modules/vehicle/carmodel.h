@@ -129,8 +129,8 @@ namespace MM2
         static bool PartReflections;
         static bool WheelReflections;
         static bool DamageReflections;
-        static bool mm1StyleTransmission;
-        static bool mm1StyleDamage;
+        static bool MM1StyleTransmission;
+        static bool MM1StyleDamage;
         static bool MM1StyleWobble;
 
         //light states
