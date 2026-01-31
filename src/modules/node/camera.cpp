@@ -669,7 +669,7 @@ void camViewCS::BindLua(LuaState L) {
         .addFunction("ForceMatrixDelta", static_cast<void(camViewCS::*)(const Matrix34*)>(&ForceMatrixDelta))
 
         .addVariable("UseGlobalNearFar", &camViewCS::UseGlobalNearFar)
-        .addVariable("FarClip", &camViewCS::FarClip)
-        .addVariable("NearClip", &camViewCS::NearClip)
+        .addVariable("OverrideFar", &camViewCS::OverrideFar)
+        .addVariable("OverrideNear", &camViewCS::OverrideNear)
     .endClass();
 }

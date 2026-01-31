@@ -430,8 +430,8 @@ namespace MM2
         camCarCS *AfterTransitionCamera;
         camTransitionCS *TransitionCamera;
         bool UseGlobalNearFar; 
-        float FarClip;
-        float NearClip;
+        float OverrideFar;
+        float OverrideNear;
         int unk_48; // unused
     private:
         //helpers for lua calls
