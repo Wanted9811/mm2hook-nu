@@ -1134,24 +1134,29 @@ namespace MM2
             for (int i = 0; i < 4; i++)
             {
                 auto shock = &this->carSim->ShockSuspensions[i];
-                DrawPart(lod, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shock->GetSuspensionPivot(), shock->GetWheel()), shaders, alphaDrawing);
+                Matrix34 shockMatrix = vehCarModel::EnableWheelWobble ? shock->GetSuspensionPivot() : shock->GetSuspensionMatrix();
+                DrawPart(lod, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 4; i++)
             {
                 auto arm = &this->carSim->ArmSuspensions[i];
-                DrawPart(lod, ARM0_GEOM_ID + i, GetPartWobbleMatrix(arm->GetSuspensionPivot(), arm->GetWheel()), shaders, alphaDrawing);
+                Matrix34 armMatrix = vehCarModel::EnableWheelWobble ? arm->GetSuspensionPivot() : arm->GetSuspensionMatrix();
+                DrawPart(lod, ARM0_GEOM_ID + i, GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 2; i++)
             {
                 auto shaft = &this->carSim->ShaftSuspensions[i];
-                DrawPart(lod, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaft->GetSuspensionPivot(), shaft->GetWheel()), shaders, alphaDrawing);
+                Matrix34 shaftMatrix = vehCarModel::EnableWheelWobble ? shaft->GetSuspensionPivot() : shaft->GetSuspensionMatrix();
+                DrawPart(lod, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders, alphaDrawing);
             }
 
             auto axleFront = &this->carSim->AxleFront;
-            DrawPart(lod, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFront->GetAxlePivot(), axleFront->GetRightWheel()), shaders, alphaDrawing);
+            Matrix34 axleFrontMatrix = vehCarModel::EnableWheelWobble ? axleFront->GetAxlePivot() : axleFront->GetAxleMatrix();
+            DrawPart(lod, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders, alphaDrawing);
 
             auto axleRear = &this->carSim->AxleRear;
-            DrawPart(lod, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRear->GetAxlePivot(), axleRear->GetLeftWheel()), shaders, alphaDrawing);
+            Matrix34 axleRearMatrix = vehCarModel::EnableWheelWobble ? axleRear->GetAxlePivot() : axleRear->GetAxleMatrix();
+            DrawPart(lod, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders, alphaDrawing);
                 
             //engine
             if ((this->wheelBrokenStatus & 0x40000) != 0)
@@ -1691,24 +1696,29 @@ namespace MM2
         for (int i = 0; i < 4; i++)
         {
             auto shock = &this->carSim->ShockSuspensions[i];
-            DrawPartReflected(3, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shock->GetSuspensionPivot(), shock->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
+            Matrix34 shockMatrix = vehCarModel::EnableWheelWobble ? shock->GetSuspensionPivot() : shock->GetSuspensionMatrix();
+            DrawPartReflected(3, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
         }
         for (int i = 0; i < 4; i++)
         {
             auto arm = &this->carSim->ArmSuspensions[i];
-            DrawPartReflected(3, ARM0_GEOM_ID + i, GetPartWobbleMatrix(arm->GetSuspensionPivot(), arm->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
+            Matrix34 armMatrix = vehCarModel::EnableWheelWobble ? arm->GetSuspensionPivot() : arm->GetSuspensionMatrix();
+            DrawPartReflected(3, ARM0_GEOM_ID + i, GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
         }
         for (int i = 0; i < 2; i++)
         {
             auto shaft = &this->carSim->ShaftSuspensions[i];
-            DrawPartReflected(3, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaft->GetSuspensionPivot(), shaft->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
+            Matrix34 shaftMatrix = vehCarModel::EnableWheelWobble ? shaft->GetSuspensionPivot() : shaft->GetSuspensionMatrix();
+            DrawPartReflected(3, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders, intensity, vehCarModel::PartReflections);
         }
 
         auto axleFront = &this->carSim->AxleFront;
-        DrawPartReflected(3, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFront->GetAxlePivot(), axleFront->GetRightWheel()), shaders, intensity, vehCarModel::PartReflections);
+        Matrix34 axleFrontMatrix = vehCarModel::EnableWheelWobble ? axleFront->GetAxlePivot() : axleFront->GetAxleMatrix();
+        DrawPartReflected(3, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders, intensity, vehCarModel::PartReflections);
 
         auto axleRear = &this->carSim->AxleRear;
-        DrawPartReflected(3, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRear->GetAxlePivot(), axleRear->GetLeftWheel()), shaders, intensity, vehCarModel::PartReflections);
+        Matrix34 axleRearMatrix = vehCarModel::EnableWheelWobble ? axleRear->GetAxlePivot() : axleRear->GetAxleMatrix();
+        DrawPartReflected(3, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders, intensity, vehCarModel::PartReflections);
 
         //engine
         if ((this->wheelBrokenStatus & 0x40000) != 0)
@@ -1902,24 +1912,29 @@ namespace MM2
             for (int i = 0; i < 4; i++)
             {
                 auto shock = &this->carSim->ShockSuspensions[i];
-                DrawPart(lod, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shock->GetSuspensionPivot(), shock->GetWheel()), shaders, alphaDrawing);
+                Matrix34 shockMatrix = vehCarModel::EnableWheelWobble ? shock->GetSuspensionPivot() : shock->GetSuspensionMatrix();
+                DrawPart(lod, SHOCK0_GEOM_ID + i, GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 4; i++)
             {
                 auto arm = &this->carSim->ArmSuspensions[i];
-                DrawPart(lod, ARM0_GEOM_ID + i, GetPartWobbleMatrix(arm->GetSuspensionPivot(), arm->GetWheel()), shaders, alphaDrawing);
+                Matrix34 armMatrix = vehCarModel::EnableWheelWobble ? arm->GetSuspensionPivot() : arm->GetSuspensionMatrix();
+                DrawPart(lod, ARM0_GEOM_ID + i, GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders, alphaDrawing);
             }
             for (int i = 0; i < 2; i++)
             {
                 auto shaft = &this->carSim->ShaftSuspensions[i];
-                DrawPart(lod, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaft->GetSuspensionPivot(), shaft->GetWheel()), shaders, alphaDrawing);
+                Matrix34 shaftMatrix = vehCarModel::EnableWheelWobble ? shaft->GetSuspensionPivot() : shaft->GetSuspensionMatrix();
+                DrawPart(lod, SHAFT2_GEOM_ID + i, GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders, alphaDrawing);
             }
 
             auto axleFront = &this->carSim->AxleFront;
-            DrawPart(lod, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFront->GetAxlePivot(), axleFront->GetRightWheel()), shaders, alphaDrawing);
+            Matrix34 axleFrontMatrix = vehCarModel::EnableWheelWobble ? axleFront->GetAxlePivot() : axleFront->GetAxleMatrix();
+            DrawPart(lod, AXLE0_GEOM_ID, GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders, alphaDrawing);
 
             auto axleRear = &this->carSim->AxleRear;
-            DrawPart(lod, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRear->GetAxlePivot(), axleRear->GetLeftWheel()), shaders, alphaDrawing);
+            Matrix34 axleRearMatrix = vehCarModel::EnableWheelWobble ? axleRear->GetAxlePivot() : axleRear->GetAxleMatrix();
+            DrawPart(lod, AXLE1_GEOM_ID, GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders, alphaDrawing);
 
             //engine
             if ((this->wheelBrokenStatus & 0x40000) != 0)
