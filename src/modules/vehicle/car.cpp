@@ -4,6 +4,8 @@
 
 using namespace MM2;
 
+bool fricValueChanged = false;
+
 void vehCar::setDrivable(bool drivable, int mode)
 {
 	this->SetDrivable(drivable ? TRUE : FALSE, mode);
@@ -108,7 +110,11 @@ AGE_API void vehCar::PreUpdate()
 		case 1:
 			if (this->GetCarDamage()->GetCurDamage() < this->GetCarDamage()->GetMaxDamage())
 			{
-				vehWheel::SetWeatherFriction(0.15f);
+				if (!fricValueChanged)
+				{
+					vehWheel::SetWeatherFriction(0.15f);
+					fricValueChanged = true;
+				}
 				if (!this->IsPlayer())
 				{
 					this->CarSim->GetEngine()->SetThrottleInput(1.0f);
@@ -142,7 +148,11 @@ AGE_API void vehCar::PreUpdate()
 		char* vehName = this->CarDamage->GetName();
 		if (!this->CarAudioContainer->IsPolice(vehName))
 		{
-			vehWheel::SetWeatherFriction(MMSTATE->WeatherType == 3 ? 0.8f : 1.0f);
+			if (fricValueChanged)
+			{
+				vehWheel::SetWeatherFriction(MMSTATE->WeatherType == 3 ? 0.8f : 1.0f);
+				fricValueChanged = false;
+			}
 		}
 	}
 
