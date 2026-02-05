@@ -1,9 +1,8 @@
 #pragma once
 #include "car.h"
+#include <modules\mmcityinfo\state.h>
 
 using namespace MM2;
-
-float weatherFriction = vehWheel::GetWeatherFriction();
 
 void vehCar::setDrivable(bool drivable, int mode)
 {
@@ -143,7 +142,7 @@ AGE_API void vehCar::PreUpdate()
 		char* vehName = this->CarDamage->GetName();
 		if (!this->CarAudioContainer->IsPolice(vehName))
 		{
-			vehWheel::SetWeatherFriction(weatherFriction);
+			vehWheel::SetWeatherFriction(MMSTATE->WeatherType == 3 ? 0.8f : 1.0f);
 		}
 	}
 
