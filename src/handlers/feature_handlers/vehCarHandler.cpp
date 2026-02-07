@@ -7,7 +7,6 @@ using namespace MM2;
 */
 
 static ConfigValue<bool> cfgVehicleDebug("VehicleDebug", "vehicleDebug", false);
-static ConfigValue<bool> cfgRaceStartBurnout("RaceStartBurnout", true);
 
 void vehCarHandler::InitCar(LPCSTR vehName, int a2, int a3, bool a4, bool a5)
 {
@@ -173,14 +172,11 @@ void vehCarHandler::Install(void)
         );
     }
 
-    if (cfgRaceStartBurnout.Get())
-    {
-        InstallVTableHook("vehCar::PreUpdate",
-            &PreUpdate, {
-                0x5B0BB4,
-            }
-        );
-    }
+    InstallVTableHook("vehCar::PreUpdate",
+        &PreUpdate, {
+            0x5B0BB4,
+        }
+    );
 
     InstallVTableHook("vehCar::Update",
         &Update, {

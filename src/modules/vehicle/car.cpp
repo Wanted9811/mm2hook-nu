@@ -1,10 +1,7 @@
 #pragma once
 #include "car.h"
-#include <modules\mmcityinfo\state.h>
 
 using namespace MM2;
-
-bool fricValueChanged = false;
 
 void vehCar::setDrivable(bool drivable, int mode)
 {
@@ -108,26 +105,8 @@ AGE_API void vehCar::PreUpdate()
 		switch (this->StopMode)
 		{
 		case 1:
-			if (this->GetCarDamage()->GetCurDamage() < this->GetCarDamage()->GetMaxDamage())
-			{
-				if (!fricValueChanged)
-				{
-					vehWheel::SetWeatherFriction(0.15f);
-					fricValueChanged = true;
-				}
-				if (!this->IsPlayer())
-				{
-					this->CarSim->GetEngine()->SetThrottleInput(1.0f);
-					this->CarSim->SetHandbrake(0.f);
-				}
-				this->CarSim->GetTransmission()->SetGearChangeTimer(0.f);
-				this->CarSim->GetICS()->SetVelocity(Vector3(0.0f, this->CarSim->GetICS()->GetVelocity().Y, 0.0f));
-				this->CarSim->GetICS()->SetForce(Vector3(0.0f, this->CarSim->GetICS()->GetForce().Y, 0.0f));
-			}
-			else
-			{
-				this->CarSim->SetBrake(1.0f);
-			}
+			this->CarSim->SetBrake(1.0f);
+			this->CarSim->GetTransmission()->SetNeutral();
 			break;
 		case 2:
 			this->CarSim->SetBrake(1.0f);
@@ -141,18 +120,6 @@ AGE_API void vehCar::PreUpdate()
 			this->CarSim->SetSteering(0.f);
 			this->CarSim->SetHandbrake(0.f);
 			break;
-		}
-	}
-	else
-	{
-		char* vehName = this->CarDamage->GetName();
-		if (!this->CarAudioContainer->IsPolice(vehName))
-		{
-			if (fricValueChanged)
-			{
-				vehWheel::SetWeatherFriction(MMSTATE->WeatherType == 3 ? 0.8f : 1.0f);
-				fricValueChanged = false;
-			}
 		}
 	}
 
