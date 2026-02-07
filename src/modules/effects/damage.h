@@ -33,7 +33,7 @@ namespace MM2
 
         void Reset(bool invertDamage);
 
-        void Apply(Vector3& impactPosition, float radius, bool invertDamage);
+        void Apply(Vector3& impactPosition, float radius);
 
         modStatic* GetCleanModel();
         modStatic* GetDamageModel();

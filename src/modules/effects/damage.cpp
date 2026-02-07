@@ -200,7 +200,7 @@ namespace MM2
 		}
 	}
 
-	void mmDamage::Apply(Vector3& impactPosition, float radius, bool invertDamage)
+	void mmDamage::Apply(Vector3& impactPosition, float radius)
 	{
 		int currentVertex = 0;
 
@@ -227,16 +227,8 @@ namespace MM2
 
 						if (dist0 < radius || dist1 < radius || dist2 < radius)
 						{
-							if (invertDamage)
-							{
-								cleanPacket->SetTri(tri[0], tri[1], tri[2], j);
-								damagePacket->SetTri(0, 0, 0, j);
-							}
-							else
-							{
-								damagePacket->SetTri(tri[0], tri[1], tri[2], j);
-								cleanPacket->SetTri(0, 0, 0, j);
-							}
+							damagePacket->SetTri(tri[0], tri[1], tri[2], j);
+							cleanPacket->SetTri(0, 0, 0, j);
 						}
 					}
 				}
