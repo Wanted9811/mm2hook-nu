@@ -31,7 +31,7 @@ namespace MM2
 
         void Init(modStatic* model, modShader* shaders, int shaderCount);
 
-        void Reset(bool invertDamage);
+        void Reset(bool showDamage);
 
         void Apply(Vector3& impactPosition, float radius);
 

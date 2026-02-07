@@ -161,7 +161,7 @@ namespace MM2
 		Reset(false);
 	}
 
-	void mmDamage::Reset(bool invertDamage)
+	void mmDamage::Reset(bool showDamage)
 	{
 		for (int i = 0; i < CleanModel->GetPacketCount(); i++)
 		{
@@ -180,7 +180,7 @@ namespace MM2
 						int tri[3];
 						bodyPacket->GetTri(tri, j);
 
-						if (invertDamage)
+						if (showDamage)
 						{
 							damagePacket->SetTri(tri[0], tri[1], tri[2], j);
 							cleanPacket->SetTri(0, 0, 0, j);
