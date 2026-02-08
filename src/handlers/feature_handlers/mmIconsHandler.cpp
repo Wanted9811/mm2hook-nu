@@ -32,7 +32,7 @@ unsigned int IconColors[12] = {
     /* NEW ADDITIONAL COLORS */
 
     0xFFFFFFFF, // White
-    0xFF3F3F3F, // Grey
+    0xFF727272, // Grey
     0xFF000000, // Black
     0xFFC0EC42, // Light Green
 };
@@ -50,7 +50,7 @@ unsigned int SemiTransIconColors[12] = {
     /* NEW ADDITIONAL COLORS */
 
     0x80FFFFFF, // White
-    0x803F3F3F, // Grey
+    0x80727272, // Grey
     0x80000000, // Black
     0x80C0EC42, // Light Green
 };

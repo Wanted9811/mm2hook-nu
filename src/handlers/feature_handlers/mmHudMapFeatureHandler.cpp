@@ -37,7 +37,7 @@ unsigned int HudmapIconColors[14] = {
     /* NEW ADDITIONAL COLORS */
 
     0xFFFFFFFF, // White
-    0xFF3F3F3F, // Grey
+    0xFF727272, // Grey
     0xFFFDBF72, // Light Orange
     0xFFC0EC42, // Light Green
 };
