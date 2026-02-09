@@ -124,6 +124,8 @@ namespace MM2
         vehWheel* GetWheel(int num);
         lvlTrackManager* GetWheelTrackManager(int num);
         vehTrailerInstance* GetInstance();
+        Vector3 GetCarHitchOffset() const;
+        Vector3 GetTrailerHitchOffset() const;
 
         AGE_API vehTrailer();
         AGE_API ~vehTrailer();

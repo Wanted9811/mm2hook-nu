@@ -61,6 +61,16 @@ namespace MM2
         return &this->TrailerInstance;
     }
 
+    Vector3 vehTrailer::GetCarHitchOffset() const
+    {
+        return this->CarHitchOffset;
+    }
+
+    Vector3 vehTrailer::GetTrailerHitchOffset() const
+    {
+        return this->TrailerHitchOffset;
+    }
+
     AGE_API vehTrailer::vehTrailer()
     {
         hook::Thunk<0x4D6F40>::Call<void>(this);
@@ -113,6 +123,9 @@ namespace MM2
             .addPropertyReadOnly("CarSim", &GetCarSim)
             .addPropertyReadOnly("Joint", &GetJoint)
             .addPropertyReadOnly("Instance", &GetInstance)
+            .addPropertyReadOnly("InertialCS", &GetInertialCS)
+            .addPropertyReadOnly("CarHitchOffset", &GetCarHitchOffset)
+            .addPropertyReadOnly("TrailerHitchOffset", &GetTrailerHitchOffset)
         .endClass();
     }
 
