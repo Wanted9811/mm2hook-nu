@@ -3,6 +3,7 @@
 #include <modules\effects\texeldamage.h>
 #include <modules\effects\damage3d.h>
 #include <modules\effects\damage.h>
+#include <modules\effects\lightdamage.h>
 
 #include "car.h"
 #include "breakable.h"
@@ -120,6 +121,7 @@ namespace MM2
         static bool EnableSpinningWheels;
         static bool EnableHeadlightFlashing;
         static bool EnableWheelWobble;
+        static bool EnableLightDamage;
         static bool MWStyleTotaledCar;
         static int Enable3DShadows;
         static int SirenType;
@@ -188,8 +190,10 @@ namespace MM2
         Vector3 fndr5offset;
         ltLight* extraHeadlights[6]; //HEADLIGHT2-7
         Vector3 extraHeadlightPositions[6];
+        bool enabledExtraElectrics[6];
         fxDamage3D* damage3D;
         mmDamage* mm1Damage;
+        mmLightDamage* lightDamage;
     public:
         AGE_API vehCarModel();
         AGE_API ~vehCarModel();
@@ -204,6 +208,7 @@ namespace MM2
         fxTexelDamage* GetTexelDamage();
         fxDamage3D* GetDamage3D();
         mmDamage* GetMM1Damage();
+        mmLightDamage* GetLightDamage();
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetFenderMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
@@ -218,7 +223,7 @@ namespace MM2
         AGE_API void InitSirenLight(const char* basename, const char* mtxName, int geomId);
         void InitSirenLights(const char* basename);
         void InitHeadlights(const char* basename);
-        AGE_API void BreakElectrics(Vector3* localImpactPos);
+        AGE_API void BreakElectrics(const Vector3& localImpactPos);
         AGE_API void ClearDamage();
         AGE_API void EjectOneshot();
         AGE_API bool GetVisible();

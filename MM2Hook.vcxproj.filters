@@ -1892,6 +1892,9 @@
     <ClInclude Include="src\handlers\feature_handlers\MenuManagerHandler.h">
       <Filter>Source Files\handlers\feature_handlers</Filter>
     </ClInclude>
+    <ClInclude Include="src\modules\effects\lightdamage.h">
+      <Filter>Source Files\modules\effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lua\lapi.c">
@@ -2877,6 +2880,12 @@
     </ClCompile>
     <ClCompile Include="src\handlers\feature_handlers\MenuManagerHandler.cpp">
       <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\effects\lightdamage.cpp">
+      <Filter>Source Files\modules\effects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\vehicle\siren.cpp">
+      <Filter>Source Files\modules\vehicle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

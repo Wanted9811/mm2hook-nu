@@ -80,6 +80,34 @@ namespace MM2
                 damage3D->SetShaders(bodyEntry->pShaders[variant], bodyEntry->numShadersPerVariant);
             }
         }
+        if (lightDamage)
+        {
+            delete lightDamage;
+            lightDamage = new mmLightDamage();
+            for (int i = 0; i < 6; i++)
+            {
+                modStatic* lightEntry = this->GetGeomBase(HLIGHT_GEOM_ID + i)->GetHighestLOD();
+                if (lightEntry == nullptr)
+                    continue;
+                lightDamage->Init(lightEntry, mmLightDamage::HLIGHT + i);
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                modStatic* sirenEntry = this->GetGeomBase(SIREN0_GEOM_ID + i)->GetHighestLOD();
+                if (sirenEntry == nullptr)
+                    continue;
+                lightDamage->Init(sirenEntry, mmLightDamage::SIREN0 + i);
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                modStatic* tslightEntry = this->GetGeomBase(TSLIGHT0_GEOM_ID + i)->GetHighestLOD();
+                if (tslightEntry == nullptr)
+                    continue;
+                lightDamage->Init(tslightEntry, mmLightDamage::TSLIGHT0 + i);
+            }
+        }
     }
 
     ltLight* vehCarModel::GetHeadlight(int index)
@@ -119,6 +147,11 @@ namespace MM2
     mmDamage* vehCarModel::GetMM1Damage()
     {
         return mm1Damage;
+    }
+
+    mmLightDamage* vehCarModel::GetLightDamage()
+    {
+        return lightDamage;
     }
 
     Matrix34 vehCarModel::GetWheelMatrix(int num)
@@ -386,9 +419,31 @@ namespace MM2
         }
     }
 
-    AGE_API void vehCarModel::BreakElectrics(Vector3* localImpactPos)     
+    AGE_API void vehCarModel::BreakElectrics(const Vector3& localImpactPos)     
     {
-        hook::Thunk<0x4CEFE0>::Call<void>(this, localImpactPos); 
+        float radius = 0.25f;
+
+        for (int i = 0; i < 2; i++)
+        {
+            if ((this->headlightPositions[i] - localImpactPos).Mag2() < radius)
+                this->enabledElectrics[i + 2] = false;
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            if ((this->extraHeadlightPositions[i] - localImpactPos).Mag2() < radius)
+                this->enabledExtraElectrics[i] = false;
+        }
+
+        auto siren = this->car->GetSiren();
+        if (siren != nullptr)
+        {
+            for (int i = 0; i < siren->GetLightCount(); i++)
+            {
+                if ((siren->GetLightPosition(i) - localImpactPos).Mag2() < radius)
+                    siren->SetEnabledElectrics(i, false);
+            }
+        }
     }
     
     AGE_API void vehCarModel::ClearDamage()                          
@@ -401,6 +456,8 @@ namespace MM2
             damage3D->SetNoDamage();
         if (mm1Damage)
             mm1Damage->Reset(false);
+        if (lightDamage)
+            lightDamage->Reset(false);
         
         this->hasEjectedOneshot = false;
         this->wheelBrokenStatus = 0xFFFFFFFF;
@@ -409,6 +466,21 @@ namespace MM2
         this->enabledElectrics[2] = true;
         this->enabledElectrics[3] = true;
         
+        this->enabledExtraElectrics[0] = true;
+        this->enabledExtraElectrics[1] = true;
+        this->enabledExtraElectrics[2] = true;
+        this->enabledExtraElectrics[3] = true;
+        this->enabledExtraElectrics[4] = true;
+        this->enabledExtraElectrics[5] = true;
+
+        auto siren = this->car->GetSiren();
+        if (siren != nullptr)
+        {
+            for (int i = 0; i < siren->GetLightCount(); i++)
+            {
+                siren->SetEnabledElectrics(i, true);
+            }
+        }
     }
 
     AGE_API void vehCarModel::EjectOneshot()
@@ -547,7 +619,7 @@ namespace MM2
         for (int i = 0; i < 6; i++)
         {
             auto headlightEntry = this->GetGeomBase(vehCarModel::HEADLIGHT2_GEOM_ID + i);
-            if (headlightEntry == nullptr || headlightEntry->GetHighLOD() == nullptr)
+            if (headlightEntry == nullptr || headlightEntry->GetHighLOD() == nullptr || !(enabledExtraElectrics[i]))
                 continue;
 
             if (rotate)
@@ -835,6 +907,45 @@ namespace MM2
                     this->damage3D = new fxDamage3D();
                     damage3D->Init(bodyEntry->GetHighLOD(), bodyDamageEntry->GetHighLOD() != nullptr ? bodyDamageEntry->GetHighLOD() : bodyEntry->GetHighLOD(), vehCarModel::MM1StyleDamage);
                     damage3D->SetShaders(bodyEntry->pShaders[this->GetVariant()], bodyEntry->numShadersPerVariant);
+                }
+            }
+        }
+
+        if (vehCarModel::EnableLightDamage)
+        {
+            //init lightDamage
+            if (this->lightDamage != nullptr)
+            {
+                // delete old lightDamage
+                delete this->lightDamage;
+                this->lightDamage = nullptr;
+            }
+
+            if (this->GetGeomIndex() != 0)
+            {
+                this->lightDamage = new mmLightDamage();
+                for (int i = 0; i < 6; i++)
+                {
+                    modStatic* lightEntry = this->GetGeomBase(HLIGHT_GEOM_ID + i)->GetHighestLOD();
+                    if (lightEntry == nullptr)
+                        continue;
+                    lightDamage->Init(lightEntry, mmLightDamage::HLIGHT + i);
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    modStatic* sirenEntry = this->GetGeomBase(SIREN0_GEOM_ID + i)->GetHighestLOD();
+                    if (sirenEntry == nullptr)
+                        continue;
+                    lightDamage->Init(sirenEntry, mmLightDamage::SIREN0 + i);
+                }
+
+                for (int i = 0; i < 2; i++)
+                {
+                    modStatic* tslightEntry = this->GetGeomBase(TSLIGHT0_GEOM_ID + i)->GetHighestLOD();
+                    if (tslightEntry == nullptr)
+                        continue;
+                    lightDamage->Init(tslightEntry, mmLightDamage::TSLIGHT0 + i);
                 }
             }
         }
@@ -1344,12 +1455,12 @@ namespace MM2
         gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
         //draw signals
-        modStatic* slight0 = this->GetGeomBase(SLIGHT0_GEOM_ID)->GetHighestLOD();
-        modStatic* slight1 = this->GetGeomBase(SLIGHT1_GEOM_ID)->GetHighestLOD();
+        modStatic* slight0 = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::SLIGHT0) : this->GetGeomBase(SLIGHT0_GEOM_ID)->GetHighestLOD();
+        modStatic* slight1 = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::SLIGHT1) : this->GetGeomBase(SLIGHT1_GEOM_ID)->GetHighestLOD();
 
         //draw brake signals
-        modStatic* tslight0 = this->GetGeomBase(TSLIGHT0_GEOM_ID)->GetHighestLOD();
-        modStatic* tslight1 = this->GetGeomBase(TSLIGHT1_GEOM_ID)->GetHighestLOD();
+        modStatic* tslight0 = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::TSLIGHT0) : this->GetGeomBase(TSLIGHT0_GEOM_ID)->GetHighestLOD();
+        modStatic* tslight1 = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::TSLIGHT1) : this->GetGeomBase(TSLIGHT1_GEOM_ID)->GetHighestLOD();
 
         //check signal clock
         bool drawSignal = fmodf(datTimeManager::ElapsedTime + (float)this->GetRandId(), 1.0f) > 0.5f;
@@ -1423,63 +1534,59 @@ namespace MM2
             }
         }
 
-        //only draw rear lights if the electrics allow it
-        if (enabledElectrics[0] || enabledElectrics[1])
-        {   
-            //draw tlight
-            modStatic* tlight = this->GetGeomBase(TLIGHT_GEOM_ID)->GetHighestLOD();
-            if (tlight != nullptr)
-            {
-                //draw brake copy
-                if (carsim->GetBrake() > 0.1)
-                    tlight->Draw(shaders);
-                //draw headlight copy
-                if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
-                    tlight->Draw(shaders);
-            }
+        //draw tlight
+        modStatic* tlight = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::TLIGHT) : this->GetGeomBase(TLIGHT_GEOM_ID)->GetHighestLOD();
+        if (tlight != nullptr)
+        {
+            //draw brake copy
+            if (carsim->GetBrake() > 0.1)
+                tlight->Draw(shaders);
+            //draw headlight copy
+            if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
+                tlight->Draw(shaders);
+        }
 
-            //draw blight
-            modStatic* blight = this->GetGeomBase(BLIGHT_GEOM_ID)->GetHighestLOD();
-            if (blight != nullptr)
-            {
-                //draw brake copy
-                if (carsim->GetBrake() > 0.1)
-                    blight->Draw(shaders);
-            }
+        //draw blight
+        modStatic* blight = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::BLIGHT) : this->GetGeomBase(BLIGHT_GEOM_ID)->GetHighestLOD();
+        if (blight != nullptr)
+        {
+            //draw brake copy
+            if (carsim->GetBrake() > 0.1)
+                blight->Draw(shaders);
+        }
 
-            //draw rlight
-            modStatic* rlight = this->GetGeomBase(RLIGHT_GEOM_ID)->GetHighestLOD();
-            if (MM1StyleTransmission)
-            {
-                auto throttle = carsim->GetEngine()->GetThrottleInput();
-                auto speedMPH = carsim->GetSpeedMPH();
-                auto transmission = carsim->GetTransmission();
+        //draw rlight
+        modStatic* rlight = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::RLIGHT) : this->GetGeomBase(RLIGHT_GEOM_ID)->GetHighestLOD();
+        if (MM1StyleTransmission)
+        {
+            auto throttle = carsim->GetEngine()->GetThrottleInput();
+            auto speedMPH = carsim->GetSpeedMPH();
+            auto transmission = carsim->GetTransmission();
 
-                if (rlight != nullptr && gear == 0)
-                {
-                    if (transmission->IsAuto()) {
-                        if (throttle > 0.f || speedMPH >= 1.f)
-                            rlight->Draw(shaders);
-                    }
-                    else
-                    {
+            if (rlight != nullptr && gear == 0)
+            {
+                if (transmission->IsAuto()) {
+                    if (throttle > 0.f || speedMPH >= 1.f)
                         rlight->Draw(shaders);
-                    }
                 }
-            }
-            else
-            {
-                if (rlight != nullptr && gear == 0)
+                else
                 {
                     rlight->Draw(shaders);
                 }
             }
         }
+        else
+        {
+            if (rlight != nullptr && gear == 0)
+            {
+                rlight->Draw(shaders);
+            }
+        }
 
         //Draw siren and headlights
-        modStatic* hlight = this->GetGeomBase(HLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* siren0 = this->GetGeomBase(SIREN0_GEOM_ID)->GetHighestLOD();
-        modStatic* siren1 = this->GetGeomBase(SIREN1_GEOM_ID)->GetHighestLOD();
+        modStatic* hlight = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::HLIGHT) : this->GetGeomBase(HLIGHT_GEOM_ID)->GetHighestLOD();
+        modStatic* siren0 = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::SIREN0) : this->GetGeomBase(SIREN0_GEOM_ID)->GetHighestLOD();
+        modStatic* siren1 = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::SIREN1) : this->GetGeomBase(SIREN1_GEOM_ID)->GetHighestLOD();
 
         if (vehCarModel::HeadlightType < 3)
         {
@@ -1513,13 +1620,10 @@ namespace MM2
                 //MM1 headlights
                 gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
-                if (enabledElectrics[2] || enabledElectrics[3])
+                if (hlight != nullptr)
                 {
-                    if (hlight != nullptr)
-                    {
-                        if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
-                            hlight->Draw(shaders);
-                    }
+                    if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
+                        hlight->Draw(shaders);
                 }
             }
         }

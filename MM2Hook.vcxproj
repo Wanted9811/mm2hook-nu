@@ -376,6 +376,7 @@
     <ClInclude Include="src\modules\effects\card2d.h" />
     <ClInclude Include="src\modules\effects\damage.h" />
     <ClInclude Include="src\modules\effects\damage3d.h" />
+    <ClInclude Include="src\modules\effects\lightdamage.h" />
     <ClInclude Include="src\modules\effects\linespark.h" />
     <ClInclude Include="src\modules\effects\ptx.h" />
     <ClInclude Include="src\modules\effects\shard.h" />
@@ -849,6 +850,7 @@
     <ClCompile Include="src\modules\effects\birth.cpp" />
     <ClCompile Include="src\modules\effects\damage.cpp" />
     <ClCompile Include="src\modules\effects\damage3d.cpp" />
+    <ClCompile Include="src\modules\effects\lightdamage.cpp" />
     <ClCompile Include="src\modules\effects\ptx.cpp" />
     <ClCompile Include="src\modules\effects\waterspout.cpp" />
     <ClCompile Include="src\modules\gfx.cpp" />
@@ -917,6 +919,7 @@
     <ClCompile Include="src\modules\vehicle\cardamage.cpp" />
     <ClCompile Include="src\modules\vehicle\carmodel.cpp" />
     <ClCompile Include="src\modules\vehicle\carsim.cpp" />
+    <ClCompile Include="src\modules\vehicle\siren.cpp" />
     <ClCompile Include="src\modules\vehicle\trackmanager.cpp" />
     <ClCompile Include="src\modules\vehicle\trailer.cpp" />
     <ClCompile Include="src\modules\vehicle\wheel.cpp" />

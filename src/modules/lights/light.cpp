@@ -56,11 +56,14 @@ void ltLight::Illuminate(Vector3* outColor, Vector3* a2, Vector3* a3)
 {
     hook::Thunk<0x59B990>::Call<void>(this, outColor, a2, a3);
 }
-float ltLight::ComputeIntensity(Vector3 const & a1, float a2)
+float ltLight::ComputeIntensity(Vector3 const & cameraPosition, float intensity)
 {
-    return hook::Thunk<0x59BA50>::Call<float>(this, &a1, a2);
+    return hook::Thunk<0x59BA50>::Call<float>(this, &cameraPosition, intensity);
 }
-float ltLight::ComputeDistance(Vector3* a1) { return hook::Thunk<0x59BB70>::Call<float>(this, a1); }
+float ltLight::ComputeDistance(const Vector3& cameraPosition)
+{
+    return hook::Thunk<0x59BB70>::Call<float>(this, &cameraPosition);
+}
 
 void ltLight::FileIO(datParser* a1) { hook::Thunk<0x59BCA0>::Call<void>(this, a1); }
 

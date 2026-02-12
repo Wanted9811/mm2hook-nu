@@ -20,7 +20,7 @@ namespace MM2
         //member funcs
         AGE_API void DrawBegin() { hook::Thunk<0x59BFA0>::Call<void>(this); }
         AGE_API void DrawEnd() { hook::Thunk<0x59C0C0>::Call<void>(this); }
-        AGE_API void Draw(Vector3* position, Vector3* color, float a3) { hook::Thunk<0x59C1C0>::Call<void>(this, position, color, a3); }
+        AGE_API void Draw(Vector3& position, Vector3& color, float a3) { hook::Thunk<0x59C1C0>::Call<void>(this, &position, &color, a3); }
 
         static void BindLua(LuaState L) {
             LuaBinding(L).beginClass<ltLensFlare>("ltLensFlare")

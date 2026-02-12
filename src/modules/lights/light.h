@@ -61,8 +61,8 @@ namespace MM2
         AGE_API void SetUpGfxLight();
         AGE_API bool SetGfxLight(gfxLight* a1, Vector3* a2);
         AGE_API void Illuminate(Vector3* outColor, Vector3* a2, Vector3* a3);
-        AGE_API float ComputeIntensity(Vector3 const& a1, float a2);
-        AGE_API float ComputeDistance(Vector3* a1);
+        AGE_API float ComputeIntensity(Vector3 const& cameraPosition, float intensity);
+        AGE_API float ComputeDistance(Vector3 const& cameraPosition);
 
         //TODO
         /*AGE_API void SetUpProjection(ltProjection* a1)  { hook::Thunk<0x59BBB0 >::Call<void>(this, a1); }*/

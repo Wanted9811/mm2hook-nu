@@ -43,6 +43,13 @@ void vehCarModelFeatureHandler::ApplyImpact(vehDamageImpactInfo* a1)
         {
             mm1Damage->Apply(a1->LocalPosition, 0.25f);
         }
+
+        auto lightDamage = model->GetLightDamage();
+        if (lightDamage)
+        {
+            lightDamage->Apply(a1->LocalPosition, 0.25f);
+            model->BreakElectrics(a1->LocalPosition);
+        }
     }
 }
 
@@ -159,6 +166,7 @@ void vehCarModelFeatureHandler::Install()
     ConfigValue<bool> cfgDamageReflections("ReflectionsOnDamagedParts", false);
     ConfigValue<bool> cfgHeadlightFlashing("EnableHeadlightFlashing", true);
     ConfigValue<bool> cfgWheelWobble("PhysicalWheelWobble", true);
+    ConfigValue<bool> cfgEnableLightDamage("EnableLightDamage", false);
     ConfigValue<bool> cfgNFSMWStyleTotaledCar("NFSMWStyleTotaledCar", false);
     ConfigValue<int> cfgSirenStyle("SirenStyle", 0);
     ConfigValue<int> cfgHeadlightStyle("HeadlightStyle", 0);
@@ -168,6 +176,7 @@ void vehCarModelFeatureHandler::Install()
     vehCarModel::EnableSpinningWheels = cfgEnableSpinningWheels.Get();
     vehCarModel::EnableHeadlightFlashing = cfgHeadlightFlashing.Get();
     vehCarModel::EnableWheelWobble = cfgWheelWobble.Get();
+    vehCarModel::EnableLightDamage = cfgEnableLightDamage.Get();
     vehCarModel::SirenType = cfgSirenStyle.Get();
     vehCarModel::HeadlightType = cfgHeadlightStyle.Get();
     vehCarModel::SirenCycle = cfgSirenCycleRate.Get();

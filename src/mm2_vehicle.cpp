@@ -33,6 +33,7 @@ bool vehCarModel::MM1StyleWobble = true;
 bool vehCarModel::Enable3DDamage = true;
 bool vehCarModel::Enable3DDynamicDamage = false;
 bool vehCarModel::EnableWheelWobble = true;
+bool vehCarModel::EnableLightDamage = false;
 
 /*
    vehBreakableMgr
