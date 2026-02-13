@@ -123,7 +123,6 @@ namespace MM2
             .addPropertyReadOnly("CarSim", &GetCarSim)
             .addPropertyReadOnly("Joint", &GetJoint)
             .addPropertyReadOnly("Instance", &GetInstance)
-            .addPropertyReadOnly("InertialCS", &GetInertialCS)
             .addPropertyReadOnly("CarHitchOffset", &GetCarHitchOffset)
             .addPropertyReadOnly("TrailerHitchOffset", &GetTrailerHitchOffset)
         .endClass();
