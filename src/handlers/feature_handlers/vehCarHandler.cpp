@@ -121,18 +121,20 @@ void vehCarHandler::Zoink()
         Warningf("Player is out of the world, teleporting!");
         // tell the player "That didn't happen!"
         auto player = mmGameManager::Instance->getGame()->GetPlayer();
-        player->GetHUD()->SetMessage(AngelReadString(29), 3.f, 0);
+        player->GetHUD()->SetMessage(AngelReadString(29), 3.0f, 0);
     }
 
     // if we're in CNR, drop the gold!
-    if (dgStatePack::Instance->GameMode == dgGameMode::CnR)  {
+    if (dgStatePack::Instance->GameMode == dgGameMode::CnR)
+    {
         auto game = mmGameManager::Instance->getGame();
         hook::Thunk<0x425460>::ThisCall<void>(game); // mmMultiCR::DropThruCityHandler
     }
 
     // early exit
     auto AIMAP = aiMap::GetInstance();
-    if (AIMAP == nullptr || AIMAP->GetIntersectionCount() == 0)  {
+    if (AIMAP == nullptr || AIMAP->GetIntersectionCount() == 0)
+    {
         car->Reset();
         return;
     }
@@ -141,7 +143,8 @@ void vehCarHandler::Zoink()
     float shortestDistance = 99999;
     int closestIntersection = -1;
 
-    for (int is = 0; is < AIMAP->numIntersections; is++) {
+    for (int is = 0; is < AIMAP->numIntersections; is++)
+    {
         auto intersection = AIMAP->intersections[is];
 
         // avoid dummy intersections
@@ -151,19 +154,23 @@ void vehCarHandler::Zoink()
         // check roads to see if this is a valid spawn point
         // valid == (!freeway && !alley)
         bool isValid = true;
-        for (int i = 0; i < intersection->GetPathCount(); i++) {
+        for (int i = 0; i < intersection->GetPathCount(); i++)
+        {
             auto path = intersection->GetPath(i);
-            ushort pathFlags = *getPtr<ushort>(path, 12);
+            ushort pathFlags = path->GetFlags();
 
-            if (pathFlags & 4 || pathFlags & 2) {
+            if (pathFlags & 4 || pathFlags & 2)
+            {
                 isValid = false;
                 break;
             }
         }
 
-        if (isValid) {
+        if (isValid)
+        {
             float pDist = intersection->GetCenter().Dist(carPos);
-            if (pDist < shortestDistance) {
+            if (pDist < shortestDistance)
+            {
                 shortestDistance = pDist;
                 closestIntersection = is;
             }
@@ -171,7 +178,8 @@ void vehCarHandler::Zoink()
     }
 
     // move car to the closest intersection if we can
-    if (closestIntersection >= 0) {
+    if (closestIntersection >= 0)
+    {
         Vector3 originalResetPos = car->GetCarSim()->GetResetPos();
         car->GetCarSim()->SetResetPos(AIMAP->Intersection(closestIntersection)->GetCenter());
         car->Reset();
