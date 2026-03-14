@@ -7,6 +7,7 @@ using namespace MM2;
 */
 
 static ConfigValue<bool> cfgVehicleDebug("VehicleDebug", "vehicleDebug", false);
+static ConfigValue<bool> cfgEnableOutOfMapFix("OutOfMapFix", true);
 
 void vehCarHandler::InitCar(LPCSTR vehName, int a2, int a3, bool a4, bool a5)
 {
@@ -109,6 +110,75 @@ void vehCarHandler::Mm1StyleTransmission()
     }
 }
 
+void vehCarHandler::Zoink()
+{
+    //get required vars
+    auto car = reinterpret_cast<vehCar*>(this);
+    Vector3 carPos = car->GetModel()->GetPosition();
+
+    if (car->IsPlayer())
+    {
+        Warningf("Player is out of the world, teleporting!");
+        // tell the player "That didn't happen!"
+        auto player = mmGameManager::Instance->getGame()->GetPlayer();
+        player->GetHUD()->SetMessage(AngelReadString(29), 3.f, 0);
+    }
+
+    // if we're in CNR, drop the gold!
+    if (dgStatePack::Instance->GameMode == dgGameMode::CnR)  {
+        auto game = mmGameManager::Instance->getGame();
+        hook::Thunk<0x425460>::ThisCall<void>(game); // mmMultiCR::DropThruCityHandler
+    }
+
+    // early exit
+    auto AIMAP = aiMap::GetInstance();
+    if (AIMAP == nullptr || AIMAP->GetIntersectionCount() == 0)  {
+        car->Reset();
+        return;
+    }
+
+    // search for an intersection to teleport to
+    float shortestDistance = 99999;
+    int closestIntersection = -1;
+
+    for (int is = 0; is < AIMAP->numIntersections; is++) {
+        auto intersection = AIMAP->intersections[is];
+
+        // avoid dummy intersections
+        if (intersection->GetPathCount() == 0)
+            continue;
+
+        // check roads to see if this is a valid spawn point
+        // valid == (!freeway && !alley)
+        bool isValid = true;
+        for (int i = 0; i < intersection->GetPathCount(); i++) {
+            auto path = intersection->GetPath(i);
+            ushort pathFlags = *getPtr<ushort>(path, 12);
+
+            if (pathFlags & 4 || pathFlags & 2) {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (isValid) {
+            float pDist = intersection->GetCenter().Dist(carPos);
+            if (pDist < shortestDistance) {
+                shortestDistance = pDist;
+                closestIntersection = is;
+            }
+        }
+    }
+
+    // move car to the closest intersection if we can
+    if (closestIntersection >= 0) {
+        Vector3 originalResetPos = car->GetCarSim()->GetResetPos();
+        car->GetCarSim()->SetResetPos(AIMAP->Intersection(closestIntersection)->GetCenter());
+        car->Reset();
+        car->GetCarSim()->SetResetPos(originalResetPos);
+    }
+}
+
 void vehCarHandler::Update()
 {
     auto car = reinterpret_cast<vehCar*>(this);
@@ -137,6 +207,13 @@ void vehCarHandler::Update()
 
     // call original
     hook::Thunk<0x42C690>::Call<void>(this);
+
+    //check if we're out of the level
+    int carRoom = model->GetRoomId();
+    if (carRoom == 0 && cfgEnableOutOfMapFix.Get())
+    {
+        Zoink();
+    }
 }
 
 void vehCarHandler::PreUpdate()

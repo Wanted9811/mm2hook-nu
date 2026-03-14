@@ -6,7 +6,6 @@
 class mmPlayerHandler {
 public:
     void Splash();
-    void Zoink();
     void Update();
     void Reset();
     void PlayExplosion();

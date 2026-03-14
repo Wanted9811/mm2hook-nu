@@ -10,6 +10,7 @@ public:
     const MM2::phBound * GetModelBound(int a1);
 
     void Mm1StyleTransmission();
+    void Zoink();
     void Update();
     void PreUpdate();
 
