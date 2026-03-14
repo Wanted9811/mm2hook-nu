@@ -4,7 +4,6 @@ using namespace MM2;
 
 static ConfigValue<bool> cfgAmbientSoundsWithMusic("AmbientSoundsWithMusic", true);
 static ConfigValue<bool> cfgEnableModelVisibility("ModelVisibility", false);
-static ConfigValue<bool> cfgEnableWaterSplashSound("WaterSplashSound", true);
 static ConfigValue<bool> cfgEnableExplosionSound("ExplosionSound", true);
 static ConfigValue<bool> cfgEnableMissingDashboardFix("MissingDashboardFix", true);
 static ConfigValue<bool> cfgMm1StyleFlipOver("MM1StyleFlipOver", false);
@@ -12,17 +11,6 @@ static ConfigValue<bool> cfgMm1StyleFlipOver("MM1StyleFlipOver", false);
 /*
     mmPlayerHandler
 */
-
-bool prevSplashState = false;
-void mmPlayerHandler::Splash() {
-    auto player = reinterpret_cast<mmPlayer*>(this);
-    auto car = player->GetCar();
-    float vehicleVelocity = car->GetModel()->GetVelocity().Mag();
-
-    //trigger ColliderId 22 with velocity of vehicleMph
-    auto impactAud = car->GetCarAudioContainerPtr()->GetAudImpactPtr();
-    impactAud->Play(vehicleVelocity, 22);
-}
 
 void mmPlayerHandler::PlayExplosion() {
     auto player = reinterpret_cast<mmPlayer*>(this);
@@ -61,15 +49,6 @@ void mmPlayerHandler::Update() {
     auto basename = player->GetCar()->GetCarDamage()->GetName();
     auto flagsId = VehicleListPtr->GetVehicleInfo(basename)->GetFlags();
     auto AIMAP = aiMap::GetInstance();
-
-    //play splash sound if we just hit the water
-    if (cfgEnableWaterSplashSound.Get()) {
-        bool splashState = car->GetSplash()->isActive();
-        if (splashState && splashState != prevSplashState) {
-            Splash();
-        }
-        prevSplashState = splashState;
-    }
 
     //check if we're damaged out
     if (cfgEnableExplosionSound.Get()) {

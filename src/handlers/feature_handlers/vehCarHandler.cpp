@@ -8,6 +8,7 @@ using namespace MM2;
 
 static ConfigValue<bool> cfgVehicleDebug("VehicleDebug", "vehicleDebug", false);
 static ConfigValue<bool> cfgEnableOutOfMapFix("OutOfMapFix", true);
+static ConfigValue<bool> cfgEnableWaterSplashSound("WaterSplashSound", true);
 
 void vehCarHandler::InitCar(LPCSTR vehName, int a2, int a3, bool a4, bool a5)
 {
@@ -108,6 +109,16 @@ void vehCarHandler::Mm1StyleTransmission()
     {
         drivetrain->Attach();
     }
+}
+
+void vehCarHandler::Splash()
+{
+    auto car = reinterpret_cast<vehCar*>(this);
+    float vehicleVelocity = car->GetModel()->GetVelocity().Mag();
+
+    //trigger ColliderId 22 with velocity of vehicleMph
+    auto impactAud = car->GetCarAudioContainerPtr()->GetAudImpactPtr();
+    impactAud->Play(vehicleVelocity, 22);
 }
 
 void vehCarHandler::Zoink()
@@ -211,6 +222,17 @@ void vehCarHandler::Update()
     if (vehCarModel::MM1StyleTransmission)
     {
         vehCarHandler::Mm1StyleTransmission();
+    }
+
+    //play splash sound if we just hit the water
+    if (cfgEnableWaterSplashSound.Get())
+    {
+        bool splashState = car->GetSplash()->isActive();
+        if (splashState && splashState != model->GetPrevSplashState())
+        {
+            Splash();
+        }
+        model->SetPrevSplashState(splashState);
     }
 
     // call original

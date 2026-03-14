@@ -11,6 +11,7 @@ public:
 
     void Mm1StyleTransmission();
     void Zoink();
+    void Splash();
     void Update();
     void PreUpdate();
 

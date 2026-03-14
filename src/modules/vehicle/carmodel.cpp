@@ -154,6 +154,16 @@ namespace MM2
         return lightDamage;
     }
 
+    bool vehCarModel::GetPrevSplashState()
+    {
+        return prevSplashState;
+    }
+
+    void vehCarModel::SetPrevSplashState(bool state)
+    {
+        prevSplashState = state;
+    }
+
     Matrix34 vehCarModel::GetWheelMatrix(int num)
     {
         Matrix34 whlMatrix = Matrix34();

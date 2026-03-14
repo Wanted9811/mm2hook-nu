@@ -194,6 +194,7 @@ namespace MM2
         fxDamage3D* damage3D;
         mmDamage* mm1Damage;
         mmLightDamage* lightDamage;
+        bool prevSplashState;
     public:
         AGE_API vehCarModel();
         AGE_API ~vehCarModel();
@@ -209,6 +210,9 @@ namespace MM2
         fxDamage3D* GetDamage3D();
         mmDamage* GetMM1Damage();
         mmLightDamage* GetLightDamage();
+        bool GetPrevSplashState();
+        void SetPrevSplashState(bool state);
+
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetFenderMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
