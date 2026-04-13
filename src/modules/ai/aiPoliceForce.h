@@ -36,6 +36,7 @@ namespace MM2
         int Find(vehCar* cop, vehCar* perp);
         int State(vehCar* cop, vehCar* perp, float distance);
         void Reset();
+        void Update();
         
         static void BindLua(LuaState L);
     };

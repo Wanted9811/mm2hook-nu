@@ -106,7 +106,7 @@ BOOL aiPoliceForce::UnRegisterCop(vehCar* cop, vehCar* perp)
     else
     {
         // shift cop cars down
-        for (int i = copIndex; i < NumChasers[perpIndex] - 1; i++)
+        for (int i = copIndex; i < NumChasers[perpIndex]; i++)
         {
             CopCars[perpIndex][i] = CopCars[perpIndex][i + 1];
         }
@@ -218,7 +218,8 @@ int aiPoliceForce::State(vehCar* cop, vehCar* perp, float distance)
         return 2;
 }
 
-void aiPoliceForce::Reset() {
+void aiPoliceForce::Reset()
+{
     timer.TickCount = Timer::Ticks();
     NumPerps = 0;
 
@@ -229,6 +230,18 @@ void aiPoliceForce::Reset() {
         for (int j = 0; j < NUM_COPS; j++)
         {
             CopCars[i][j] = nullptr;
+        }
+    }
+}
+
+void aiPoliceForce::Update()
+{
+    for (int i = 0; i < NUM_TARGETS; i++)
+    {
+        auto perp = PerpCars[i];
+        if (perp != nullptr && perp->IsPlayer())
+        {
+            vehPoliceCarAudio::iNumCopsPursuingPlayer.set(this->GetNumChasers(perp));
         }
     }
 }

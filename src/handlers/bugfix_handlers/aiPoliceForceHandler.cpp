@@ -26,11 +26,18 @@ int aiPoliceForceHandler::State(MM2::vehCar* copCar, MM2::vehCar* perpCar, float
     return reinterpret_cast<aiPoliceForce*>(this)->State(copCar, perpCar, dist);
 }
 
-void aiPoliceForceHandler::Reset(void) {
+void aiPoliceForceHandler::Reset()
+{
     // reset number of cops pursuing player
     // fixes incorrect music bug
-    vehPoliceCarAudio::iNumCopsPursuingPlayer = 0;
+    vehPoliceCarAudio::iNumCopsPursuingPlayer.set(0);
     reinterpret_cast<aiPoliceForce*>(this)->Reset();
+}
+
+void aiPoliceForceHandler::Update()
+{
+	// always update the number of cops pursuing the player to avoid miscount bugs
+    reinterpret_cast<aiPoliceForce*>(this)->Update();
 }
 
 void aiPoliceForceHandler::Install() {
@@ -38,6 +45,12 @@ void aiPoliceForceHandler::Install() {
         &Reset, {
             cb::call(0x536AAE),
             cb::call(0x550ECA),
+        }
+    );
+
+    InstallCallback("aiPoliceForce::Update", "Updates the current number of cops pursuing the player.",
+        &Update, {
+            cb::call(0x537236),
         }
     );
 

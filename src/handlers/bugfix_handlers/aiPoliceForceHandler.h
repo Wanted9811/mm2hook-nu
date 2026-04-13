@@ -10,6 +10,7 @@ public:
     BOOL RegisterPerp(MM2::vehCar* copCar, MM2::vehCar* perpCar);
     int State(MM2::vehCar* copCar, MM2::vehCar* perpCar, float dist);
     void Reset();
+    void Update();
 
     static void Install();
 };
