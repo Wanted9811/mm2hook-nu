@@ -229,6 +229,7 @@ namespace MM2
         AGE_API void Dump();
         AGE_API void TestProbes(BOOL a2);
         AGE_API void AddPedestrian(aiPedestrian* ped);
+        AGE_API void AddAmbient(aiVehicleSpline* spline);
         AGE_API aiCableCar* CableCar(int num) const;
         AGE_API mcHookman* Hookman(int num) const;
         AGE_API aiRouteRacer* Opponent(int num) const;

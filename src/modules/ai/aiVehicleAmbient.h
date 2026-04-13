@@ -16,28 +16,23 @@ namespace MM2
     private:
         byte _buffer[0x14];
     public:
-        aiVehicleAmbient(void)                              DONOTCALL;
-        aiVehicleAmbient(const aiVehicleAmbient &&)         DONOTCALL;
+        AGE_API aiVehicleAmbient();
+        AGE_API ~aiVehicleAmbient();
 
-        void Update(void) override                          FORWARD_THUNK;
-        void Reset(void) override                           FORWARD_THUNK;
-        int Type(void) override                             FORWARD_THUNK;
-        void DrawId(void) const override                    { aiVehicleSpline::DrawId(); }
-        void ReplayDebug(void) override                     FORWARD_THUNK;
-
-        void Impact(int a1) override                        FORWARD_THUNK;
+        AGE_API void Update() override;
+        AGE_API void Reset() override;
+        AGE_API int Type() override;
+        AGE_API void DrawId() const override;
+        AGE_API void ReplayDebug() override;
+        AGE_API void Impact(int a1) override;
 
         //members
-        AGE_API void Dump()                                 { hook::Thunk<0x551A80>::Call<void>(this); }
-        void DrawBBox(bool selected);
+        AGE_API void Init(const char* name, int id);
+        AGE_API void Dump();
+        AGE_API void DrawBBox(bool selected);
 
         //lua
-        static void BindLua(LuaState L) {
-            LuaBinding(L).beginExtendClass<aiVehicleAmbient, aiVehicleSpline>("aiVehicleAmbient")
-                .addFunction("Dump", &Dump)
-                .addFunction("DrawBBox", &DrawBBox)
-                .endClass();
-        }
+        static void BindLua(LuaState L);
     };
 
     ASSERT_SIZEOF(aiVehicleAmbient, 0x1A0);

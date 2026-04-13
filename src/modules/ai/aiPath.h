@@ -108,6 +108,7 @@ namespace MM2
         
 
         AGE_API void AddAmbVehicle(aiVehicleSpline* spline, int lane, float dist, int side);
+        AGE_API void RemoveAmbVehicle(aiVehicleSpline* spline, int lane, int side);
         AGE_API float CenterDist(Vector3 const& pos) const;
         AGE_API float CenterLength(int startIdx, int endIdx) const;
         AGE_API void CenterPosition(float distanceAlongPath, Vector3& outPos);

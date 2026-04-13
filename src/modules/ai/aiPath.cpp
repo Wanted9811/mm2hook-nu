@@ -202,6 +202,11 @@ namespace MM2
         hook::Thunk<0x5491C0>::Call<void>(this, spline, lane, dist, side);
     }
 
+    AGE_API void aiPath::RemoveAmbVehicle(aiVehicleSpline* spline, int lane, int side)
+    {
+        hook::Thunk<0x549540>::Call<void>(this, spline, lane, side);
+    }
+
     AGE_API float aiPath::CenterDist(Vector3 const& pos) const
     {
         return hook::Thunk<0x548850>::Call<float>(this, &pos);
@@ -392,6 +397,8 @@ namespace MM2
             .addFunction("CenterPosition", &centerPositionLua)
             .addFunction("ClearAmbients", &ClearAmbients)
             .addFunction("ClearPeds", &ClearPeds)
+            .addFunction("AddAmbVehicle", &AddAmbVehicle)
+            .addFunction("RemoveAmbVehicle", &RemoveAmbVehicle)
             .addFunction("HasCableCarLine", &HasCableCarLine)
             .addFunction("HasSubwayLine", &HasSubwayLine)
             .addFunction("GetHeading", &GetHeading)

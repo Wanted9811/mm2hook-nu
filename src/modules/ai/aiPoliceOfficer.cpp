@@ -68,6 +68,25 @@ AGE_API void aiPoliceOfficer::ApprehendPerpetrator()
 
 void aiPoliceOfficer::FollowPerpetrator() { hook::Thunk<0x53E410>::Call<void>(this); }
 
+void aiPoliceOfficer::ConfigCar()
+{
+	if (m_VehicleAmbient == nullptr)
+		return;
+
+	auto railSet = m_VehicleAmbient->GetRailSet();
+	railSet->GetCurrentLink()->RemoveAmbVehicle(m_VehicleAmbient, railSet->GetCurrentLane(), railSet->GetRoadSide());
+	this->GetCar()->GetModel()->SetVisible(true);
+
+	if (!VehicleSwapped)
+	{
+		this->GetCar()->GetICS()->SetVelocity(m_VehicleAmbient->GetMatrix().GetRow(2) * -m_VehicleAmbient->GetSpeed());
+		this->GetCar()->GetCarAudioContainerPtr()->SilenceEngine(FALSE);
+		VehicleSwapped = true;
+	}
+
+	m_VehicleAmbient->GetInst()->Detach();
+}
+
 void aiPoliceOfficer::CancelPursuit()
 {
 	if (m_PoliceState == aiPoliceState::Idle)
@@ -78,11 +97,7 @@ void aiPoliceOfficer::CancelPursuit()
 	policeForce->UnRegisterCop(GetCar(), GetFollowedCar());
 
 	// stop siren
-	auto policeAudio = GetCar()->GetCarAudioContainerPtr()->GetPoliceCarAudioPtr();
-	if (policeAudio != nullptr)
-	{
-		policeAudio->StopSiren();
-	}
+	this->StopSiren();
 
 	// stop car and set our state
 	m_PoliceState = aiPoliceState::Idle;
@@ -124,6 +139,11 @@ bool aiPoliceOfficer::ChaseVehicle(vehCar* chaseMe)
 	return false;
 }
 
+bool aiPoliceOfficer::IsDamagedOut() const
+{
+	return m_VehiclePhysics.IsDamagedOut();
+}
+
 int aiPoliceOfficer::GetId() const
 {
 	return m_ID;
@@ -132,6 +152,11 @@ int aiPoliceOfficer::GetId() const
 const aiVehiclePhysics* aiPoliceOfficer::GetVehiclePhysics() const
 {
 	return &m_VehiclePhysics;
+}
+
+const aiVehicleAmbient* aiPoliceOfficer::GetVehicleAmbient() const
+{
+	return m_VehicleAmbient;
 }
 
 int aiPoliceOfficer::GetApprehendState() const
@@ -205,6 +230,12 @@ void MM2::aiPoliceOfficer::Init(int id)
 	ChaseRange = raceData->GetCopChaseRange();
 	OpponentDetectionRange = ourData->OppDetectRange;
 	OpponentChaseChance = ourData->OppChaseChance;
+
+	if (ourData->Type == Roaming)
+	{
+		this->m_VehicleAmbient = new aiVehicleAmbient();
+		this->m_VehicleAmbient->Init(ourData->Basename, id);
+	}
 }
 
 void MM2::aiPoliceOfficer::Init(int id, const char* basename, int flags)
@@ -263,6 +294,18 @@ AGE_API void aiPoliceOfficer::Reset()
 	m_VehiclePhysics.RegisterRoute(m_IntersectionIds, m_NumIntersectionIds, m_VehiclePhysics.GetCar()->GetCarSim()->GetResetPos(), Vector3::ORIGIN,
 								   0, 0.0f, 5.0f, false, true, true, false, true, false,
 							       1.0f, 2.0f, 0.7f, 75.0f);
+	if (m_VehicleAmbient)
+	{
+		VehicleSwapped = false;
+		aiMap::GetInstance()->AddAmbient(m_VehicleAmbient);
+		this->GetCar()->GetCarAudioContainerPtr()->SilenceEngine(TRUE);
+
+		// Player collision flag gets stuck on ambient cops after pursuit ends
+		// So we resetting it to the default ambient instance flag here
+		// This fixes aiPoliceOfficer::HitMe always returning true
+		if (m_VehicleAmbient->GetInst()->GetFlags() == 33496)
+			m_VehicleAmbient->GetInst()->SetFlags(728);
+	}
 }
 
 AGE_API void MM2::aiPoliceOfficer::Update()
@@ -293,6 +336,11 @@ AGE_API void MM2::aiPoliceOfficer::Update()
 
 			if (m_FollowCarDistance > ChaseRange)
 			{
+				if (m_VehicleAmbient && VehicleSwapped)
+				{
+					this->Reset();
+					return;
+				}
 				this->PerpEscapes(false);
 				return;
 			}
@@ -318,7 +366,7 @@ AGE_API void MM2::aiPoliceOfficer::Update()
 		}
 
 		// did we damage out?
-		if (m_VehiclePhysics.IsDamagedOut())
+		if (IsDamagedOut())
 		{
 			this->PerpEscapes(true);
 			m_PoliceState = aiPoliceState::Incapacitated;
@@ -352,6 +400,8 @@ AGE_API void MM2::aiPoliceOfficer::Update()
 	// simulate physics if close enough to the perp, or if a player is close
 	if (this->InPersuit())
 	{
+		this->ConfigCar();
+
 		if (m_FollowCarDistance <= 200.0f || !dgPhysManager::sm_OpponentOptimization)
 			dgPhysManager::Instance->DeclareMover(m_VehiclePhysics.GetCar()->GetModel(), 2, 0x1B);
 		else
@@ -359,6 +409,17 @@ AGE_API void MM2::aiPoliceOfficer::Update()
 	}
 	else
 	{
+		if (m_VehicleAmbient && !VehicleSwapped)
+		{
+			Matrix34 vehMatrix = m_VehicleAmbient->GetMatrix();
+			Vector3 vehPosition = vehMatrix.GetRow(3);
+
+			this->GetCar()->GetModel()->SetVisible(false);
+			this->GetCar()->GetCarSim()->GetICS()->SetMatrix(vehMatrix);
+			this->GetCar()->GetCarSim()->GetICS()->SetPosition(Vector3(vehPosition.X, vehPosition.Y + 0.1f, vehPosition.Z));
+			return;
+		}
+
 		float closestPlayerDist2 = 9999999.0f;
 		auto ourPosition = m_VehiclePhysics.GetCar()->GetICS()->GetPosition();
 		for (int i = 0; i < AIMAP->GetPlayerCount(); i++)
@@ -413,6 +474,10 @@ AGE_API bool aiPoliceOfficer::Collision(vehCar* perpCar)
 
 AGE_API bool aiPoliceOfficer::HitMe(vehCar* perpCar)
 {
+	if (m_VehicleAmbient && !VehicleSwapped)
+	{
+		return (m_VehicleAmbient->GetInst()->GetFlags() & lvlInstance::INST_PLAYER) != 0;
+	}
 	return (this->GetCar()->GetModel()->GetFlags() & lvlInstance::INST_PLAYER) != 0;
 }
 
@@ -512,6 +577,12 @@ AGE_API bool aiPoliceOfficer::Speeding(vehCar* perpCar)
 
 void AGE_API aiPoliceOfficer::DetectPerpetrator() 
 {
+	if (m_VehicleAmbient && !VehicleSwapped)
+	{
+		if (m_VehicleAmbient->GetInst()->GetRoomId() == 0)
+			return;
+	}
+
 	if (m_LastPoliceState != m_PoliceState)
 	{
 		m_LastPoliceState = m_PoliceState;
@@ -575,11 +646,12 @@ void AGE_API aiPoliceOfficer::DetectPerpetrator()
 
 void AGE_API aiPoliceOfficer::PerpEscapes(bool playExplosion)
 {
-	auto siren = this->GetCar()->GetSiren();
-	if (siren != nullptr && siren->GetHasLights())
-		siren->SetActive(false);
-
-	hook::Thunk<0x53F170>::Call<void>(this, playExplosion);
+	auto policeAudio = this->GetCar()->GetCarAudioContainerPtr()->GetPoliceCarAudioPtr();
+	if (policeAudio != nullptr && playExplosion)
+	{
+		policeAudio->PlayExplosion();
+	}
+	this->CancelPursuit();
 }
 
 bool MM2::aiPoliceOfficer::IsPerpBreakingTheLaw(vehCar* perpCar)
@@ -605,7 +677,7 @@ void aiPoliceOfficer::BindLua(LuaState L) {
 		.addPropertyReadOnly("CurrentLap", &GetCurrentLap)
 		.addPropertyReadOnly("NumLaps", &GetLapCount)
 		.addPropertyReadOnly("InPursuit", &InPersuit)
-		.addPropertyReadOnly("InPersuit", &InPersuit)
+		.addPropertyReadOnly("IsDamagedOut", &IsDamagedOut)
 
 		.addVariable("ChaseRange", &aiPoliceOfficer::ChaseRange)
 		.addVariable("ChasePlayers", &aiPoliceOfficer::ChasePlayers)
@@ -615,6 +687,7 @@ void aiPoliceOfficer::BindLua(LuaState L) {
 
 		.addPropertyReadOnly("Car", &GetCar)
 		.addPropertyReadOnly("State", &GetState)
+		.addPropertyReadOnly("Ambient", &GetVehicleAmbient)
 
 		.addFunction("Init", static_cast<void (aiPoliceOfficer::*)(int, const char*, int)>(&Init))
 		.addFunction("Reset", &Reset)

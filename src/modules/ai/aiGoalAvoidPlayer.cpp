@@ -158,6 +158,8 @@ void MM2::aiGoalAvoidPlayer::AvoidPlayer()
         if (rotationAmount < -0.02f) rotationAmount = -0.02f;
         if (rotationAmount > 0.02f) rotationAmount = 0.02f;
 
+		Vehicle->GetInst()->IsEmergency ? rotationAmount *= 0.0f : rotationAmount *= 1.0f; // Emergency vehicles don't swerve, they just brake
+
         // applied mathematics
         float rotationRateMul = Vehicle->GetSpeed() / maxSpeed;
         Heading -= rotationRateMul * rotationAmount;

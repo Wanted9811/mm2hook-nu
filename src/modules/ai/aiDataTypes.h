@@ -142,7 +142,7 @@ namespace MM2
         float Rotation;
         float OppDetectRange;
         float OppChaseChance;
-        int Unk1;
+        int Type;
         int Flags;
 
         LPCSTR GetBasename() const {
@@ -160,7 +160,8 @@ namespace MM2
                 .addVariable("Position", &PoliceData::Position)
                 .addVariable("Rotation", &PoliceData::Rotation)
                 .addVariable("OpponentDetectionRange", &PoliceData::OppDetectRange)
-                .addVariable("OpponentChaseChance", &PoliceData::OppDetectRange)
+                .addVariable("OpponentChaseChance", &PoliceData::OppChaseChance)
+                .addVariable("Type", &PoliceData::Type)
                 .addVariable("Flags", &PoliceData::Flags)
                 .endClass();
         }

@@ -29,6 +29,12 @@ namespace MM2
         BlockWait = 0x7,
     };
 
+    enum aiPoliceType
+    {
+        Stationary = 0,
+        Pedestrian = 1,
+        Roaming = 2,
+    };
 
     class aiPoliceOfficer {
     public:
@@ -56,6 +62,8 @@ namespace MM2
         float ChaseRange;
         bool ChasePlayers;
         bool ChaseOpponents;
+        bool VehicleSwapped;
+        aiVehicleAmbient* m_VehicleAmbient;
     private:
         AGE_API void Push();
         AGE_API void Block();
@@ -73,10 +81,13 @@ namespace MM2
         aiPoliceOfficer(void);
         ~aiPoliceOfficer();
 
+        void ConfigCar();
         void CancelPursuit();
         bool ChaseVehicle(vehCar* chaseMe);
+		bool IsDamagedOut() const;
         int GetId() const;
         const aiVehiclePhysics* GetVehiclePhysics() const;
+        const aiVehicleAmbient* GetVehicleAmbient() const;
         int GetApprehendState() const;
         vehCar* GetFollowedCar() const;
         vehCar* GetCar() const;
