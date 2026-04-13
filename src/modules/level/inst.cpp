@@ -33,14 +33,16 @@ extern class phBoundTerrainLocal;
 /*
     GeomTableEntry
 */
-modStatic* lvlInstance::GeomTableEntry::GetLOD(int lod) const {
+modStatic* lvlInstance::GeomTableEntry::GetLOD(int lod) const
+{
     if (lod < 0 || lod > 3)
         return nullptr;
 
     return this->LOD[lod];
 }
 
-modStatic* lvlInstance::GeomTableEntry::GetHighestLOD() const {
+modStatic* lvlInstance::GeomTableEntry::GetHighestLOD() const
+{
     for (int i = 3; i >= 0; i--) {
         if (this->LOD[i] != nullptr)
             return this->LOD[i];
@@ -48,7 +50,8 @@ modStatic* lvlInstance::GeomTableEntry::GetHighestLOD() const {
     return nullptr;
 }
 
-modStatic* lvlInstance::GeomTableEntry::GetLowestLOD() const {
+modStatic* lvlInstance::GeomTableEntry::GetLowestLOD() const
+{
     for (int i = 0; i < 4; i++) {
         if (this->LOD[i] != nullptr)
             return this->LOD[i];
@@ -56,27 +59,33 @@ modStatic* lvlInstance::GeomTableEntry::GetLowestLOD() const {
     return nullptr;
 }
 
-modStatic* lvlInstance::GeomTableEntry::GetVeryLowLOD() const {
+modStatic* lvlInstance::GeomTableEntry::GetVeryLowLOD() const
+{
     return this->LOD[0];
 }
 
-modStatic* lvlInstance::GeomTableEntry::GetLowLOD() const {
+modStatic* lvlInstance::GeomTableEntry::GetLowLOD() const
+{
     return this->LOD[1];
 }
 
-modStatic* lvlInstance::GeomTableEntry::GetMedLOD() const {
+modStatic* lvlInstance::GeomTableEntry::GetMedLOD() const
+{
     return this->LOD[2];
 }
 
-modStatic* lvlInstance::GeomTableEntry::GetHighLOD() const {
+modStatic* lvlInstance::GeomTableEntry::GetHighLOD() const
+{
     return this->LOD[3];
 }
 
-float lvlInstance::GeomTableEntry::GetRadius() const {
+float lvlInstance::GeomTableEntry::GetRadius() const
+{
     return Radius;
 }
 
-phBound* lvlInstance::GeomTableEntry::GetBound() const {
+phBound* lvlInstance::GeomTableEntry::GetBound() const
+{
     return this->Bound;
 }
 
@@ -192,15 +201,18 @@ AGE_API void lvlInstance::DeleteTempBounds() { hook::StaticThunk<0x4647E0>::Call
     
 
 
-lvlInstance::GeomTableEntry* lvlInstance::GetGeomTablePtr() {
+lvlInstance::GeomTableEntry* lvlInstance::GetGeomTablePtr()
+{
     return reinterpret_cast<GeomTableEntry*>(0x6316D8);
 }
 
-const char** lvlInstance::GetGeomNameTablePtr() {
+const char** lvlInstance::GetGeomNameTablePtr()
+{
     return reinterpret_cast<const char**>(0x651760);
 }
 
-int lvlInstance::GetGeomSetCount() {
+int lvlInstance::GetGeomSetCount()
+{
     return *reinterpret_cast<int*>(0x655764);
 }
     
@@ -276,7 +288,7 @@ void lvlInstance::SetGeomIndex(unsigned short id)
     GeomIndex = id;
 }
 
-short lvlInstance::GetFlags() const
+ushort lvlInstance::GetFlags() const
 {
     return this->Flags;
 }
@@ -291,46 +303,66 @@ void lvlInstance::SetFlag(ushort flag)
     this->Flags |= flag;
 }
 
-byte lvlInstance::GetOwner(void) const {
+byte lvlInstance::GetOwner(void) const
+{
     return this->Owner;
 }
 
-void lvlInstance::SetOwner(byte owner) {
+void lvlInstance::SetOwner(byte owner)
+{
     this->Owner = owner;
 }
 
-byte lvlInstance::GetSubType(void) const {
+byte lvlInstance::GetSubType(void) const
+{
     return this->Subtype;
 }
 
-inline void lvlInstance::SetSubType(byte subtype) {
+inline void lvlInstance::SetSubType(byte subtype)
+{
     this->Subtype = subtype;
 }
 
-lvlInstance::GeomTableEntry* lvlInstance::GetGeomBase(int geom) const {
+lvlInstance::GeomTableEntry* lvlInstance::GetGeomBase(int geom) const
+{
     return this->GeomIndex == 0 ? nullptr : &lvlInstance::GetGeomTablePtr()[GeomIndex - 1 + geom];
 }
 
-modStatic* lvlInstance::GetGeom(int lod, int geom) const {
-    return this->GeomIndex == 0 ? nullptr : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1 + geom])->GetLOD(lod);
+modStatic* lvlInstance::GetGeom(int lod, int geom) const
+{
+    return (this->GeomIndex == 0 || geom < 0) ? nullptr : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1 + geom])->GetLOD(lod);
 }
 
-const char* lvlInstance::GetName() const {
+modStatic* lvlInstance::GetGeomEntry(int geom) const
+{
+    return (this->GeomIndex == 0 || geom < 0) ? nullptr : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1 + geom])->GetHighestLOD();
+}
+
+const char* lvlInstance::GetName() const
+{
     return this->GeomIndex == 0 ? "(none)" : lvlInstance::GetGeomNameTablePtr()[GeomIndex - 1];
 }
 
-modShader* lvlInstance::GetShader(int index) const {
-    if (GeomIndex == 0 || index >= this->GetVariantCount() || index < 0)
+const char* lvlInstance::GetGeomName(int geom) const
+{
+    return this->GeomIndex == 0 ? "(none)" : lvlInstance::GetGeomNameTablePtr()[GeomIndex - 1 + geom];
+}
+
+modShader* lvlInstance::GetShader(int variant) const
+{
+    if (GeomIndex == 0 || variant >= this->GetVariantCount() || variant < 0)
         return nullptr;
-    return (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->pShaders[index];
+    return (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->pShaders[variant];
 }
 
-int lvlInstance::GetShaderCount() const {
-    return this->GeomIndex == 0 ? 0 : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->numShadersPerVariant;
+int lvlInstance::GetShaderCount() const
+{
+    return this->GeomIndex == 0 ? 0 : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->numShaders;
 }
 
-int lvlInstance::GetVariantCount() const {
-    return this->GeomIndex == 0 ? 1 : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->numShaders;
+int lvlInstance::GetVariantCount() const
+{
+    return this->GeomIndex == 0 ? 1 : (&lvlInstance::GetGeomTablePtr()[GeomIndex - 1])->numVariants;
 }
 
 int lvlInstance::GetRandId() const
@@ -420,30 +452,27 @@ AGE_API bool lvlInstance::ComputeShadowProjectionMatrix(Matrix34 & outMatrix, in
     return true;
 }
 
-AGE_API void lvlInstance::ResetInstanceHeap()             { hook::StaticThunk<0x4631A0>::Call<void>(); }
-AGE_API void lvlInstance::ResetAll()                      { hook::StaticThunk<0x4631E0>::Call<void>(); }
-AGE_API void lvlInstance::SetShadowBillboardMtx(Matrix44 &a1)
-                                                    { hook::StaticThunk<0x463290>::Call<void>(&a1); }
-
-AGE_API int lvlInstance::AddSphere(float a1)              { return hook::StaticThunk<0x463D50>::Call<int>(a1); }
-
+AGE_API void lvlInstance::ResetInstanceHeap()                    { hook::StaticThunk<0x4631A0>::Call<void>(); }
+AGE_API void lvlInstance::ResetAll()                             { hook::StaticThunk<0x4631E0>::Call<void>(); }
+AGE_API void lvlInstance::SetShadowBillboardMtx(Matrix44 &a1)    { hook::StaticThunk<0x463290>::Call<void>(&a1); }
+AGE_API int lvlInstance::AddSphere(float a1)                     { return hook::StaticThunk<0x463D50>::Call<int>(a1); }
 AGE_API bool lvlInstance::LoadBoundOnLastEntry(const char *a1)   { return hook::Thunk<0x463940>::Call<bool>(this, a1); }
 AGE_API Vector4 * lvlInstance::GetBoundSphere(Vector4 *a1)       { return hook::Thunk<0x463A40>::Call<Vector4 *>(this, a1); }
 
-AGE_API bool lvlInstance::BeginGeom(const char *a1, const char *a2, int a3)
-                                                    { return hook::Thunk<0x463A80>::Call<bool>(this, a1, a2, a3); }
-AGE_API int lvlInstance::AddGeom(const char *a1, const char *a2, int a3)
-                                                    { return hook::Thunk<0x463BA0>::Call<int>(this, a1, a2, a3); }
+AGE_API bool lvlInstance::BeginGeom(const char *basename, const char *geomName, int flags)
+                                                                 { return hook::Thunk<0x463A80>::Call<bool>(this, basename, geomName, flags); }
+AGE_API int lvlInstance::AddGeom(const char *basename, const char *geomName, int flags)
+                                                                 { return hook::Thunk<0x463BA0>::Call<int>(this, basename, geomName, flags); }
 AGE_API void lvlInstance::EndGeom()                              { hook::Thunk<0x463BC0>::Call<void>(this); }
 
 AGE_API bool lvlInstance::InitBoundTerrain(const char *a1)       { return hook::Thunk<0x463DA0>::Call<bool>(this, a1); }
 AGE_API bool lvlInstance::InitBoundTerrainLocal(const char *a1)  { return hook::Thunk<0x463F50>::Call<bool>(this, a1); }
 AGE_API bool lvlInstance::NeedGhostBound(const Vector3 *a1, int a2)
-                                                    { return hook::Thunk<0x4641A0>::Call<bool>(this, a1, a2); }
+                                                                 { return hook::Thunk<0x4641A0>::Call<bool>(this, a1, a2); }
 AGE_API bool lvlInstance::InitGhostBound(phBound *a1, const Vector3 *a2, int a3)
-                                                    { return hook::Thunk<0x464200>::Call<bool>(this, a1, a2, a3); }
+                                                                 { return hook::Thunk<0x464200>::Call<bool>(this, a1, a2, a3); }
 AGE_API int lvlInstance::InitGhost(const char *a1, const Matrix34 &a2)
-                                                    { return hook::Thunk<0x464330>::Call<int>(this, a1, &a2); }
+                                                                 { return hook::Thunk<0x464330>::Call<int>(this, a1, &a2); }
 
 AGE_API void lvlInstance::PreLoadShader(int variant)             { hook::Thunk<0x464B00>::Call<void>(this, variant); }
 AGE_API void lvlInstance::Optimize(int variant)                  { hook::Thunk<0x464B70>::Call<void>(this, variant); }
@@ -451,11 +480,12 @@ AGE_API void lvlInstance::Optimize(int variant)                  { hook::Thunk<0
 /*
     Custom additions
 */
-bool lvlInstance::BeginGeomWithGroup(const char* a1, const char* a2, const char* group, int a3)
-{
-    string_buf<256> groupedName("%s_%s", a1, group);
 
-    *(bool*)0x651720 = (a3 & 8) != 0; //set dontPreload
+bool lvlInstance::BeginGeomWithGroup(const char* basename, const char* geomName, const char* group, int flags)
+{
+    string_buf<256> groupedName("%s_%s", basename, group);
+
+    *(bool*)0x651720 = (flags & 8) != 0; //set dontPreload
     *(const char**)0x6516DC = groupedName; //set lastName
     auto PackageHash = (HashTable*)0x651728;
 
@@ -469,9 +499,9 @@ bool lvlInstance::BeginGeomWithGroup(const char* a1, const char* a2, const char*
         auto package = new modPackage();
         *(modPackage**)0x0651740 = package; //set PKG
 
-        if (package->Open("geometry", a1))
+        if (package->Open("geometry", basename))
         {
-            this->GeomIndex = GetGeomSet(a1, a2, a3);
+            this->GeomIndex = GetGeomSet(basename, geomName, flags);
             PackageHash->Insert(groupedName, (void*)this->GeomIndex);
             return true;
         }
@@ -485,6 +515,274 @@ bool lvlInstance::BeginGeomWithGroup(const char* a1, const char* a2, const char*
         PackageHash->Insert(groupedName, (void*)0);
     }
     return false;
+}
+
+int lvlInstance::GetGeomId(const char* geomName) const
+{
+    char basename[256];
+    strcpy_s(basename, GetName());
+
+    char* find = strrchr(basename, '_');
+    if (find)
+        *find = '\0';
+
+    string_buf<256> buffer("%s_%s", basename, geomName);
+
+    int geomId = -1;
+    for (int i = 0; i < GetGeomSetCount(); i++)
+    {
+        if (GetGeomName(i) == NULL)
+            break;
+
+        if (!_strcmpi(GetGeomName(i), buffer))
+        {
+            geomId = i;
+            break;
+        }
+    }
+    return geomId;
+}
+
+int lvlInstance::GetGeomCount(const char* geomGroup) const
+{
+    char basename[256];
+    strcpy_s(basename, GetName());
+
+    char* find = strrchr(basename, '_');
+    if (find)
+        *find = '\0';
+
+    string_buf<256> group("%s_%s", basename, geomGroup);
+
+    int geomCount = 0;
+    for (int i = 0; i < GetGeomSetCount(); i++)
+    {
+        if (GetGeomName(i) == NULL)
+            break;
+
+        string_buf<256> geomName("%s%d", (LPCSTR)group, geomCount);
+
+        if (!_strcmpi(GetGeomName(i), geomName))
+        {
+            ++geomCount;
+        }
+    }
+    return geomCount;
+}
+
+char* lvlInstance::GetGroupGeomNames(const char* group, int nameId)
+{
+    if (!_strcmpi(group, "player"))
+    {
+        static const int geomCount = 62;
+        char* groupGeoms[geomCount] = {
+            "shadow",
+            "hlight",
+            "tlight",
+            "rlight",
+            "slight0",
+            "slight1",
+            "blight",
+            "bodydamage",
+            "siren0",
+            "siren1",
+            "decal",
+            "driver",
+            "shock0",
+            "shock1",
+            "shock2",
+            "shock3",
+            "arm0",
+            "arm1",
+            "arm2",
+            "arm3",
+            "shaft2",
+            "shaft3",
+            "axle0",
+            "axle1",
+            "engine",
+            "whl0",
+            "whl1",
+            "whl2",
+            "whl3",
+            "break0",
+            "break1",
+            "break2",
+            "break3",
+            "break01",
+            "break12",
+            "break23",
+            "break03",
+            "hub0",
+            "hub1",
+            "hub2",
+            "hub3",
+            "trailer_hitch",
+            "srn0",
+            "srn1",
+            "srn2",
+            "srn3",
+            "headlight0",
+            "headlight1",
+            "fndr0",
+            "fndr1",
+            "whl4",
+            "whl5",
+
+            //NEW MM2HOOK GEOMS
+            "plighton",
+            "plightoff",
+            "swhl0",
+            "swhl1",
+            "swhl2",
+            "swhl3",
+            "swhl4",
+            "swhl5",
+            "tslight0",
+            "tslight1"
+        };
+        return (nameId < 0 || nameId >= geomCount) ? NULL : groupGeoms[nameId];
+    }
+
+    if (!_strcmpi(group, "ambient"))
+    {
+        static const int geomCount = 32;
+        char* groupGeoms[geomCount] = {
+            "shadow",
+            "hlight",
+            "tlight",
+            "slight0",
+            "slight1",
+            "whl0",
+            "whl1",
+            "whl2",
+            "whl3",
+            "break0",
+            "break1",
+            "break2",
+            "break3",
+            "headlight0",
+            "headlight1",
+            "whl4",
+            "whl5",
+
+            //NEW MM2HOOK GEOMS
+            "blight",
+            "break01",
+            "break12",
+            "break23",
+            "break03",
+            "plighton",
+            "plightoff",
+            "swhl0",
+            "swhl1",
+            "swhl2",
+            "swhl3",
+            "swhl4",
+            "swhl5",
+            "tslight0",
+            "tslight1"
+        };
+        return (nameId < 0 || nameId >= geomCount) ? NULL : groupGeoms[nameId];
+    }
+
+    if (!_strcmpi(group, "trailer"))
+    {
+        static const int geomCount = 24;
+        char* groupGeoms[geomCount] = {
+            "shadow",
+            "tlight",
+            "twhl0",
+            "twhl1",
+            "twhl2",
+            "twhl3",
+            "trailer_hitch",
+
+            //NEW MM2HOOK GEOMS
+            "rlight",
+            "blight",
+            "hlight",
+            "slight0",
+            "slight1",
+            "siren0",
+            "siren1",
+            "twhl4",
+            "twhl5",
+            "tswhl0",
+            "tswhl1",
+            "tswhl2",
+            "tswhl3",
+            "tswhl4",
+            "tswhl5",
+            "tslight0",
+            "tslight1"
+        };
+        return (nameId < 0 || nameId >= geomCount) ? NULL : groupGeoms[nameId];
+    }
+    return NULL;
+}
+
+void lvlInstance::AddGeoms(const char* basename, const char* group, bool useGroupGeoms)
+{
+    auto PKG = *(modPackage**)0x651740;
+    while (_strcmpi(PKG->GetCurrentFileName(), "shaders"))
+    {
+        int flagId = 0;
+        int nameId = 0;
+        bool geomExists = false;
+
+        char curGeomName[64];
+        strcpy_s(curGeomName, PKG->GetCurrentFileName());
+
+        char* find = strrchr(curGeomName, '_');
+        if (find && (
+            !_strcmpi(find, "_H") ||
+            !_strcmpi(find, "_M") ||
+            !_strcmpi(find, "_L") ||
+            !_strcmpi(find, "_VL")))
+        {
+            *find = '\0';
+
+            //if (strstr(curGeomName, "whl"))
+                //flagId = 4;
+
+            if (strstr(curGeomName, "break") ||
+                strstr(curGeomName, "engine") ||
+                strstr(curGeomName, "variant") ||
+                strstr(curGeomName, "lightbar"))
+            {
+                flagId = 2;
+            }
+
+            if (useGroupGeoms)
+            {
+                while (char* groupGeomName = GetGroupGeomNames(group, nameId))
+                {
+                    if (!_strcmpi(curGeomName, groupGeomName))
+                    {
+                        AddGeom(basename, curGeomName, flagId);
+                        geomExists = true;
+                    }
+                    ++nameId;
+                }
+            }
+            else // Add all PKG geoms
+            {
+                AddGeom(basename, curGeomName, flagId);
+                geomExists = true;
+            }
+        }
+        else
+        {
+            Errorf("%s_%s geometry has no LOD suffixes!", basename, PKG->GetCurrentFileName());
+            break;
+        }
+
+        if (!geomExists)
+        {
+            PKG->Skip();
+        }
+    }
 }
 
 /*
@@ -570,6 +868,9 @@ void lvlInstance::BindLua(LuaState L) {
         .addFunction("PreLoadShader", &PreLoadShader)
         .addFunction("Optimize", &Optimize)
         .addFunction("GetGeom", &GetGeom)
+        .addFunction("GetGeomId", &GetGeomId)
+        .addFunction("GetGeomCount", &GetGeomCount)
+        .addFunction("GetGeomEntry", &GetGeomEntry)
         .addFunction("GetGeomBase", &GetGeomBase, LUA_ARGS(_def<int, 0>))
         .addFunction("GetShader", &getShaderLua, LUA_ARGS(int, _def<int, 0>))
 

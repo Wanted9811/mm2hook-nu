@@ -27,97 +27,6 @@ namespace MM2
 
     class vehCarModel : public lvlInstance {
     public:
-        /*
-            Model Index Constants
-        */
-        static const int SHADOW_GEOM_ID = 1;
-        static const int HLIGHT_GEOM_ID = 2;
-        static const int TLIGHT_GEOM_ID = 3;
-        static const int RLIGHT_GEOM_ID = 4;
-        static const int SLIGHT0_GEOM_ID = 5;
-        static const int SLIGHT1_GEOM_ID = 6;
-        static const int BLIGHT_GEOM_ID = 7;
-        static const int BODYDAMAGE_GEOM_ID = 8;
-        static const int SIREN0_GEOM_ID = 9;
-        static const int SIREN1_GEOM_ID = 10;
-        static const int DECAL_GEOM_ID = 11;
-        static const int DRIVER_GEOM_ID = 12;
-        static const int SHOCK0_GEOM_ID = 13;
-        static const int SHOCK1_GEOM_ID = 14;
-        static const int SHOCK2_GEOM_ID = 15;
-        static const int SHOCK3_GEOM_ID = 16;
-        static const int ARM0_GEOM_ID = 17;
-        static const int ARM1_GEOM_ID = 18;
-        static const int ARM2_GEOM_ID = 19;
-        static const int ARM3_GEOM_ID = 20;
-        static const int SHAFT2_GEOM_ID = 21;
-        static const int SHAFT3_GEOM_ID = 22;
-        static const int AXLE0_GEOM_ID = 23;
-        static const int AXLE1_GEOM_ID = 24;
-        static const int ENGINE_GEOM_ID = 25;
-        static const int WHL0_GEOM_ID = 26;
-        static const int WHL1_GEOM_ID = 27;
-        static const int WHL2_GEOM_ID = 28;
-        static const int WHL3_GEOM_ID = 29;
-        static const int BREAK0_GEOM_ID = 30;
-        static const int BREAK1_GEOM_ID = 31;
-        static const int BREAK2_GEOM_ID = 32;
-        static const int BREAK3_GEOM_ID = 33;
-        static const int BREAK01_GEOM_ID = 34;
-        static const int BREAK12_GEOM_ID = 35;
-        static const int BREAK23_GEOM_ID = 36;
-        static const int BREAK03_GEOM_ID = 37;
-        static const int HUB0_GEOM_ID = 38;
-        static const int HUB1_GEOM_ID = 39;
-        static const int HUB2_GEOM_ID = 40;
-        static const int HUB3_GEOM_ID = 41;
-        static const int TRAILER_HITCH_GEOM_ID = 42;
-        static const int SRN0_GEOM_ID = 43;
-        static const int SRN1_GEOM_ID = 44;
-        static const int SRN2_GEOM_ID = 45;
-        static const int SRN3_GEOM_ID = 46;
-        static const int HEADLIGHT0_GEOM_ID = 47;
-        static const int HEADLIGHT1_GEOM_ID = 48;
-        static const int FNDR0_GEOM_ID = 49;
-        static const int FNDR1_GEOM_ID = 50;
-        static const int WHL4_GEOM_ID = 51;
-        static const int WHL5_GEOM_ID = 52;
-        static const int PLIGHTON_GEOM_ID = 53;
-        static const int PLIGHTOFF_GEOM_ID = 54;
-        static const int SWHL0_GEOM_ID = 55;
-        static const int SWHL1_GEOM_ID = 56;
-        static const int SWHL2_GEOM_ID = 57;
-        static const int SWHL3_GEOM_ID = 58;
-        static const int SWHL4_GEOM_ID = 59;
-        static const int SWHL5_GEOM_ID = 60;
-        static const int HUB4_GEOM_ID = 61;
-        static const int HUB5_GEOM_ID = 62;
-        static const int FNDR2_GEOM_ID = 63;
-        static const int FNDR3_GEOM_ID = 64;
-        static const int FNDR4_GEOM_ID = 65;
-        static const int FNDR5_GEOM_ID = 66;
-        static const int SHUB0_GEOM_ID = 67;
-        static const int SHUB1_GEOM_ID = 68;
-        static const int SHUB2_GEOM_ID = 69;
-        static const int SHUB3_GEOM_ID = 70;
-        static const int SHUB4_GEOM_ID = 71;
-        static const int SHUB5_GEOM_ID = 72;
-        static const int HEADLIGHT2_GEOM_ID = 73;
-        static const int HEADLIGHT3_GEOM_ID = 74;
-        static const int HEADLIGHT4_GEOM_ID = 75;
-        static const int HEADLIGHT5_GEOM_ID = 76;
-        static const int HEADLIGHT6_GEOM_ID = 77;
-        static const int HEADLIGHT7_GEOM_ID = 78;
-        static const int SRN4_GEOM_ID = 79;
-        static const int SRN5_GEOM_ID = 80;
-        static const int SRN6_GEOM_ID = 81;
-        static const int SRN7_GEOM_ID = 82;
-        static const int LIGHTBAR0_GEOM_ID = 83;
-        static const int LIGHTBAR1_GEOM_ID = 84;
-        static const int TSLIGHT0_GEOM_ID = 85;
-        static const int TSLIGHT1_GEOM_ID = 86;
-        static const int VARIANT_BASE_GEOM_ID = 87;
-    public:
         static bool EnableSpinningWheels;
         static bool EnableHeadlightFlashing;
         static bool EnableWheelWobble;
@@ -223,7 +132,8 @@ namespace MM2
         Matrix34 GetWorldMatrix();
 
         AGE_API void GetSurfaceColor(modStatic* model, Vector3* outVector);
-        AGE_API void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int someId);
+        AGE_API void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int index);
+        void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int index);
         AGE_API void InitSirenLight(const char* basename, const char* mtxName, int geomId);
         void InitSirenLights(const char* basename);
         void InitHeadlights(const char* basename);

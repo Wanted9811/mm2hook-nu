@@ -44,24 +44,54 @@ void vehBreakableMgr::SetVariant(int variant)
     this->variant = variant;
 }
 
+float vehBreakableMgr::GetImpactThreshold()
+{
+    return this->impactThreshold;
+}
+
+void vehBreakableMgr::SetImpactThreshold(float threshold)
+{
+    this->impactThreshold = threshold;
+}
+
+float vehBreakableMgr::GetLastOneShotEjectVelocity()
+{
+    return this->lastOneShotEjectVelocity;
+}
+
+void vehBreakableMgr::SetLastOneShotEjectVelocity(float velocity)
+{
+    this->lastOneShotEjectVelocity = velocity;
+}
+
+float vehBreakableMgr::GetEjectVelocity()
+{
+    return this->ejectVelocity;
+}
+
+void vehBreakableMgr::SetEjectVelocity(float velocity)
+{
+    this->ejectVelocity = velocity;
+}
+
 bool vehBreakableMgr::Init(Matrix34* a1)                  
 {
     return hook::Thunk<0x4D85E0>::Call<bool>(this, a1); 
 }
 
-void vehBreakableMgr::Add(LPCSTR a1, LPCSTR a2, modStatic** a3, int a4, int a5)
+void vehBreakableMgr::Add(LPCSTR basename, LPCSTR breakableName, modStatic** model, int geomId, int index)
 {
-    hook::Thunk<0x4D86A0 >::Call<void>(this, a1, a2, a3, a4, a5);
+    hook::Thunk<0x4D86A0 >::Call<void>(this, basename, breakableName, model, geomId, index);
 }
 
-void vehBreakableMgr::Create(LPCSTR a1, LPCSTR a2, modStatic** a3, int a4, int a5)
+void vehBreakableMgr::Create(LPCSTR basename, LPCSTR breakableName, modStatic** model, int geomId, int index)
 {
-    hook::Thunk<0x4D8600 >::Call<void>(this, a1, a2, a3, a4, a5);
+    hook::Thunk<0x4D8600 >::Call<void>(this, basename, breakableName, model, geomId, index);
 }
 
-void vehBreakableMgr::Eject(vehBreakable* a1, int room)
+void vehBreakableMgr::Eject(vehBreakable* breakable, int room)
 {
-    hook::Thunk<0x4D8940>::Call<void>(this, a1, room);
+    hook::Thunk<0x4D8940>::Call<void>(this, breakable, room);
 }
 
 void vehBreakableMgr::EjectAll(int room)

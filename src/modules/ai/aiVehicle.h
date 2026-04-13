@@ -1,6 +1,7 @@
 #pragma once
 #include <mm2_common.h>
 #include <modules\level\inst.h>
+#include <modules\effects\damage.h>
 #include <modules\vehicle\breakable.h>
 #include "aiRailSet.h"
 
@@ -24,35 +25,6 @@ namespace MM2
     // Class definitions
     class aiVehicleInstance : public lvlInstance {
     public:
-        static const int SHADOW_GEOM_ID = 1;
-        static const int HLIGHT_GEOM_ID = 2;
-        static const int TLIGHT_GEOM_ID = 3;
-        static const int SLIGHT0_GEOM_ID = 4;
-        static const int SLIGHT1_GEOM_ID = 5;
-        static const int WHL0_GEOM_ID = 6;
-        static const int WHL1_GEOM_ID = 7;
-        static const int WHL2_GEOM_ID = 8;
-        static const int WHL3_GEOM_ID = 9;
-        static const int BREAK0_GEOM_ID = 10;
-        static const int BREAK1_GEOM_ID = 11;
-        static const int BREAK2_GEOM_ID = 12;
-        static const int BREAK3_GEOM_ID = 13;
-        static const int HEADLIGHT0_GEOM_ID = 14;
-        static const int HEADLIGHT1_GEOM_ID = 15;
-        static const int WHL4_GEOM_ID = 16;
-        static const int WHL5_GEOM_ID = 17;
-        static const int BLIGHT_GEOM_ID = 18;
-        static const int PLIGHTON_GEOM_ID = 19;
-        static const int PLIGHTOFF_GEOM_ID = 20;
-        static const int TSLIGHT0_GEOM_ID = 21;
-        static const int TSLIGHT1_GEOM_ID = 22;
-        static const int SWHL0_GEOM_ID = 23;
-        static const int SWHL1_GEOM_ID = 24;
-        static const int SWHL2_GEOM_ID = 25;
-        static const int SWHL3_GEOM_ID = 26;
-        static const int SWHL4_GEOM_ID = 27;
-        static const int SWHL5_GEOM_ID = 28;
-    public:
         static int AmbientHeadlightStyle;
     private:
         aiVehicleSpline* Spline;
@@ -64,13 +36,21 @@ namespace MM2
         Vector3 HeadlightPosition;
         Vector3 VehiclePosition;
     public:
-        aiVehicleInstance(void)             DONOTCALL;
+		bool IsEmergency;
+		bool HasDamageTex;
+        mmDamage* Damage;
+    public:
+        ANGEL_ALLOCATOR
+
+        AGE_API aiVehicleInstance(aiVehicleSpline* spline, char* basename);
 
         //properties
         aiVehicleSpline* GetSpline();
+        vehBreakableMgr* GetGenBreakableMgr();
         int GetVariant() const;
         
         //overrides
+        AGE_API void Reset() override;
         AGE_API Vector3 const& GetPosition() override;
         AGE_API Matrix34 const& GetMatrix(Matrix34& a1) override;
         AGE_API void SetMatrix(Matrix34 const& a1) override;
@@ -88,9 +68,10 @@ namespace MM2
         AGE_API phBound* GetBound(int a1) override;
         
         //members
-        vehBreakableMgr* GetGenBreakableMgr();
         aiVehicleData* GetData();
         AGE_API void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, int unused);
+        AGE_API void InitBreakable(const char* basename, const char* breakableName, int geomId);
+        AGE_API void SetColor();
 
         //helpers
         void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected);
@@ -98,6 +79,10 @@ namespace MM2
         void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState);
         void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState);
         void DrawHeadlights();
+        void InitBreakable(const char* basename, const char* breakableName);
+		bool HasDamageTextures();
+		bool GetIsEmergency() const;
+		void SetEmergency(bool emergency);
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
 

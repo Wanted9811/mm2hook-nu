@@ -18,9 +18,24 @@ namespace MM2
         return this->Spline;
     }
 
+    vehBreakableMgr* aiVehicleInstance::GetGenBreakableMgr()
+    {
+        return this->BreakableMgr;
+    }
+
     int aiVehicleInstance::GetVariant() const
     {
         return this->Variant;
+    }
+
+    bool aiVehicleInstance::GetIsEmergency() const
+    {
+        return this->IsEmergency;
+    }
+
+    void aiVehicleInstance::SetEmergency(bool emergency)
+    {
+        this->IsEmergency = emergency;
     }
 
     void aiVehicleInstance::DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected)
@@ -66,7 +81,7 @@ namespace MM2
 
     void aiVehicleInstance::DrawHeadlights()
     {
-        modStatic* headlight0 = this->GetGeomBase(HEADLIGHT0_GEOM_ID)->GetHighestLOD();
+        modStatic* headlight0 = this->GetGeomEntry(this->GetGeomId("headlight0"));
         if (headlight0 == nullptr)
             return;
 
@@ -83,7 +98,7 @@ namespace MM2
         light->DrawGlow(static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3)));
 
         //draw HEADLIGHT1
-        modStatic* headlight1 = this->GetGeomBase(HEADLIGHT1_GEOM_ID)->GetHighestLOD();
+        modStatic* headlight1 = this->GetGeomEntry(this->GetGeomId("headlight1"));
         if (headlight1 != nullptr)
         {
             lightPos.X *= -1.0f;
@@ -92,6 +107,45 @@ namespace MM2
         }
 
         ltLight::DrawGlowEnd();
+    }
+
+    void aiVehicleInstance::InitBreakable(const char* basename, const char* breakableName)
+    {
+        int geomId = this->GetGeomId(breakableName);
+        if (geomId < 0)
+            return;
+
+        InitBreakable(basename, breakableName, geomId);
+    }
+
+    bool aiVehicleInstance::HasDamageTextures()
+    {
+        auto shaders = this->GetShader(this->Variant);
+        for (int i = 0; i < this->GetShaderCount(); i++)
+        {
+			auto shader = &shaders[i];
+            if (shader != nullptr && shader->GetTexture() != nullptr)
+            {
+                if (shader->GetTextureName() != NULL)
+                {
+					char textureName[128];
+					strcpy_s(textureName, shader->GetTextureName());
+
+					char* find = strrchr(textureName, '_');
+                    if (!find || _strcmpi(find, "_dmg"))
+                    {
+                        strcat_s(textureName, "_dmg");
+
+                        gfxTexture* damageTexture = gfxGetTexture(textureName);
+                        if (damageTexture)
+                        {
+                            return true;
+                        }
+                    }
+				}
+            }
+        }
+		return false;
     }
 
     Matrix34 aiVehicleInstance::GetWheelMatrix(int num)
@@ -152,7 +206,83 @@ namespace MM2
         return whlShadowMatrix;
     }
 
+    AGE_API aiVehicleInstance::aiVehicleInstance(aiVehicleSpline* spline, char* basename) : lvlInstance()
+    {
+        this->Spline = spline;
+
+        if (lvlInstance::BeginGeom(basename, "body", 5))
+        {
+            lvlInstance::AddGeoms(basename, "ambient", true);
+            lvlInstance::EndGeom();
+        }
+
+        this->SetFlag(0xD8);
+        this->RandomId = this->GetRandId();
+        this->SignalState = 0;
+        this->SetSubType(aiVehicleManager::Instance->AddVehicleDataEntry(basename));
+        this->IsEmergency = vehCarAudioContainer::IsEmergency(basename);
+		this->HasDamageTex = this->HasDamageTextures();
+        this->SetColor();
+        this->PreLoadShader(this->Variant);
+
+        //create breakables
+        this->BreakableMgr = new vehBreakableMgr();
+        this->BreakableMgr->SetImpactThreshold(2500.0f);
+        this->BreakableMgr->SetLastOneShotEjectVelocity(11.0f);
+        this->BreakableMgr->SetEjectVelocity(4.0f);
+        this->BreakableMgr->SetVariant(this->Variant);
+        this->BreakableMgr->Init(&this->Spline->GetMatrix());
+
+        InitBreakable(basename, "break0");
+        InitBreakable(basename, "break1");
+        InitBreakable(basename, "break2");
+        InitBreakable(basename, "break3");
+        InitBreakable(basename, "break01");
+        InitBreakable(basename, "break12");
+        InitBreakable(basename, "break23");
+        InitBreakable(basename, "break03");
+
+        if (this->GetGeomIndex() != 0)
+        {
+            modStatic* headlight0 = lvlInstance::GetGeomEntry(this->GetGeomId("headlight0"));
+            if (headlight0 != nullptr)
+            {
+                Matrix34 outMatrix;
+                GetPivot(outMatrix, basename, "headlight0");
+                this->HeadlightPosition = Vector3(outMatrix.m30, outMatrix.m31, outMatrix.m32);
+            }
+        }
+
+        if (this->HasDamageTex)
+        {
+            //init Damage
+            if (this->Damage != nullptr)
+            {
+                // delete old Damage
+                delete this->Damage;
+                this->Damage = nullptr;
+            }
+
+            if (this->GetGeomIndex() != 0)
+            {
+                auto bodyEntry = this->GetGeomBase();
+                if (bodyEntry->GetHighLOD() != nullptr)
+                {
+                    this->Damage = new mmDamage();
+                    this->Damage->Init(bodyEntry->GetHighLOD(), bodyEntry->pShaders[this->Variant], bodyEntry->numShaders);
+                }
+            }
+        }
+    }
+
     //overrides
+    AGE_API void aiVehicleInstance::Reset()
+    {
+        this->SignalState = 0;
+        if (this->BreakableMgr != nullptr)
+            this->BreakableMgr->Reset();
+    }
+
     AGE_API Vector3 const& aiVehicleInstance::GetPosition()              { return hook::Thunk<0x553030>::Call<Vector3 const&>(this); };
     AGE_API Matrix34 const& aiVehicleInstance::GetMatrix(Matrix34& a1)   { return hook::Thunk<0x553020>::Call<Matrix34 const&>(this, &a1); };
     AGE_API void aiVehicleInstance::SetMatrix(Matrix34 const & a1)       { hook::Thunk<0x553010>::Call<void>(this, a1); }
@@ -161,10 +291,22 @@ namespace MM2
     {
         this->Variant = static_cast<short>(variant);
         this->GetGenBreakableMgr()->SetVariant(variant);
+        this->PreLoadShader(variant);
+
+        if (Damage)
+        {
+            auto bodyEntry = this->GetGeomBase();
+            if (bodyEntry->GetHighLOD() != nullptr)
+            {
+                delete Damage;
+                Damage = new mmDamage();
+                Damage->Init(bodyEntry->GetHighLOD(), bodyEntry->pShaders[variant], bodyEntry->numShaders);
+            }
+        }
     }
 
     AGE_API dgPhysEntity* aiVehicleInstance::GetEntity()                 { return hook::Thunk<0x552F50>::Call<dgPhysEntity*>(this); };
-    AGE_API dgPhysEntity* aiVehicleInstance::AttachEntity()              { return hook::Thunk<0x552FBD>::Call<dgPhysEntity*>(this); };
+    AGE_API dgPhysEntity* aiVehicleInstance::AttachEntity()              { return hook::Thunk<0x552FB0>::Call<dgPhysEntity*>(this); };
     AGE_API void aiVehicleInstance::Detach()                             { hook::Thunk<0x552F80>::Call<void>(this); }
         
     AGE_API void aiVehicleInstance::Draw(int lod)
@@ -179,6 +321,12 @@ namespace MM2
 
         //get shaders
         auto shaders = this->GetShader(this->Variant);
+
+		//get clean shaders if we have damage textures
+        if (this->HasDamageTex)
+        {
+			shaders = this->Damage->GetCleanShaders();
+        }
 
         //setup renderer
         Matrix34 vehicleMatrix = this->Spline->GetMatrix();
@@ -195,14 +343,10 @@ namespace MM2
         //draw plights
         if (aiMap::GetInstance()->showHeadlights)
             //plighton
-            DrawPart(3, PLIGHTON_GEOM_ID, vehicleMatrix, shaders, alphaDrawing);
+            DrawPart(3, this->GetGeomId("plighton"), vehicleMatrix, shaders, alphaDrawing);
         else
             //plightoff
-            DrawPart(3, PLIGHTOFF_GEOM_ID, vehicleMatrix, shaders, alphaDrawing);
-
-        //get wheel ids
-        int swhlIds[6] = { SWHL0_GEOM_ID, SWHL1_GEOM_ID, SWHL2_GEOM_ID, SWHL3_GEOM_ID, SWHL4_GEOM_ID, SWHL5_GEOM_ID };
-        int whlIds[6] = { WHL0_GEOM_ID, WHL1_GEOM_ID, WHL2_GEOM_ID, WHL3_GEOM_ID, WHL4_GEOM_ID, WHL5_GEOM_ID };
+            DrawPart(3, this->GetGeomId("plightoff"), vehicleMatrix, shaders, alphaDrawing);
 
         //draw wheels (only in H LOD)
         if (lod == 3)
@@ -210,8 +354,10 @@ namespace MM2
             //(S)WHL0-5
             for (int i = 0; i < 6; i++)
             {
-                int swhlId = swhlIds[i];
-                int whlId = whlIds[i];
+                string_buf<16> swhl("swhl%d", i);
+                string_buf<16> whl("whl%d", i);
+                int swhlId = this->GetGeomId(swhl);
+                int whlId = this->GetGeomId(whl);
                 auto swhlGeom = this->GetGeom(3, swhlId);
                 if (this->Spline->GetSpeed() >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
                 {
@@ -246,10 +392,16 @@ namespace MM2
         gfxRenderState::SetCullMode(D3DCULL_CCW);
 
         //get shaders
-        auto shaders = this->GetShader(this->GetVariant());
+        auto shaders = this->GetShader(this->Variant);
+
+        //get clean shaders if we have damage textures
+        if (this->HasDamageTex)
+        {
+            shaders = this->Damage->GetCleanShaders();
+        }
 
         //get model
-        modStatic* model = this->GetGeomBase(0)->GetHighestLOD();
+        modStatic* model = this->GetGeomBase()->GetHighestLOD();
 
         if (model != nullptr)
         {
@@ -268,18 +420,16 @@ namespace MM2
                 //draw plights
                 if (aiMap::GetInstance()->showHeadlights)
                     //plighton
-                    DrawPartShadowed(3, PLIGHTON_GEOM_ID, shadowMatrix, shaders, intensity);
+                    DrawPartShadowed(3, this->GetGeomId("plighton"), shadowMatrix, shaders, intensity);
                 else
                     //plightoff
-                    DrawPartShadowed(3, PLIGHTOFF_GEOM_ID, shadowMatrix, shaders, intensity);
-
-                //get wheel ids
-                int whlIds[6] = { WHL0_GEOM_ID, WHL1_GEOM_ID, WHL2_GEOM_ID, WHL3_GEOM_ID, WHL4_GEOM_ID, WHL5_GEOM_ID };
+                    DrawPartShadowed(3, this->GetGeomId("plightoff"), shadowMatrix, shaders, intensity);
 
                 //draw wheels
                 for (int i = 0; i < 6; i++)
                 {
-                    int whlGeomId = whlIds[i];
+                    string_buf<16> whl("whl%d", i);
+                    int whlGeomId = this->GetGeomId(whl);
                     auto whlGeom = this->GetGeom(3, whlGeomId);
                     if (whlGeom != nullptr)
                     {
@@ -312,13 +462,13 @@ namespace MM2
         auto shaders = this->GetShader(this->Variant);
 
         //get objects
-        modStatic* hlight = this->GetGeomBase(HLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* tlight = this->GetGeomBase(TLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* slight0 = this->GetGeomBase(SLIGHT0_GEOM_ID)->GetHighestLOD();
-        modStatic* slight1 = this->GetGeomBase(SLIGHT1_GEOM_ID)->GetHighestLOD();
-        modStatic* blight = this->GetGeomBase(BLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* tslight0 = this->GetGeomBase(TSLIGHT0_GEOM_ID)->GetHighestLOD();
-        modStatic* tslight1 = this->GetGeomBase(TSLIGHT1_GEOM_ID)->GetHighestLOD();
+        modStatic* hlight = this->GetGeomEntry(this->GetGeomId("hlight"));
+        modStatic* tlight = this->GetGeomEntry(this->GetGeomId("tlight"));
+        modStatic* slight0 = this->GetGeomEntry(this->GetGeomId("slight0"));
+        modStatic* slight1 = this->GetGeomEntry(this->GetGeomId("slight1"));
+        modStatic* blight = this->GetGeomEntry(this->GetGeomId("blight"));
+        modStatic* tslight0 = this->GetGeomEntry(this->GetGeomId("tslight0"));
+        modStatic* tslight1 = this->GetGeomEntry(this->GetGeomId("tslight1"));
 
         //get lights stuff
         float accel = this->Spline->GetRailSet()->GetAccelFactor();
@@ -413,6 +563,12 @@ namespace MM2
         //get shaders
         auto shaders = this->GetShader(this->Variant);
 
+        //get clean shaders if we have damage textures
+        if (this->HasDamageTex)
+        {
+            shaders = this->Damage->GetCleanShaders();
+        }
+
         //setup renderer
         Matrix34 vehicleMatrix = this->Spline->GetMatrix();
         gfxRenderState::SetWorldMatrix(vehicleMatrix);
@@ -428,20 +584,18 @@ namespace MM2
         //draw plights
         if (aiMap::GetInstance()->showHeadlights)
             //plighton
-            DrawPartReflected(3, PLIGHTON_GEOM_ID, vehicleMatrix, shaders, intensity, vehCarModel::PartReflections);
+            DrawPartReflected(3, this->GetGeomId("plighton"), vehicleMatrix, shaders, intensity, vehCarModel::PartReflections);
         else
             //plightoff
-            DrawPartReflected(3, PLIGHTOFF_GEOM_ID, vehicleMatrix, shaders, intensity, vehCarModel::PartReflections);
-
-        //get wheel ids
-        int swhlIds[6] = { SWHL0_GEOM_ID, SWHL1_GEOM_ID, SWHL2_GEOM_ID, SWHL3_GEOM_ID, SWHL4_GEOM_ID, SWHL5_GEOM_ID };
-        int whlIds[6] = { WHL0_GEOM_ID, WHL1_GEOM_ID, WHL2_GEOM_ID, WHL3_GEOM_ID, WHL4_GEOM_ID, WHL5_GEOM_ID };
+            DrawPartReflected(3, this->GetGeomId("plightoff"), vehicleMatrix, shaders, intensity, vehCarModel::PartReflections);
 
         //draw (S)WHL0-5
         for (int i = 0; i < 6; i++)
         {
-            int swhlId = swhlIds[i];
-            int whlId = whlIds[i];
+            string_buf<16> swhl("swhl%d", i);
+            string_buf<16> whl("whl%d", i);
+            int swhlId = this->GetGeomId(swhl);
+            int whlId = this->GetGeomId(whl);
             auto swhlGeom = this->GetGeom(3, swhlId);
             if (this->Spline->GetSpeed() >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
             {
@@ -467,6 +621,12 @@ namespace MM2
         //get shaders
         auto shaders = this->GetShader(this->Variant);
 
+        //get clean shaders if we have damage textures
+        if (this->HasDamageTex)
+        {
+            shaders = this->Damage->GetCleanShaders();
+        }
+
         //setup renderer
         Matrix34 vehicleMatrix = this->Spline->GetMatrix();
         gfxRenderState::SetWorldMatrix(vehicleMatrix);
@@ -482,14 +642,10 @@ namespace MM2
         //draw plights
         if (aiMap::GetInstance()->showHeadlights)
             //plighton
-            DrawPart(3, PLIGHTON_GEOM_ID, vehicleMatrix, shaders, alphaDrawing);
+            DrawPart(3, this->GetGeomId("plighton"), vehicleMatrix, shaders, alphaDrawing);
         else
             //plightoff
-            DrawPart(3, PLIGHTOFF_GEOM_ID, vehicleMatrix, shaders, alphaDrawing);
-
-        //get wheel ids
-        int swhlIds[6] = { SWHL0_GEOM_ID, SWHL1_GEOM_ID, SWHL2_GEOM_ID, SWHL3_GEOM_ID, SWHL4_GEOM_ID, SWHL5_GEOM_ID };
-        int whlIds[6] = { WHL0_GEOM_ID, WHL1_GEOM_ID, WHL2_GEOM_ID, WHL3_GEOM_ID, WHL4_GEOM_ID, WHL5_GEOM_ID };
+            DrawPart(3, this->GetGeomId("plightoff"), vehicleMatrix, shaders, alphaDrawing);
 
         //draw wheels (only in H LOD)
         if (lod == 3)
@@ -497,8 +653,10 @@ namespace MM2
             //(S)WHL0-5
             for (int i = 0; i < 6; i++)
             {
-                int swhlId = swhlIds[i];
-                int whlId = whlIds[i];
+                string_buf<16> swhl("swhl%d", i);
+                string_buf<16> whl("whl%d", i);
+                int swhlId = this->GetGeomId(swhl);
+                int whlId = this->GetGeomId(whl);
                 auto swhlGeom = this->GetGeom(3, swhlId);
                 if (this->Spline->GetSpeed() >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
                 {
@@ -512,24 +670,23 @@ namespace MM2
         }
     }
 
-    AGE_API unsigned int aiVehicleInstance::SizeOf()                     { return hook::Thunk<0x553060>::Call<unsigned int>(this); };
+    AGE_API unsigned int aiVehicleInstance::SizeOf()                     { return sizeof(aiVehicleInstance); };
     AGE_API phBound* aiVehicleInstance::GetBound(int a1)                 { return hook::Thunk<0x552F40>::Call<phBound*>(this, a1); };
         
     //members
-    vehBreakableMgr* aiVehicleInstance::GetGenBreakableMgr()
-    {
-        return this->BreakableMgr;
-    }
-
     aiVehicleData* aiVehicleInstance::GetData()                           { return hook::Thunk<0x553F80>::Call<aiVehicleData*>(this); }
     AGE_API void aiVehicleInstance::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, int unused)
                                                                           { hook::Thunk<0x552870>::Call<void>(this, model, &matrix, shaders, unused); }
+    AGE_API void aiVehicleInstance::InitBreakable(const char* basename, const char* breakableName, int geomId)
+                                                                          { hook::Thunk<0x552010>::Call<void>(this, basename, breakableName, geomId); }
+    AGE_API void aiVehicleInstance::SetColor()                            { hook::Thunk<0x552110>::Call<void>(this); }
 
     //lua
     void aiVehicleInstance::BindLua(LuaState L) {
         LuaBinding(L).beginExtendClass<aiVehicleInstance, lvlInstance>("aiVehicleInstance")
             //members
             .addPropertyReadOnly("Breakables", &GetGenBreakableMgr)
+            .addProperty("IsEmergency", &GetIsEmergency, &SetEmergency)
             .addProperty("Variant", &GetVariant, &SetVariant)
             .addFunction("GetData", &GetData)
             .endClass();

@@ -8,6 +8,12 @@ static ConfigValue<int> cfgAmbientHeadlightStyle("AmbientHeadlightStyle", 0);
     aiVehicleInstanceFeatureHandler
 */
 
+aiVehicleInstance* aiVehicleInstanceFeatureHandler::Construct(aiVehicleSpline* spline, char* basename)
+{
+    auto inst = reinterpret_cast<aiVehicleInstance*>(this);
+    return new(inst) aiVehicleInstance(spline, basename);
+}
+
 void aiVehicleInstanceFeatureHandler::Draw(int lod)
 {
     auto inst = reinterpret_cast<aiVehicleInstance*>(this);
@@ -38,26 +44,15 @@ void aiVehicleInstanceFeatureHandler::DrawReflected(float intensity)
     inst->aiVehicleInstance::DrawReflected(intensity);
 }
 
-void aiVehicleInstanceFeatureHandler::AddGeomHook(const char* pkgName, const char* name, int flags)
-{
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, name, flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "blight", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "plighton", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "plightoff", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "tslight0", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "tslight1", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "swhl0", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "swhl1", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "swhl2", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "swhl3", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "swhl4", flags);
-    hook::Thunk<0x463BA0>::Call<int>(this, pkgName, "swhl5", flags);
-}
-
 void aiVehicleInstanceFeatureHandler::SetVariant(int a1)
 {
-    auto model = reinterpret_cast<aiVehicleInstance*>(this);
-    model->aiVehicleInstance::SetVariant(a1);
+    auto inst = reinterpret_cast<aiVehicleInstance*>(this);
+    inst->aiVehicleInstance::SetVariant(a1);
+}
+
+void* aiVehicleInstanceFeatureHandler::SizeOf()
+{
+    return hook::StaticThunk<0x463110>::Call<void*>(sizeof(aiVehicleInstance));
 }
 
 void aiVehicleInstanceFeatureHandler::VehicleSpline_DrawId()
@@ -72,9 +67,15 @@ void aiVehicleInstanceFeatureHandler::Ambient_DrawId()
 
 void aiVehicleInstanceFeatureHandler::Install()
 {
-    InstallCallback("aiVehicleInstance::aiVehicleInstance", "Adds brake light and pop-up lights geometries.",
-        &AddGeomHook, {
-            cb::call(0x551F2F),
+    InstallCallback("aiVehicleInstance::SizeOf", "Change size of aiVehicleInstance on aiVehicleSpline initialization.",
+        &SizeOf, {
+            cb::call(0x567F8B),
+        }
+    );
+    
+    InstallCallback("aiVehicleInstance::aiVehicleInstance", "Use our aiVehicleInstance Constructor.",
+        &Construct, {
+            cb::call(0x567FA8),
         }
     );
 

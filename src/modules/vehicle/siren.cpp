@@ -11,21 +11,21 @@ int vehSiren::GetLightCount() const  { return LightCount; }
 
 ltLight* vehSiren::GetLight(int index) const
 {
-    if (index < 0 || index >= vehSiren::MAX_LIGHTS)
+    if (index < 0 || index >= LightCount)
         return nullptr;
     return &ltLightPool[index];
 }
 
 Vector3 vehSiren::GetLightPosition(int index) const
 {
-    if (index < 0 || index >= vehSiren::MAX_LIGHTS)
+    if (index < 0 || index >= LightCount)
         return Vector3::ORIGIN;
     return extraLightPositions[index];
 }
 
 void vehSiren::SetLightPosition(int index, Vector3 position)
 {
-    if (index < 0 || index >= vehSiren::MAX_LIGHTS)
+    if (index < 0 || index >= LightCount)
         return;
     extraLightPositions[index] = position;
 }
@@ -36,17 +36,24 @@ void vehSiren::SetEnabledElectrics(int index, bool state)
 }
 
 //member funcs
-AGE_API bool vehSiren::Init()
+AGE_API void vehSiren::Init(int lightCount)
 {
     if (this->ltLightPool == nullptr)
     {
-        this->ltLightPool = new ltLight[vehSiren::MAX_LIGHTS];
+        this->ltLightPool = new ltLight[lightCount];
+    }
+    if (this->extraLightPositions == nullptr)
+    {
+        this->extraLightPositions = new Vector3[lightCount];
+    }
+    if (this->enabledElectrics == nullptr)
+    {
+        this->enabledElectrics = new bool[lightCount];
     }
     if (this->LensFlare == nullptr)
     {
         this->LensFlare = new ltLensFlare(20);
     }
-    return true;
 }
 
 void vehSiren::RemoveAllLights()
@@ -55,22 +62,19 @@ void vehSiren::RemoveAllLights()
     this->LightCount = 0;
 }
 
-AGE_API bool vehSiren::AddLight(Vector3 const& position, Vector3 const& color)
+AGE_API void vehSiren::AddLight(Vector3 const& position, Vector3 const& color)
 {
-    if (this->ltLightPool != nullptr && this->LightCount < vehSiren::MAX_LIGHTS)
-    {
-        this->HasLights = true;
-        ltLightPool[LightCount].Type = 1;
-        ltLightPool[LightCount].Color = color;
-        extraLightPositions[LightCount] = position;
-        ltLightPool[LightCount].SpotExponent = 3.f;
-        ltLightPool[LightCount].Direction = Vector3(1.0f, 0.0f, 0.0f);
-        ltLightPool[LightCount].Direction.RotateY(LightCount * 1.5707964f);
-        ++this->LightCount;
-        return true;
-    }
+    if (this->ltLightPool == nullptr)
+        return;
 
-    return false;
+    this->HasLights = true;
+    ltLightPool[LightCount].Type = 1;
+    ltLightPool[LightCount].Color = color;
+    extraLightPositions[LightCount] = position;
+    ltLightPool[LightCount].SpotExponent = 3.f;
+    ltLightPool[LightCount].Direction = Vector3(1.0f, 0.0f, 0.0f);
+    ltLightPool[LightCount].Direction.RotateY(LightCount * 1.5707964f);
+    ++this->LightCount;
 }
 
 AGE_API void vehSiren::Reset()

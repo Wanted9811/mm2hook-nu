@@ -59,8 +59,8 @@ namespace MM2
             modShader **pShaders;
             phBound *Bound;
             float Radius;
-            char numShadersPerVariant;
             char numShaders;
+            char numVariants;
 
             modStatic* GetLOD(int lod) const;
             modStatic* GetHighestLOD() const;
@@ -98,7 +98,7 @@ namespace MM2
         short GetRoomId() const;
         short GetGeomIndex() const;
         void SetGeomIndex(unsigned short id);
-        short GetFlags() const;
+        ushort GetFlags() const;
         void SetFlags(ushort flags);
         void SetFlag(ushort flag);
         byte GetOwner(void) const;
@@ -107,8 +107,10 @@ namespace MM2
         void SetSubType(byte subtype);
         GeomTableEntry* GetGeomBase(int geom = 0) const;
         modStatic* GetGeom(int lod, int geom) const;
+        modStatic* GetGeomEntry(int geom) const;
         const char* GetName() const;
-        modShader* GetShader(int index) const;
+        const char* GetGeomName(int geom) const;
+        modShader* GetShader(int variant) const;
         int GetShaderCount() const;
         int GetVariantCount() const;
         int GetRandId() const;
@@ -124,8 +126,8 @@ namespace MM2
         AGE_API bool LoadBoundOnLastEntry(const char* a1);
         AGE_API Vector4* GetBoundSphere(Vector4* a1);
 
-        AGE_API bool BeginGeom(const char* a1, const char* a2, int a3);
-        AGE_API int AddGeom(const char* a1, const char* a2, int a3);
+        AGE_API bool BeginGeom(const char* basename, const char* geomName, int flags);
+        AGE_API int AddGeom(const char* basename, const char* geomName, int flags);
         AGE_API void EndGeom();
         AGE_API bool InitBoundTerrain(const char* a1);
         AGE_API bool InitBoundTerrainLocal(const char* a1);
@@ -138,7 +140,11 @@ namespace MM2
         /*
             Custom additions
         */
-        bool BeginGeomWithGroup(const char* a1, const char* a2, const char* group, int a3);
+        bool BeginGeomWithGroup(const char* basename, const char* geomName, const char* group, int flags);
+        int GetGeomId(const char* geomName) const;
+        int GetGeomCount(const char* geomGroup) const;
+        void AddGeoms(const char* basename, const char* group, bool useGroupGeoms = false);
+        char* GetGroupGeomNames(const char* group, int nameId);
 
         /*
             lvlInstance virtuals

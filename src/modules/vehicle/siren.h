@@ -13,8 +13,6 @@ namespace MM2
     // Class definitions
     class vehSiren
     {
-    private:
-        static const int MAX_LIGHTS = 8;
     public:
         static float SirenRotationSpeed;
     private:
@@ -26,8 +24,8 @@ namespace MM2
         float RotationRate;
         ltLensFlare* LensFlare;
         //EXTRA FIELD. The hook expands on this class, this is only possible because it's only used like a pointer in the original MM code
-        Vector3 extraLightPositions[vehSiren::MAX_LIGHTS]; //SRN0-7
-        bool enabledElectrics[vehSiren::MAX_LIGHTS]; //SRN0-7
+        Vector3 *extraLightPositions;
+        bool *enabledElectrics;
     public:
         bool IsActive() const;
         void SetActive(bool active);
@@ -43,11 +41,11 @@ namespace MM2
         void SetEnabledElectrics(int index, bool state);
 
         //member funcs
-        AGE_API bool Init();
+        AGE_API void Init(int lightCount);
 
         void RemoveAllLights();
 
-        AGE_API bool AddLight(Vector3 const & position, Vector3 const & color);
+        AGE_API void AddLight(Vector3 const& position, Vector3 const& color);
 
         AGE_API void Reset();
 

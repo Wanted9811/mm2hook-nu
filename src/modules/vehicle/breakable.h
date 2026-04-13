@@ -35,29 +35,35 @@ namespace MM2
         static bool EnableReflections;
     private:
         vehBreakable *first; // linked-list
-        float maxImpact; // educated guess (default: 10000.0)
+        float impactThreshold; // educated guess (default: 10000.0)
         Matrix34 *matrix; // origin?
         int variant; // always zero by default, used in Eject to set Banger variant
 
         // TODO: figure out what these do
 
-        float p5; // (default: 4.0)
-        float p6; // (default: 0.0)
-        float p7; // (default: 2.0)
-        float p8; // (default: 0.0)
+        float lastOneShotEjectVelocity; // (default: 4.0)
+        float field_14; // (default: 1.0)
+        float ejectVelocity; // (default: 2.0)
+        float field_1C; // (default: 1.0)
     public:
         int GetVariant();
         void SetVariant(int variant);
+        float GetImpactThreshold();
+        void SetImpactThreshold(float threshold);
+        float GetLastOneShotEjectVelocity();
+        void SetLastOneShotEjectVelocity(float velocity);
+        float GetEjectVelocity();
+        void SetEjectVelocity(float velocity);
     public:
         ANGEL_ALLOCATOR
 
         AGE_API vehBreakableMgr();
         AGE_API ~vehBreakableMgr();
 
-        AGE_API bool Init(Matrix34* a1);
-        AGE_API void Add(LPCSTR a1, LPCSTR a2, modStatic** a3, int a4, int a5);
-        AGE_API void Create(LPCSTR a1, LPCSTR a2, modStatic** a3, int a4, int a5);
-        AGE_API void Eject(vehBreakable* a1, int room);
+        AGE_API bool Init(Matrix34* carMatrix);
+        AGE_API void Add(LPCSTR basename, LPCSTR breakableName, modStatic** model, int geomId, int index);
+        AGE_API void Create(LPCSTR basename, LPCSTR breakableName, modStatic** model, int geomId, int index);
+        AGE_API void Eject(vehBreakable* breakable, int room);
         AGE_API void EjectAll(int room);
         AGE_API void Reset();
         AGE_API void Draw(const Matrix34& world, modShader* shaders, int lod);

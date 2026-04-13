@@ -237,43 +237,7 @@ namespace MM2
 
         if (lvlInstance::BeginGeom(basename, "trailer", 0xD))
         {
-            gfxPacket::gfxForceLVERTEX = true;
-            lvlInstance::AddGeom(basename, "shadow", 0);
-            lvlInstance::AddGeom(basename, "tlight", 0);
-            gfxPacket::gfxForceLVERTEX = false;
-
-            lvlInstance::AddGeom(basename, "twhl0", 5);
-            lvlInstance::AddGeom(basename, "twhl1", 4);
-            lvlInstance::AddGeom(basename, "twhl2", 0);
-            lvlInstance::AddGeom(basename, "twhl3", 0);
-            lvlInstance::AddGeom(basename, "trailer_hitch", 0);
-
-            //NEW MM2HOOK OBJECTS
-            gfxPacket::gfxForceLVERTEX = true;
-            lvlInstance::AddGeom(basename, "rlight", 0);
-            lvlInstance::AddGeom(basename, "blight", 0);
-            lvlInstance::AddGeom(basename, "hlight", 0);
-            lvlInstance::AddGeom(basename, "slight0", 0);
-            lvlInstance::AddGeom(basename, "slight1", 0);
-            lvlInstance::AddGeom(basename, "siren0", 0);
-            lvlInstance::AddGeom(basename, "siren1", 0);
-            gfxPacket::gfxForceLVERTEX = false;
-
-            lvlInstance::AddGeom(basename, "twhl4", 0);
-            lvlInstance::AddGeom(basename, "twhl5", 0);
-
-            lvlInstance::AddGeom(basename, "tswhl0", 0);
-            lvlInstance::AddGeom(basename, "tswhl1", 0);
-            lvlInstance::AddGeom(basename, "tswhl2", 0);
-            lvlInstance::AddGeom(basename, "tswhl3", 0);
-            lvlInstance::AddGeom(basename, "tswhl4", 0);
-            lvlInstance::AddGeom(basename, "tswhl5", 0);
-
-            gfxPacket::gfxForceLVERTEX = true;
-            lvlInstance::AddGeom(basename, "tslight0", 0);
-            lvlInstance::AddGeom(basename, "tslight1", 0);
-            gfxPacket::gfxForceLVERTEX = false;
-
+            lvlInstance::AddGeoms(basename, "trailer");
             lvlInstance::EndGeom();
             hasGeometry = true;
         }
@@ -284,7 +248,7 @@ namespace MM2
         if (hasGeometry)
             lvlInstance::Optimize(this->Variant);
 
-        auto trailerHitch = lvlInstance::GetGeomBase(HITCH_GEOM_ID)->GetHighLOD();
+        auto trailerHitch = lvlInstance::GetGeom(3, this->GetGeomId("trailer_hitch"));
         if (trailerHitch != nullptr)
         {
             Matrix34 outMatrix;
@@ -333,14 +297,14 @@ namespace MM2
 
         //get wheels
         vehWheel* wheels[6] = { trailer->GetWheel(0), trailer->GetWheel(1), trailer->GetWheel(2), trailer->GetWheel(3), trailer->GetWheel(2), trailer->GetWheel(3) };
-        int swhlIds[6] = { TSWHL0_GEOM_ID, TSWHL1_GEOM_ID, TSWHL2_GEOM_ID, TSWHL3_GEOM_ID, TSWHL4_GEOM_ID, TSWHL5_GEOM_ID };
-        int whlIds[6] = { TWHL0_GEOM_ID, TWHL1_GEOM_ID, TWHL2_GEOM_ID, TWHL3_GEOM_ID, TWHL4_GEOM_ID, TWHL5_GEOM_ID };
 
         //draw (s)whl0-5
         for (int i = 0; i < 6; i++)
         {
-            int swhlId = swhlIds[i];
-            int whlId = whlIds[i];
+            string_buf<16> swhl("tswhl%d", i);
+            string_buf<16> whl("twhl%d", i);
+            int swhlId = this->GetGeomId(swhl);
+            int whlId = this->GetGeomId(whl);
             auto wheel = wheels[i];
             auto swhlGeom = this->GetGeom(lod, swhlId);
             if (fabs(wheel->GetRotationRate()) > BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
@@ -380,7 +344,7 @@ namespace MM2
         auto shaders = this->GetShader(this->Variant);
 
         //get model
-        modStatic* model = this->GetGeomBase(0)->GetHighestLOD();
+        modStatic* model = this->GetGeomBase()->GetHighestLOD();
 
         if (model != nullptr)
         {
@@ -395,17 +359,17 @@ namespace MM2
 
                 //get wheel ids
                 vehWheel* wheels[6] = { trailer->GetWheel(0), trailer->GetWheel(1), trailer->GetWheel(2), trailer->GetWheel(3), trailer->GetWheel(2), trailer->GetWheel(3) };
-                int swhlIds[6] = { TSWHL0_GEOM_ID, TSWHL1_GEOM_ID, TSWHL2_GEOM_ID, TSWHL3_GEOM_ID, TSWHL4_GEOM_ID, TSWHL5_GEOM_ID };
-                int whlIds[6] = { TWHL0_GEOM_ID, TWHL1_GEOM_ID, TWHL2_GEOM_ID, TWHL3_GEOM_ID, TWHL4_GEOM_ID, TWHL5_GEOM_ID };
 
                 //draw wheels
                 for (int i = 0; i < 6; i++)
                 {
-                    int whlId = whlIds[i];
+                    string_buf<16> whl("twhl%d", i);
+                    int whlId = this->GetGeomId(whl);
                     auto whlGeom = this->GetGeom(3, whlId);
                     if (whlGeom != nullptr)
                     {
-                        int swhlId = swhlIds[i];
+                        string_buf<16> swhl("tswhl%d", i);
+                        int swhlId = this->GetGeomId(swhl);
                         auto swhlGeom = this->GetGeom(3, swhlId);
                         auto wheel = wheels[i];
                         if (fabs(wheel->GetRotationRate()) > BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
@@ -449,16 +413,16 @@ namespace MM2
         auto shaders = this->GetShader(this->Variant);
 
         //get lights
-        modStatic* tlight = this->GetGeomBase(TLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* rlight = this->GetGeomBase(RLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* blight = this->GetGeomBase(BLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* hlight = this->GetGeomBase(HLIGHT_GEOM_ID)->GetHighestLOD();
-        modStatic* slight0 = this->GetGeomBase(SLIGHT0_GEOM_ID)->GetHighestLOD();
-        modStatic* slight1 = this->GetGeomBase(SLIGHT1_GEOM_ID)->GetHighestLOD();
-        modStatic* siren0 = this->GetGeomBase(SIREN0_GEOM_ID)->GetHighestLOD();
-        modStatic* siren1 = this->GetGeomBase(SIREN1_GEOM_ID)->GetHighestLOD();
-        modStatic* tslight0 = this->GetGeomBase(TSLIGHT0_GEOM_ID)->GetHighestLOD();
-        modStatic* tslight1 = this->GetGeomBase(TSLIGHT1_GEOM_ID)->GetHighestLOD();
+        modStatic* tlight = this->GetGeomEntry(this->GetGeomId("tlight"));
+        modStatic* rlight = this->GetGeomEntry(this->GetGeomId("rlight"));
+        modStatic* blight = this->GetGeomEntry(this->GetGeomId("blight"));
+        modStatic* hlight = this->GetGeomEntry(this->GetGeomId("hlight"));
+        modStatic* slight0 = this->GetGeomEntry(this->GetGeomId("slight0"));
+        modStatic* slight1 = this->GetGeomEntry(this->GetGeomId("slight1"));
+        modStatic* siren0 = this->GetGeomEntry(this->GetGeomId("siren0"));
+        modStatic* siren1 = this->GetGeomEntry(this->GetGeomId("siren1"));
+        modStatic* tslight0 = this->GetGeomEntry(this->GetGeomId("tslight0"));
+        modStatic* tslight1 = this->GetGeomEntry(this->GetGeomId("tslight1"));
 
         if (vehCarModel::MM1StyleTransmission)
         {
@@ -595,14 +559,14 @@ namespace MM2
 
         //get trailer wheels
         vehWheel* wheels[6] = { trailer->GetWheel(0), trailer->GetWheel(1), trailer->GetWheel(2), trailer->GetWheel(3), trailer->GetWheel(2), trailer->GetWheel(3) };
-        int swhlIds[6] = { TSWHL0_GEOM_ID, TSWHL1_GEOM_ID, TSWHL2_GEOM_ID, TSWHL3_GEOM_ID, TSWHL4_GEOM_ID, TSWHL5_GEOM_ID };
-        int whlIds[6] = { TWHL0_GEOM_ID, TWHL1_GEOM_ID, TWHL2_GEOM_ID, TWHL3_GEOM_ID, TWHL4_GEOM_ID, TWHL5_GEOM_ID };
 
         //draw (s)whl0-5
         for (int i = 0; i < 6; i++)
         {
-            int swhlId = swhlIds[i];
-            int whlId = whlIds[i];
+            string_buf<16> swhl("tswhl%d", i);
+            string_buf<16> whl("twhl%d", i);
+            int swhlId = this->GetGeomId(swhl);
+            int whlId = this->GetGeomId(whl);
             auto wheel = wheels[i];
             auto swhlGeom = this->GetGeom(3, swhlId);
             if (fabs(wheel->GetRotationRate()) > BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
@@ -637,14 +601,14 @@ namespace MM2
 
         //get trailer wheels
         vehWheel* wheels[6] = { trailer->GetWheel(0), trailer->GetWheel(1), trailer->GetWheel(2), trailer->GetWheel(3), trailer->GetWheel(2), trailer->GetWheel(3) };
-        int swhlIds[6] = { TSWHL0_GEOM_ID, TSWHL1_GEOM_ID, TSWHL2_GEOM_ID, TSWHL3_GEOM_ID, TSWHL4_GEOM_ID, TSWHL5_GEOM_ID };
-        int whlIds[6] = { TWHL0_GEOM_ID, TWHL1_GEOM_ID, TWHL2_GEOM_ID, TWHL3_GEOM_ID, TWHL4_GEOM_ID, TWHL5_GEOM_ID };
 
         //draw (s)whl0-5
         for (int i = 0; i < 6; i++)
         {
-            int swhlId = swhlIds[i];
-            int whlId = whlIds[i];
+            string_buf<16> swhl("tswhl%d", i);
+            string_buf<16> whl("twhl%d", i);
+            int swhlId = this->GetGeomId(swhl);
+            int whlId = this->GetGeomId(whl);
             auto wheel = wheels[i];
             auto swhlGeom = this->GetGeom(lod, swhlId);
             if (fabs(wheel->GetRotationRate()) > BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
