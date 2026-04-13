@@ -8,6 +8,7 @@
 #include "..\events\dispatcher.h"
 
 // Individual handlers
+#include "feature_handlers/aiAmbientVehicleAudioHandler.h"
 #include "feature_handlers/aiCableCarInstanceFeatureHandler.h"
 #include "feature_handlers/aiPoliceOfficerFeatureHandler.h"
 #include "feature_handlers/aiTrafficLightInstanceHandler.h"

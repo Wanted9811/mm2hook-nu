@@ -188,6 +188,7 @@
     <ClInclude Include="src\handlers\bugfix_handlers\vehSplashHandler.h" />
     <ClInclude Include="src\handlers\bugfix_handlers\vehSuspensionHandler.h" />
     <ClInclude Include="src\handlers\bugfix_handlers\vehTrailerHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\aiAmbientVehicleAudioHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\aiTrafficLightInstanceHandler.h" />
@@ -283,6 +284,7 @@
     <ClInclude Include="src\events\dispatcher.h" />
     <ClInclude Include="src\mm2_replay.h" />
     <ClInclude Include="src\modules\ai.h" />
+    <ClInclude Include="src\modules\ai\aiAmbientVehicleAudio.h" />
     <ClInclude Include="src\modules\ai\aiBanger.h" />
     <ClInclude Include="src\modules\ai\aiCableCar.h" />
     <ClInclude Include="src\modules\ai\aiCityData.h" />
@@ -716,6 +718,7 @@
     <ClCompile Include="src\handlers\bugfix_handlers\vehSplashHandler.cpp" />
     <ClCompile Include="src\handlers\bugfix_handlers\vehSuspensionHandler.cpp" />
     <ClCompile Include="src\handlers\bugfix_handlers\vehTrailerHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\aiAmbientVehicleAudioHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiCableCarInstanceFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiPoliceOfficerFeatureHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\aiTrafficLightInstanceHandler.cpp" />
@@ -811,6 +814,7 @@
     <ClCompile Include="src\events\dispatcher.cpp" />
     <ClCompile Include="src\mm2_replay.cpp" />
     <ClCompile Include="src\modules\ai.cpp" />
+    <ClCompile Include="src\modules\ai\aiAmbientVehicleAudio.cpp" />
     <ClCompile Include="src\modules\ai\aiCableCar.cpp" />
     <ClCompile Include="src\modules\ai\aiCTFRacer.cpp" />
     <ClCompile Include="src\modules\ai\aiGoalAvoidPlayer.cpp" />
@@ -916,6 +920,7 @@
     <ClCompile Include="src\modules\vehicle\aisubwayaudio.cpp" />
     <ClCompile Include="src\modules\vehicle\breakable.cpp" />
     <ClCompile Include="src\modules\vehicle\car.cpp" />
+    <ClCompile Include="src\modules\vehicle\caraudiocontainer.cpp" />
     <ClCompile Include="src\modules\vehicle\cardamage.cpp" />
     <ClCompile Include="src\modules\vehicle\carmodel.cpp" />
     <ClCompile Include="src\modules\vehicle\carsim.cpp" />

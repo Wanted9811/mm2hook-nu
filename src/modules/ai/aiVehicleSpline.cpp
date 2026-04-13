@@ -23,8 +23,8 @@ int aiVehicleSpline::CurrentRoadIdx(aiPath **a1, const bool *a2, int *a3)
                                                         { return hook::Thunk<0x5681C0>::Call<int>(this, a1, a2, a3); }
 int aiVehicleSpline::CurrentRdVert()                    { return hook::Thunk<0x5683F0>::Call<int>(this); }
 
-void aiVehicleSpline::Update()                          FORWARD_THUNK;
-void aiVehicleSpline::Reset()                           FORWARD_THUNK;
+void aiVehicleSpline::Update()                          { hook::Thunk<0x568100>::Call<void>(this); }
+void aiVehicleSpline::Reset()                           { hook::Thunk<0x568050>::Call<void>(this); }
 int aiVehicleSpline::Type()                             { return hook::Thunk<0x56A700>::Call<int>(this); }
 Matrix34 & aiVehicleSpline::GetMatrix() const           { return hook::Thunk<0x551C80>::Call<Matrix34&>(this); }
 float aiVehicleSpline::FrontBumperDistance()            { return hook::Thunk<0x551C00>::Call<float>(this); }
@@ -75,6 +75,11 @@ aiRailSet* aiVehicleSpline::GetRailSet()
 aiVehicleInstance * aiVehicleSpline::GetInst() const
 {
     return _vehicleInstance.get(this);
+}
+
+aiAmbientVehicleAudio* aiVehicleSpline::GetVehicleAudio() const
+{
+    return _vehicleAudio.ptr(this);
 }
 
 void aiVehicleSpline::SetMatrix(Matrix34 const& mtx)

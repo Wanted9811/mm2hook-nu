@@ -1895,6 +1895,12 @@
     <ClInclude Include="src\modules\effects\lightdamage.h">
       <Filter>Source Files\modules\effects</Filter>
     </ClInclude>
+    <ClInclude Include="src\modules\ai\aiAmbientVehicleAudio.h">
+      <Filter>Source Files\modules\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="src\handlers\feature_handlers\aiAmbientVehicleAudioHandler.h">
+      <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lua\lapi.c">
@@ -2885,6 +2891,15 @@
       <Filter>Source Files\modules\effects</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\vehicle\siren.cpp">
+      <Filter>Source Files\modules\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\ai\aiAmbientVehicleAudio.cpp">
+      <Filter>Source Files\modules\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="src\handlers\feature_handlers\aiAmbientVehicleAudioHandler.cpp">
+      <Filter>Source Files\handlers\feature_handlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\vehicle\caraudiocontainer.cpp">
       <Filter>Source Files\modules\vehicle</Filter>
     </ClCompile>
   </ItemGroup>

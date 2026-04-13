@@ -13,6 +13,8 @@ namespace MM2
     class Aud3DObject {
     private:
         byte _buffer[0x5C];
+    protected:
+        static hook::Field<0x40, int> _Priority;
     public:
         ANGEL_ALLOCATOR
 
@@ -37,7 +39,7 @@ namespace MM2
         AGE_API virtual void Set3DParams()                      { hook::Thunk<0x512370>::Call<void>(this); }
 
         /*
-            Aud3DObject
+            Aud3DObject members
         */
         AGE_API void AddTo3DMgr()                               { hook::Thunk<0x512230>::Call<void>(this); }
         AGE_API float CalculateAttenuation()                    { return hook::Thunk<0x512280>::Call<float>(this); }
@@ -51,6 +53,14 @@ namespace MM2
         AGE_API void SetPositionPtr(Vector3 * position)         { hook::Thunk<0x511B80>::Call<void>(this, position); }
         AGE_API bool WithinMaxDistance()                        { return hook::Thunk<0x512130>::Call<bool>(this); }
 
+        /*
+            Aud3DObject fields
+        */
+        void SetPriority(int priority)
+        {
+            return _Priority.set(this, priority);
+		}
+
         static void BindLua(LuaState L) {
             LuaBinding(L).beginClass<Aud3DObject>("Aud3DObject")
                 .addFunction("CalculateDoppler", &CalculateDoppler)
@@ -59,7 +69,7 @@ namespace MM2
                 .addFunction("Reset", &Reset)
                 .addFunction("Set3D", &Set3D)
                 .addFunction("SetDropOffs", &SetDropOffs)
-                .addPropertyReadOnly("Priority", &GetPriority)
+                .addProperty("Priority", &GetPriority, &SetPriority)
                 .endClass();
         }
     };

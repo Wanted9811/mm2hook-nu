@@ -1,5 +1,6 @@
 #pragma once
 #include "aiVehicle.h"
+#include "aiAmbientVehicleAudio.h"
 #include <mm2_audio.h>
 
 namespace MM2
@@ -11,6 +12,7 @@ namespace MM2
     extern class AudImpact;
     extern class aiVehicleInstance;
     extern class aiRailSet;
+    extern class aiAmbientVehicleAudio;
 
     // Class definitions
 
@@ -28,6 +30,7 @@ namespace MM2
         static hook::Field<0xF2, short> _curReactTicks;
         static hook::Field<0xF4, float> _curSpeed;
         static hook::Field<0xFC, float> _tireRotation;
+        static hook::Field<0x100, aiAmbientVehicleAudio> _vehicleAudio;
     public:
         aiVehicleSpline();
         ~aiVehicleSpline();
@@ -62,6 +65,7 @@ namespace MM2
         void SetSpeed(float speed);
         aiRailSet* GetRailSet();
         aiVehicleInstance* GetInst() const;
+        aiAmbientVehicleAudio* GetVehicleAudio() const;
         void SetMatrix(Matrix34 const& mtx);
         
 
