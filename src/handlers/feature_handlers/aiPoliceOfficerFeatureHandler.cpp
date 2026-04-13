@@ -61,13 +61,13 @@ void aiPoliceOfficerFeatureHandler::Install() {
                    });
 
     // Install new size for aiPoliceOfficer
-    mem::write(0x536D77 + 1, newSize);
-    mem::write(0x537250 + 1, newSize);
-    mem::write(0x535D48 + 1, newSize);
-    mem::write(0x535D7D + 2, newSize);
-    mem::write(0x5374C6 + 2, newSize);
-    mem::write(0x53BD1C + 1, newSize);
-    mem::write(0x534C90 + 1, newSize);
+    mem::write(0x536D77 + 1, newSize); // aiMap::Reset
+    mem::write(0x537250 + 1, newSize); // aiMap::Update
+    mem::write(0x535D48 + 1, newSize); // aiMap::Init
+    mem::write(0x535D7D + 2, newSize); // aiMap::Init
+    mem::write(0x5374C6 + 2, newSize); // aiMap::StopRoadTraffic
+    mem::write(0x53BD1C + 1, newSize); // aiPoliceOfficer::`vector deleting destructor'
+    mem::write(0x534C90 + 1, newSize); // aiMap::Clean
 
     InstallCallback("aiMap::Police", "Use new AIMAP::Police implementation.",
         &aiMap::Police, {
