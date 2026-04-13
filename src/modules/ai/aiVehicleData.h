@@ -38,24 +38,27 @@ namespace MM2
         AGE_API void FileIO(datParser &parser) override { hook::Thunk<0x56F7C0>::Call<void>(this, &parser); }
 
         //lua helpers
-        Vector3 GetWheelPosition(int id) {
+        Vector3 GetWheelPosition(int id)
+        {
             if (id > 5) id = 5;
             return WheelPositions[id];
         }
 
-        void SetWheelPosition(int id, Vector3 const& position) {
+        void SetWheelPosition(int id, Vector3 const& position)
+        {
             if (id > 5) id = 5;
             WheelPositions[id] = position;
         }
 
-        int getDataId() {
+        int GetDataId()
+        {
             return DataId;
         }
 
         //lua
         static void BindLua(LuaState L) {
             LuaBinding(L).beginExtendClass<aiVehicleData, asNode>("aiVehicleData")
-                .addPropertyReadOnly("DataId", &getDataId)
+                .addPropertyReadOnly("DataId", &GetDataId)
                 .addVariable("Size", &aiVehicleData::Size)
                 .addVariable("CG", &aiVehicleData::CG)
                 .addVariable("MaxAng", &aiVehicleData::MaxAng)

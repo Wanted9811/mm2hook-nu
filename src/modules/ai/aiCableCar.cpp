@@ -130,7 +130,7 @@ AGE_API void aiCableCarInstance::DrawShadow()
         gfxRenderState::SetCullMode(D3DCULL_CCW);
 
         //get cable car
-        modStatic* cableCar = this->GetGeomBase(0)->GetHighestLOD();
+        modStatic* cableCar = this->GetGeomBase()->GetHighestLOD();
         if (cableCar != nullptr)
         {
             if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, this->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, cableCarMatrix, this))
