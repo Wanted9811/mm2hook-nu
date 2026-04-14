@@ -74,11 +74,8 @@ AGE_API void aiAmbientVehicleAudio::Init(char* basename, Vector3* position)
 
 		LoadImpacts("default", "aud\\cardata\\opponent");
 
-		if (!isEmergency)
-		{
-			if (!LoadVoices(basename, "aud\\creaturedata", false))
-				LoadVoices("default", "aud\\creaturedata", true);
-		}
+		if (!LoadVoices(basename, "aud\\creaturedata", false))
+			LoadVoices(isEmergency ? "default_cop" : "default", "aud\\creaturedata", !isEmergency);
 		
 		SetSoundsLoaded(true);
 	}
