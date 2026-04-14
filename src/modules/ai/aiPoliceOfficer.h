@@ -118,4 +118,16 @@ namespace MM2
 
         static void BindLua(LuaState L);
     };
+
+    // Bit of a hack class that lets Lua police officers get cleaned up
+    class aiPoliceOfficerRef : public Base
+    {
+    private:
+        aiPoliceOfficer* m_OfficerRef;
+    public:
+        ANGEL_ALLOCATOR
+
+        aiPoliceOfficerRef(aiPoliceOfficer* officer);
+        virtual ~aiPoliceOfficerRef() override;
+    };
 }
