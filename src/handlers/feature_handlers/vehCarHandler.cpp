@@ -118,7 +118,8 @@ void vehCarHandler::Splash()
 
     //trigger ColliderId 22 with velocity of vehicleMph
     auto impactAud = car->GetCarAudioContainerPtr()->GetAudImpactPtr();
-    impactAud->Play(vehicleVelocity, 22);
+    if (impactAud != nullptr)
+        impactAud->Play(vehicleVelocity, 22);
 }
 
 void vehCarHandler::Zoink()
