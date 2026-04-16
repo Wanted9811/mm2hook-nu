@@ -235,6 +235,7 @@ void dgBangerInstance::BindLua(LuaState L) {
     LuaBinding(L).beginExtendClass<dgBangerInstance, lvlInstance>("dgBangerInstance")
         //functions
         .addFunction("GetData", &GetData)
+        .addProperty("Variant", &GetVariant, &SetVariant)
         .addProperty("BangerType", &GetBangerType, &SetBangerType)
     .endClass();
 }
