@@ -36,3 +36,12 @@ dgBangerGlowData::dgBangerGlowData()
 	this->ProjectionSize = 1.0f;
 	this->ProjectionIntensity = 0.0f;
 }
+
+void dgBangerGlowData::BindLua(LuaState L) {
+	LuaBinding(L).beginClass<dgBangerGlowData>("dgBangerGlowData")
+		//variables
+		.addVariable("EnableGlow", &dgBangerGlowData::EnableGlow)
+		.addVariable("EnableShadow", &dgBangerGlowData::EnableShadow)
+		.addVariable("EnableProjection", &dgBangerGlowData::EnableProjection)
+		.endClass();
+}

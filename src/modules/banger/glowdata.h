@@ -46,6 +46,8 @@ namespace MM2
         float ProjectionIntensity;
     public:
         dgBangerGlowData();
+
+        static void BindLua(LuaState L);
     };
 
     // Lua initialization
