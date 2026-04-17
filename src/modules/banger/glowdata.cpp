@@ -12,6 +12,7 @@ dgBangerGlowData::dgBangerGlowData()
 	this->YelLightBeam = gfxGetTexture("lt_yel_beam");
 	this->Offset = Vector3(0.0f, 0.0f, 0.0f);
 	this->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	this->EnableGlow = true;
 	strcpy_s(this->Name, "s_yel_glow");
 	this->Size = 1.5f;
 	this->Index = 0;
@@ -31,4 +32,7 @@ dgBangerGlowData::dgBangerGlowData()
 	this->ShadowSize = 1.5f;
 	this->ShadowIntensity = 1.0f;
 	this->EnableProjection = 0;
+	this->ShowInAllWeathers = 0;
+	this->ProjectionSize = 1.0f;
+	this->ProjectionIntensity = 0.0f;
 }

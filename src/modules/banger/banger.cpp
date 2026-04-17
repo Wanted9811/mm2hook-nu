@@ -175,9 +175,10 @@ AGE_API void dgBangerInstance::DrawGlow()
     for (int i = 0; i < data->NumGlows; i++)
     {
         auto glowData = &data->GlowDatas[i];
-        tglDrawCustomParticle(bangerMatrix, glowData, DefaultGlowTexture.get(), this);
+        if (glowData->EnableGlow)
+            tglDrawCustomParticle(bangerMatrix, glowData, DefaultGlowTexture.get(), this);
 
-        if (glowData->EnableProjection && MMSTATE->WeatherType >= 2)
+        if (glowData->EnableProjection && (glowData->ShowInAllWeathers || MMSTATE->WeatherType >= 2))
             tglDrawCustomProjection(bangerMatrix, glowData, this);
     }
     ltLight::DrawGlowEnd();

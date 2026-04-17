@@ -290,9 +290,9 @@ void MM2::tglDrawProjectionParticle(const Matrix34& modelMatrix, dgBangerGlowDat
     Vector3 particlePosAAA;
     tglParticleClipAdjust(lightPosition, particlePosAAA);
 
-    float size = fminf(fmaxf(glowData->Offset.Y + 0.4f, 0.0f), 4.0f);
+    float size = fminf(fmaxf(particlePosAAA.Y + 0.4f, 0.0f), 4.0f * glowData->ProjectionSize);
     Vector3 drawPosition = Vector3(particlePosAAA.X, particlePosAAA.Y - (size - 0.25f), particlePosAAA.Z);
-    float intensity = MMSTATE->WeatherType == 2 ? 0.5f : 0.25f;
+    float intensity = glowData->ProjectionIntensity == 0.0f ? (MMSTATE->WeatherType == 2 ? 0.5f : 0.25f) : fminf(glowData->ProjectionIntensity, 1.0f);
     Vector4 color = glowData->Color * glowData->Color.W * intensity;
 
     //get model view matrix

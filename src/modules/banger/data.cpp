@@ -99,6 +99,7 @@ AGE_API bool dgBangerData::Save()
             writeTokenizer->Put(LightGlowId, 0);
             writeTokenizer->Put(" {\n    ", 0);
 
+            writeTokenizer->PutToken("EnableGlow ", glowData->EnableGlow);
             writeTokenizer->PutToken("GlowName ", glowData->Name);
             writeTokenizer->PutToken("GlowColor ", glowData->Color);
             writeTokenizer->PutToken("GlowSize ", glowData->Size);
@@ -118,6 +119,9 @@ AGE_API bool dgBangerData::Save()
             writeTokenizer->PutToken("ShadowSize ", glowData->ShadowSize);
             writeTokenizer->PutToken("ShadowIntensity ", glowData->ShadowIntensity);
             writeTokenizer->PutToken("EnableProjection ", glowData->EnableProjection);
+            writeTokenizer->PutToken("ShowInAllWeathers ", glowData->ShowInAllWeathers);
+            writeTokenizer->PutToken("ProjectionSize ", glowData->ProjectionSize);
+            writeTokenizer->PutToken("ProjectionIntensity ", glowData->ProjectionIntensity);
 
             writeTokenizer->Put(" }\n", 0);
         }
@@ -238,6 +242,7 @@ AGE_API bool dgBangerData::Load()
                 if (readTokenizer->CheckToken(LightGlowId, true))
                 {
                     readTokenizer->IgnoreToken();
+                    readTokenizer->AddToken("EnableGlow", glowData->EnableGlow);
                     readTokenizer->AddToken("GlowName", glowData->Name, 64);
                     readTokenizer->AddToken("GlowColor", glowData->Color);
                     readTokenizer->AddToken("GlowSize", glowData->Size);
@@ -257,6 +262,9 @@ AGE_API bool dgBangerData::Load()
                     readTokenizer->AddToken("ShadowSize", glowData->ShadowSize);
                     readTokenizer->AddToken("ShadowIntensity", glowData->ShadowIntensity);
                     readTokenizer->AddToken("EnableProjection", glowData->EnableProjection);
+                    readTokenizer->AddToken("ShowInAllWeathers", glowData->ShowInAllWeathers);
+                    readTokenizer->AddToken("ProjectionSize", glowData->ProjectionSize);
+                    readTokenizer->AddToken("ProjectionIntensity", glowData->ProjectionIntensity);
                     readTokenizer->IgnoreToken();
                 }
             }

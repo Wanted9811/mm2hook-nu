@@ -21,6 +21,7 @@ namespace MM2
         gfxTexture* YelLightBeam;
         Vector3 Offset;
         Vector4 Color;
+        int EnableGlow;
         char Name[64];
         float Size;
         int Index;
@@ -40,6 +41,9 @@ namespace MM2
         float ShadowSize;
         float ShadowIntensity;
         int EnableProjection;
+        int ShowInAllWeathers;
+        float ProjectionSize;
+        float ProjectionIntensity;
     public:
         dgBangerGlowData();
     };
