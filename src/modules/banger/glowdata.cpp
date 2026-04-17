@@ -12,7 +12,7 @@ dgBangerGlowData::dgBangerGlowData()
 	this->YelLightBeam = gfxGetTexture("lt_yel_beam");
 	this->Offset = Vector3(0.0f, 0.0f, 0.0f);
 	this->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	this->EnableGlow = true;
+	this->EnableGlow = 1;
 	strcpy_s(this->Name, "s_yel_glow");
 	this->Size = 1.5f;
 	this->Index = 0;
