@@ -52,6 +52,8 @@ namespace MM2
         Vector3 GetGlowOffset(int num) const;
 
         void SetGlowOffset(int num, Vector3 offset);
+
+		dgBangerGlowData* GetGlowData(int num) const;
     public:
         void InitBound();
 

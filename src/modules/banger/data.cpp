@@ -20,6 +20,13 @@ void dgBangerData::SetGlowOffset(int num, Vector3 offset)
     (&this->GlowDatas[num].Offset)->Set(offset);
 }
 
+dgBangerGlowData* dgBangerData::GetGlowData(int num) const
+{
+    if (num >= this->NumGlows || num < 0)
+        return nullptr;
+    return &this->GlowDatas[num];
+}
+
 void dgBangerData::InitBound()
 {
     hook::Thunk<0x4411C0>::Call<void>(this);
@@ -313,6 +320,7 @@ void dgBangerData::BindLua(LuaState L) {
 
         .addFunction("GetGlowOffset", &GetGlowOffset)
         .addFunction("SetGlowOffset", &SetGlowOffset)
+        .addFunction("GetGlowData", &GetGlowData)
     .endClass();
 }
 
