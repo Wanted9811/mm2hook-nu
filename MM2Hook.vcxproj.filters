@@ -2902,6 +2902,9 @@
     <ClCompile Include="src\modules\vehicle\caraudiocontainer.cpp">
       <Filter>Source Files\modules\vehicle</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\level\fixed.cpp">
+      <Filter>Source Files\modules\level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AGE.h">
