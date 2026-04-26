@@ -6,7 +6,19 @@ namespace MM2
 {
     fxDamage3D::fxDamage3D()
     {
+        m_BodyModel = nullptr;
+        m_DamageModel = nullptr;
+        m_DeformModel = nullptr;
+        m_DeformDamageModel = nullptr;
+        m_CleanShaders = nullptr;
+        m_DamageShaders = nullptr;
+        m_DamageTextures = nullptr;
+        m_VertDeformPosition = nullptr;
+        m_VertDeformAmount = nullptr;
         m_DamageRadius = 0.25f;
+        m_PacketMatchesVertCount = nullptr;
+        m_EnableMM1Damage = false;
+        m_TextureCount = 0;
     }
 
     fxDamage3D::~fxDamage3D()
@@ -67,6 +79,8 @@ namespace MM2
 
             while (bodyPacket && damagePacket)
             {
+				if (currentPacket >= bodyPacketCount) break;
+
                 m_PacketMatchesVertCount[currentPacket] = (bodyPacket->GetAdjunctCount() == damagePacket->GetAdjunctCount());
                 bodyPacket = bodyPacket->GetNext();
                 damagePacket = damagePacket->GetNext();
@@ -90,6 +104,8 @@ namespace MM2
 
                     for (unsigned int j = 0; j < bodyPacket->GetAdjunctCount(); j++)
                     {
+						if (currentVertex >= bodyVertCount) break;
+
                         bodyPacket->GetPosition(m_VertDeformPosition[currentVertex], j);
                         currentVertex++;
                     }

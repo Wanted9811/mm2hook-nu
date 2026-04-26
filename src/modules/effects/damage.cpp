@@ -15,6 +15,7 @@ namespace MM2
 		CleanShaders = nullptr;
 		DamageShaders = nullptr;
 		DamageTextures = nullptr;
+		VertexPositions = nullptr;
 	}
 
 	mmDamage::~mmDamage()
@@ -69,9 +70,9 @@ namespace MM2
 
 		bool hasDamageTextures = false;
 
-		for (int i = 0; i < CleanModel->GetPacketCount(); ++i)
+		for (int i = 0; i < model->GetPacketCount(); ++i)
 		{
-			int shaderIndex = CleanModel->GetShaderIndex(i);
+			int shaderIndex = model->GetShaderIndex(i);
 			modShader* cleanShader = &CleanShaders[shaderIndex];
 			cleanShader->PreLoad();
 
@@ -79,7 +80,7 @@ namespace MM2
 			{
 				char textureName[128];
 
-				strcpy_s(textureName, cleanShader->GetTexture()->GetName());
+				strcpy_s(textureName, cleanShader->GetTextureName());
 
 				char* find = strrchr(textureName, '_');
 
@@ -87,7 +88,7 @@ namespace MM2
 				{
 					*find = '\0';
 
-					gfxTexture* cleanTexture = gfxGetTexture(textureName, 1);
+					gfxTexture* cleanTexture = gfxGetTexture(textureName);
 
 					if (cleanTexture)
 					{
@@ -97,11 +98,7 @@ namespace MM2
 					}
 				}
 			}
-		}
 
-		for (int i = 0; i < DamageModel->GetPacketCount(); ++i)
-		{
-			int shaderIndex = DamageModel->GetShaderIndex(i);
 			modShader* damageShader = &DamageShaders[shaderIndex];
 			damageShader->PreLoad();
 
@@ -109,7 +106,7 @@ namespace MM2
 			{
 				char textureName[128];
 
-				strcpy_s(textureName, damageShader->GetTexture()->GetName());
+				strcpy_s(textureName, damageShader->GetTextureName());
 
 				char* find = strrchr(textureName, '_');
 
@@ -117,7 +114,7 @@ namespace MM2
 				{
 					strcat_s(textureName, "_dmg");
 
-					gfxTexture* damageTexture = gfxGetTexture(textureName, 1);
+					gfxTexture* damageTexture = gfxGetTexture(textureName);
 
 					if (damageTexture)
 					{
@@ -148,6 +145,8 @@ namespace MM2
 
 					for (unsigned int j = 0; j < packet->GetAdjunctCount(); j++)
 					{
+						if (currentVertex >= adjunctCount) break;
+
 						packet->GetPosition(VertexPositions[currentVertex], j);
 						currentVertex++;
 					}
@@ -163,7 +162,7 @@ namespace MM2
 
 	void mmDamage::Reset(bool showDamage)
 	{
-		for (int i = 0; i < CleanModel->GetPacketCount(); i++)
+		for (int i = 0; i < BodyModel->GetPacketCount(); i++)
 		{
 			auto bodyPacket = BodyModel->GetPacket(i);
 			auto cleanPacket = CleanModel->GetPacket(i);
@@ -171,11 +170,11 @@ namespace MM2
 
 			while (bodyPacket && cleanPacket && damagePacket)
 			{
-				auto shaderIndex = CleanModel->GetShaderIndex(i);
+				int shaderIndex = BodyModel->GetShaderIndex(i);
 				gfxTexture* damageTexture = DamageTextures[shaderIndex];
 				if (damageTexture != nullptr)
 				{
-					for (unsigned int j = 0; j < cleanPacket->GetTriangleCount() / 3; j++)
+					for (unsigned int j = 0; j < bodyPacket->GetTriangleCount() / 3; j++)
 					{
 						int tri[3];
 						bodyPacket->GetTri(tri, j);
@@ -204,7 +203,7 @@ namespace MM2
 	{
 		int currentVertex = 0;
 
-		for (int i = 0; i < DamageModel->GetPacketCount(); i++)
+		for (int i = 0; i < BodyModel->GetPacketCount(); i++)
 		{
 			auto bodyPacket = BodyModel->GetPacket(i);
 			auto cleanPacket = CleanModel->GetPacket(i);
@@ -212,11 +211,11 @@ namespace MM2
 
 			while (bodyPacket && cleanPacket && damagePacket)
 			{
-				auto shaderIndex = DamageModel->GetShaderIndex(i);
+				int shaderIndex = BodyModel->GetShaderIndex(i);
 				gfxTexture* damageTexture = DamageTextures[shaderIndex];
 				if (damageTexture != nullptr)
 				{
-					for (unsigned int j = 0; j < damagePacket->GetTriangleCount() / 3; j++)
+					for (unsigned int j = 0; j < bodyPacket->GetTriangleCount() / 3; j++)
 					{
 						int tri[3];
 						bodyPacket->GetTri(tri, j);
@@ -232,7 +231,7 @@ namespace MM2
 						}
 					}
 				}
-				currentVertex += damagePacket->GetAdjunctCount();
+				currentVertex += bodyPacket->GetAdjunctCount();
 
 				bodyPacket = bodyPacket->GetNext();
 				cleanPacket = cleanPacket->GetNext();
