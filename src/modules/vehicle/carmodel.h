@@ -148,14 +148,13 @@ namespace MM2
         AGE_API void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders);
         void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected);
         void DrawPartShadowed(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity);
-        void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState);
-        void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState);
         void Init(vehCar* car, const char* basename, int variant);
         
         /*
             lvlInstance virtuals
         */
-        AGE_API void Reset()  override;
+
+        AGE_API void Reset() override;
         AGE_API const Vector3& GetPosition() override;
         AGE_API const Matrix34& GetMatrix(Matrix34& a1) override;
         AGE_API void SetMatrix(const Matrix34& a1) override;

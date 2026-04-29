@@ -66,17 +66,17 @@ namespace MM2
         }
     }
 
-    void aiVehicleInstance::DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState)
+    void aiVehicleInstance::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders)
+    {
+        gfxRenderState::SetWorldMatrix(matrix);
+        model->Draw(shaders);
+    }
+
+    void aiVehicleInstance::DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders)
     {
         auto model = this->GetGeom(lod, geomId);
         if (model != nullptr)
-            DrawPart(model, matrix, shaders, alphaState);
-    }
-
-    void aiVehicleInstance::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState)
-    {
-        gfxRenderState::SetWorldMatrix(matrix);
-        alphaState ? model->DrawAlpha(shaders) : model->DrawNoAlpha(shaders);
+            DrawPart(model, matrix, shaders);
     }
 
     void aiVehicleInstance::DrawHeadlights()
@@ -316,9 +316,6 @@ namespace MM2
         if (this->GetGeomIndex() == 0)
             return;
 
-        //disable alpha drawing
-        bool alphaDrawing = false;
-
         //get shaders
         auto shaders = this->GetShader(this->Variant);
 
@@ -335,18 +332,18 @@ namespace MM2
         //draw the body
         modStatic* bodyGeom = this->GetGeom(lod, 0);
         if (bodyGeom != nullptr)
-            bodyGeom->DrawNoAlpha(shaders);
+            bodyGeom->DrawNoGlass(shaders);
 
         //draw breakables
-        this->BreakableMgr->Draw(vehicleMatrix, shaders, 3, alphaDrawing);
+        this->BreakableMgr->Draw(vehicleMatrix, shaders, 3);
 
         //draw plights
         if (aiMap::GetInstance()->showHeadlights)
             //plighton
-            DrawPart(3, this->GetGeomId("plighton"), vehicleMatrix, shaders, alphaDrawing);
+            DrawPart(3, this->GetGeomId("plighton"), vehicleMatrix, shaders);
         else
             //plightoff
-            DrawPart(3, this->GetGeomId("plightoff"), vehicleMatrix, shaders, alphaDrawing);
+            DrawPart(3, this->GetGeomId("plightoff"), vehicleMatrix, shaders);
 
         //draw wheels (only in H LOD)
         if (lod == 3)
@@ -361,11 +358,11 @@ namespace MM2
                 auto swhlGeom = this->GetGeom(3, swhlId);
                 if (this->Spline->GetSpeed() >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
                 {
-                    DrawPart(3, swhlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                    DrawPart(3, swhlId, this->GetWheelMatrix(i), shaders);
                 }
                 else
                 {
-                    DrawPart(3, whlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                    DrawPart(3, whlId, this->GetWheelMatrix(i), shaders);
                 }
             }
         }
@@ -615,9 +612,6 @@ namespace MM2
         if (this->GetGeomIndex() == 0)
             return;
 
-        //enable alpha drawing
-        bool alphaDrawing = true;
-
         //get shaders
         auto shaders = this->GetShader(this->Variant);
 
@@ -634,40 +628,7 @@ namespace MM2
         //draw the body
         modStatic* bodyGeom = this->GetGeom(lod, 0);
         if (bodyGeom != nullptr)
-            bodyGeom->DrawAlpha(shaders);
-
-        //draw breakables
-        this->BreakableMgr->Draw(vehicleMatrix, shaders, 3, alphaDrawing);
-
-        //draw plights
-        if (aiMap::GetInstance()->showHeadlights)
-            //plighton
-            DrawPart(3, this->GetGeomId("plighton"), vehicleMatrix, shaders, alphaDrawing);
-        else
-            //plightoff
-            DrawPart(3, this->GetGeomId("plightoff"), vehicleMatrix, shaders, alphaDrawing);
-
-        //draw wheels (only in H LOD)
-        if (lod == 3)
-        {
-            //(S)WHL0-5
-            for (int i = 0; i < 6; i++)
-            {
-                string_buf<16> swhl("swhl%d", i);
-                string_buf<16> whl("whl%d", i);
-                int swhlId = this->GetGeomId(swhl);
-                int whlId = this->GetGeomId(whl);
-                auto swhlGeom = this->GetGeom(3, swhlId);
-                if (this->Spline->GetSpeed() >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
-                {
-                    DrawPart(3, swhlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
-                }
-                else
-                {
-                    DrawPart(3, whlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
-                }
-            }
-        }
+            bodyGeom->DrawGlass(shaders);
     }
 
     AGE_API unsigned int aiVehicleInstance::SizeOf()                     { return sizeof(aiVehicleInstance); };

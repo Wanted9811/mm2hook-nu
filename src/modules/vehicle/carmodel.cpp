@@ -688,19 +688,6 @@ namespace MM2
         }
     }
 
-    void vehCarModel::DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState)
-    {
-        auto model = this->GetGeom(lod, geomId);
-        if (model != nullptr)
-            DrawPart(model, matrix, shaders, alphaState);
-    }
-
-    void vehCarModel::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState)
-    {
-        gfxRenderState::SetWorldMatrix(matrix);
-        alphaState ? model->DrawAlpha(shaders) : model->DrawNoAlpha(shaders);
-    }
-
     //new init
     void vehCarModel::Init(vehCar* car, const char* basename, int variant)
     {
@@ -954,9 +941,8 @@ namespace MM2
             return;
         if (this->GetGeomIndex() == 0)
             return;
-
-        //disable alpha drawing
-        bool alphaDrawing = false;
+        if (this->GetVariant() == 4 && !strcmp(this->GetName(), "vppanozgt_body"))
+            return; // Skip drawing the Secret Shadow paintjob for Panoz GTR-1 here
 
         //get shaders
         auto shaders = this->GetShader(this->GetVariant());
@@ -993,13 +979,13 @@ namespace MM2
             {
                 bodyGeom = lod >= 2 ? damage3D->GetDeformModel() : this->GetGeom(lod, 0);
                 if (bodyGeom != nullptr)
-                    bodyGeom->DrawNoAlpha(shaders);
+                    bodyGeom->DrawNoGlass(shaders);
 
                 if (MM1StyleDamage)
                 {
                     modStatic* bodyDamage = lod >= 2 ? damage3D->GetDeformDamageModel() : this->GetGeom(lod, 0);
                     if (bodyDamage != nullptr)
-                        bodyDamage->DrawNoAlpha(lod >= 2 ? damage3D->GetDamageShaders() : shaders);
+                        bodyDamage->DrawNoGlass(lod >= 2 ? damage3D->GetDamageShaders() : shaders);
                 }
             }
         }
@@ -1009,31 +995,40 @@ namespace MM2
             {
                 bodyGeom = lod >= 2 ? mm1Damage->GetCleanModel() : this->GetGeom(lod, 0);
                 if (bodyGeom != nullptr)
-                    bodyGeom->DrawNoAlpha(shaders);
+                    bodyGeom->DrawNoGlass(shaders);
 
                 modStatic* bodyDamage = lod >= 2 ? mm1Damage->GetDamageModel() : this->GetGeom(lod, 0);
                 if (bodyDamage != nullptr)
-                    bodyDamage->DrawNoAlpha(lod >= 2 ? mm1Damage->GetDamageShaders() : shaders);
+                    bodyDamage->DrawNoGlass(lod >= 2 ? mm1Damage->GetDamageShaders() : shaders);
             }
         }
         else
         {
             if (bodyGeom != nullptr)
-                bodyGeom->DrawNoAlpha(shaders);
+                bodyGeom->DrawNoGlass(shaders);
         }
 
         //draw breakables
-        this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod, alphaDrawing);
+        this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod);
+
+        //draw decal
+        auto decalGeom = this->GetGeom(lod, this->GetGeomId("decal"));
+        if (decalGeom != nullptr)
+        {
+            auto oldAlphaRef = gfxRenderState::SetAlphaRef(0);
+            DrawPart(decalGeom, this->GetWorldMatrix(), shaders);
+            gfxRenderState::SetAlphaRef(oldAlphaRef);
+        }
 
         //draw pop-up lights
         if (lod >= 1)
         {
             if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
                 //plighton
-                DrawPart(lod, this->GetGeomId("plighton"), this->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId("plighton"), this->GetWorldMatrix(), shaders);
             else
                 //plightoff
-                DrawPart(lod, this->GetGeomId("plightoff"), this->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId("plightoff"), this->GetWorldMatrix(), shaders);
         }
 
         //get wheels
@@ -1051,7 +1046,7 @@ namespace MM2
                 auto fndrGeom = this->GetGeom(3, fndrId);
                 if (fndrGeom != nullptr && (wheelBrokenStatus & fndrStatusFlag) != 0)
                 {
-                    DrawPart(lod, fndrId, this->GetFenderMatrix(i), shaders, alphaDrawing);
+                    DrawPart(lod, fndrId, this->GetFenderMatrix(i), shaders);
                 }
             }
         }
@@ -1074,11 +1069,11 @@ namespace MM2
                     auto shubGeom = this->GetGeom(lod, shubId);
                     if (fabs(wheel->GetRotationRate()) >= BlurSpeed && shubGeom != nullptr && vehCarModel::EnableSpinningWheels)
                     {
-                        DrawPart(lod, shubId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, shubId, this->GetWheelMatrix(i), shaders);
                     }
                     else
                     {
-                        DrawPart(lod, hubId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, hubId, this->GetWheelMatrix(i), shaders);
                     }
                 }
 
@@ -1093,11 +1088,11 @@ namespace MM2
                     auto swhlGeom = this->GetGeom(lod, swhlId);
                     if (fabs(wheel->GetRotationRate()) >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
                     {
-                        DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders);
                     }
                     else
                     {
-                        DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders);
                     }
                 }
             }
@@ -1112,37 +1107,37 @@ namespace MM2
                 auto shock = &this->carSim->ShockSuspensions[i];
                 Matrix34 shockMatrix = vehCarModel::EnableWheelWobble ? shock->GetSuspensionPivot() : shock->GetSuspensionMatrix();
                 string_buf<16> buffer("shock%d", i);
-                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders);
             }
             for (int i = 0; i < 4; i++)
             {
                 auto arm = &this->carSim->ArmSuspensions[i];
                 Matrix34 armMatrix = vehCarModel::EnableWheelWobble ? arm->GetSuspensionPivot() : arm->GetSuspensionMatrix();
                 string_buf<16> buffer("arm%d", i);
-                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders);
             }
             for (int i = 0; i < 2; i++)
             {
                 auto shaft = &this->carSim->ShaftSuspensions[i];
                 Matrix34 shaftMatrix = vehCarModel::EnableWheelWobble ? shaft->GetSuspensionPivot() : shaft->GetSuspensionMatrix();
                 string_buf<16> buffer("shaft%d", i + 2);
-                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders);
             }
 
             auto axleFront = &this->carSim->AxleFront;
             Matrix34 axleFrontMatrix = vehCarModel::EnableWheelWobble ? axleFront->GetAxlePivot() : axleFront->GetAxleMatrix();
-            DrawPart(lod, this->GetGeomId("axle0"), GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders, alphaDrawing);
+            DrawPart(lod, this->GetGeomId("axle0"), GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders);
 
             auto axleRear = &this->carSim->AxleRear;
             Matrix34 axleRearMatrix = vehCarModel::EnableWheelWobble ? axleRear->GetAxlePivot() : axleRear->GetAxleMatrix();
-            DrawPart(lod, this->GetGeomId("axle1"), GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders, alphaDrawing);
+            DrawPart(lod, this->GetGeomId("axle1"), GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders);
                 
             //engine
             if ((this->wheelBrokenStatus & 0x40000) != 0)
             {
                 auto engineMatrixPtr = this->carSim->GetEngine()->GetVisualMatrixPtr();
                 if(engineMatrixPtr != nullptr)
-                    DrawPart(lod, this->GetGeomId("engine"), *engineMatrixPtr, shaders, alphaDrawing);
+                    DrawPart(lod, this->GetGeomId("engine"), *engineMatrixPtr, shaders);
             }
         }
     }
@@ -1217,7 +1212,6 @@ namespace MM2
                     }
 
                     //hub
-                    
                     string_buf<16> hub("hub%d", i);
                     int hubId = this->GetGeomId(hub);
                     auto hubGeom = this->GetGeom(3, hubId);
@@ -1268,7 +1262,12 @@ namespace MM2
                         Matrix34 armShadowMatrix = Matrix34();
                         armShadowMatrix.Identity();
                         armShadowMatrix.SetRow(3, this->carSim->ArmSuspensions[i].GetSuspensionPivot().GetRow(3));
-                        armShadowMatrix.RotateY((i % 2 == 0) ? 1.570796f : -1.570796f); //rotate arm 90 degrees if id is even, if it's odd then rotate -90 degrees
+
+                        // Rotate arm 90 degrees if id is even, if it's odd then rotate -90 degrees
+                        // This case is for Panoz Roadster arm parts only
+                        if (strstr(this->GetName(), "vppanoz_arm"))
+                            armShadowMatrix.RotateY((i % 2 == 0) ? 1.570796f : -1.570796f);
+
                         armShadowMatrix.ScaleFull(1.0f - this->carSim->GetWheel(i)->GetBumpDisplacement(), 1.0f, 1.0f);
                         armShadowMatrix.Dot(shadowMatrix);
                         DrawPartShadowed(3, armGeomId, armShadowMatrix, shaders, intensity);
@@ -1354,7 +1353,8 @@ namespace MM2
         }
 
         //draw brake signals for player
-        if (car->IsPlayer()) {
+        if (car->IsPlayer())
+        {
             if (!LeftSignalLightState && !HazardLightsState)
             {
                 if (tslight0 != nullptr)
@@ -1393,7 +1393,8 @@ namespace MM2
                 if (vehCar::sm_DrawHeadlights)
                     tslight0->Draw(shaders);
             }
-            if (tslight1 != nullptr) {
+            if (tslight1 != nullptr)
+            {
                 //draw brake copy
                 if (carsim->GetBrake() > 0.1)
                     tslight1->Draw(shaders);
@@ -1434,7 +1435,8 @@ namespace MM2
 
             if (rlight != nullptr && gear == 0)
             {
-                if (transmission->IsAuto()) {
+                if (transmission->IsAuto())
+                {
                     if (throttle > 0.f || speedMPH >= 1.f)
                         rlight->Draw(shaders);
                 }
@@ -1710,9 +1712,6 @@ namespace MM2
         if (this->GetGeomIndex() == 0)
             return;
 
-        //enable alpha drawing
-        bool alphaDrawing = true;
-
         //get shaders
         auto shaders = this->GetShader(this->GetVariant());
 
@@ -1741,7 +1740,8 @@ namespace MM2
         int prevAlphaRef = gfxRenderState::GetAlphaRef();
         int prevZWriteEnable = gfxRenderState::GetZWriteEnabled();
 
-        if (this->GetVariant() == 4 && !strcmp(this->GetName(), "vppanozgt_body"))
+		bool secretShadow = this->GetVariant() == 4 && !strcmp(this->GetName(), "vppanozgt_body");
+        if (secretShadow)
         {
             gfxRenderState::SetAlphaRef(0);
             gfxRenderState::SetZWriteEnabled(false);
@@ -1758,13 +1758,16 @@ namespace MM2
             {
                 bodyGeom = lod >= 2 ? damage3D->GetDeformModel() : this->GetGeom(lod, 0);
                 if (bodyGeom != nullptr)
-                    bodyGeom->DrawAlpha(shaders);
+                    secretShadow ? bodyGeom->DrawAlpha(shaders) : bodyGeom->DrawGlass(shaders);
 
                 if (MM1StyleDamage)
                 {
                     modStatic* bodyDamage = lod >= 2 ? damage3D->GetDeformDamageModel() : this->GetGeom(lod, 0);
                     if (bodyDamage != nullptr)
-                        bodyDamage->DrawAlpha(lod >= 2 ? damage3D->GetDamageShaders() : shaders);
+                    {
+						auto currentShaders = lod >= 2 ? damage3D->GetDamageShaders() : shaders;
+                        secretShadow ? bodyDamage->DrawAlpha(currentShaders) : bodyDamage->DrawGlass(currentShaders);
+                    }
                 }
             }
         }
@@ -1774,21 +1777,27 @@ namespace MM2
             {
                 bodyGeom = lod >= 2 ? mm1Damage->GetCleanModel() : this->GetGeom(lod, 0);
                 if (bodyGeom != nullptr)
-                    bodyGeom->DrawAlpha(shaders);
+                    secretShadow ? bodyGeom->DrawAlpha(shaders) : bodyGeom->DrawGlass(shaders);
 
                 modStatic* bodyDamage = lod >= 2 ? mm1Damage->GetDamageModel() : this->GetGeom(lod, 0);
                 if (bodyDamage != nullptr)
-                    bodyDamage->DrawAlpha(lod >= 2 ? mm1Damage->GetDamageShaders() : shaders);
+                {
+					auto currentShaders = lod >= 2 ? mm1Damage->GetDamageShaders() : shaders;
+                    secretShadow ? bodyDamage->DrawAlpha(currentShaders) : bodyDamage->DrawGlass(currentShaders);
+                }
             }
         }
         else
         {
             if (bodyGeom != nullptr)
-                bodyGeom->DrawAlpha(shaders);
+                secretShadow ? bodyGeom->DrawAlpha(shaders) : bodyGeom->DrawGlass(shaders);
         }
 
+        if (!secretShadow)
+            return;
+
         //draw breakables
-        this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod, alphaDrawing);
+        this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod);
 
         //draw decal
         auto decalGeom = this->GetGeom(lod, this->GetGeomId("decal"));
@@ -1804,10 +1813,10 @@ namespace MM2
         {
             if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
                 //plighton
-                DrawPart(lod, this->GetGeomId("plighton"), this->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId("plighton"), this->GetWorldMatrix(), shaders);
             else
                 //plightoff
-                DrawPart(lod, this->GetGeomId("plightoff"), this->GetWorldMatrix(), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId("plightoff"), this->GetWorldMatrix(), shaders);
         }
 
         //get wheels
@@ -1825,7 +1834,7 @@ namespace MM2
                 auto fndrGeom = this->GetGeom(3, fndrId);
                 if (fndrGeom != nullptr && (wheelBrokenStatus & fndrStatusFlag) != 0)
                 {
-                    DrawPart(lod, fndrId, this->GetFenderMatrix(i), shaders, alphaDrawing);
+                    DrawPart(lod, fndrId, this->GetFenderMatrix(i), shaders);
                 }
             }
         }
@@ -1848,11 +1857,11 @@ namespace MM2
                     auto shubGeom = this->GetGeom(lod, shubId);
                     if (fabs(wheel->GetRotationRate()) >= BlurSpeed && shubGeom != nullptr && vehCarModel::EnableSpinningWheels)
                     {
-                        DrawPart(lod, shubId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, shubId, this->GetWheelMatrix(i), shaders);
                     }
                     else
                     {
-                        DrawPart(lod, hubId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, hubId, this->GetWheelMatrix(i), shaders);
                     }
                 }
 
@@ -1867,11 +1876,11 @@ namespace MM2
                     auto swhlGeom = this->GetGeom(lod, swhlId);
                     if (fabs(wheel->GetRotationRate()) >= BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
                     {
-                        DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders);
                     }
                     else
                     {
-                        DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                        DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders);
                     }
                 }
             }
@@ -1886,37 +1895,37 @@ namespace MM2
                 auto shock = &this->carSim->ShockSuspensions[i];
                 Matrix34 shockMatrix = vehCarModel::EnableWheelWobble ? shock->GetSuspensionPivot() : shock->GetSuspensionMatrix();
                 string_buf<16> buffer("shock%d", i);
-                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shockMatrix, shock->GetWheel()), shaders);
             }
             for (int i = 0; i < 4; i++)
             {
                 auto arm = &this->carSim->ArmSuspensions[i];
                 Matrix34 armMatrix = vehCarModel::EnableWheelWobble ? arm->GetSuspensionPivot() : arm->GetSuspensionMatrix();
                 string_buf<16> buffer("arm%d", i);
-                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(armMatrix, arm->GetWheel()), shaders);
             }
             for (int i = 0; i < 2; i++)
             {
                 auto shaft = &this->carSim->ShaftSuspensions[i];
                 Matrix34 shaftMatrix = vehCarModel::EnableWheelWobble ? shaft->GetSuspensionPivot() : shaft->GetSuspensionMatrix();
                 string_buf<16> buffer("shaft%d", i + 2);
-                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders, alphaDrawing);
+                DrawPart(lod, this->GetGeomId(buffer), GetPartWobbleMatrix(shaftMatrix, shaft->GetWheel()), shaders);
             }
 
             auto axleFront = &this->carSim->AxleFront;
             Matrix34 axleFrontMatrix = vehCarModel::EnableWheelWobble ? axleFront->GetAxlePivot() : axleFront->GetAxleMatrix();
-            DrawPart(lod, this->GetGeomId("axle0"), GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders, alphaDrawing);
+            DrawPart(lod, this->GetGeomId("axle0"), GetPartWobbleMatrix(axleFrontMatrix, axleFront->GetRightWheel()), shaders);
 
             auto axleRear = &this->carSim->AxleRear;
             Matrix34 axleRearMatrix = vehCarModel::EnableWheelWobble ? axleRear->GetAxlePivot() : axleRear->GetAxleMatrix();
-            DrawPart(lod, this->GetGeomId("axle1"), GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders, alphaDrawing);
+            DrawPart(lod, this->GetGeomId("axle1"), GetPartWobbleMatrix(axleRearMatrix, axleRear->GetLeftWheel()), shaders);
 
             //engine
             if ((this->wheelBrokenStatus & 0x40000) != 0)
             {
                 auto engineMatrixPtr = this->carSim->GetEngine()->GetVisualMatrixPtr();
                 if (engineMatrixPtr != nullptr)
-                    DrawPart(lod, this->GetGeomId("engine"), *engineMatrixPtr, shaders, alphaDrawing);
+                    DrawPart(lod, this->GetGeomId("engine"), *engineMatrixPtr, shaders);
             }
         }
 

@@ -639,7 +639,7 @@ void cityLevelHandler::DrawMovers(const gfxViewport& viewport, const cityRoomRec
     }
 }
 
-void cityLevelHandler::DrawAlpha(const gfxViewport& viewport, const cityRoomRec* roomRecs, int numRooms)
+void cityLevelHandler::DrawGlass(const gfxViewport& viewport, const cityRoomRec* roomRecs, int numRooms)
 {
     auto level = reinterpret_cast<cityLevel*>(this);
 
@@ -695,7 +695,7 @@ void cityLevelHandler::DrawLights(const gfxViewport& viewport, const cityRoomRec
         gfxRenderState::SetLighting(false);
         gfxRenderState::SetZWriteEnabled(false);
         gfxRenderState::SetFogEnabled(false);
-        gfxRenderState::SetBlendSet(7, 0x80);
+        gfxRenderState::SetBlendSet(7);
 
         auto recs = roomRecs;
         int rooms = numRooms;
@@ -757,7 +757,7 @@ void cityLevelHandler::DrawReflected(const gfxViewport& viewport, const cityRoom
 void cityLevelHandler::DrawParticles()
 {
     rglWorldIdentity();
-    gfxRenderState::SetBlendSet(0, 0x80);
+    gfxRenderState::SetBlendSet(0);
 
     auto level = reinterpret_cast<cityLevel*>(this);
     reinterpret_cast<luaDrawableHandler*>(level)->CallCallbacks(1);
@@ -903,7 +903,7 @@ void cityLevelHandler::DrawRooms(const gfxViewport& viewport, unsigned int p2, c
     DrawProps(viewport, roomRecs, numRooms);
     DrawMoverShadows(viewport, roomRecs, numRooms);
     DrawMovers(viewport, roomRecs, numRooms);
-    DrawAlpha(viewport, roomRecs, numRooms);
+    DrawGlass(viewport, roomRecs, numRooms);
     DrawLights(viewport, roomRecs, numRooms);
     DrawReflected(viewport, roomRecs, numRooms);
     DrawParticles();

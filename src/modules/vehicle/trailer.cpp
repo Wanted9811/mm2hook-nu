@@ -217,17 +217,17 @@ namespace MM2
         }
     }
 
-    void vehTrailerInstance::DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState)
+    void vehTrailerInstance::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders)
+    {
+        gfxRenderState::SetWorldMatrix(matrix);
+        model->Draw(shaders);
+    }
+
+    void vehTrailerInstance::DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders)
     {
         auto model = this->GetGeom(lod, geomId);
         if (model != nullptr)
-            DrawPart(model, matrix, shaders, alphaState);
-    }
-
-    void vehTrailerInstance::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState)
-    {
-        gfxRenderState::SetWorldMatrix(matrix);
-        alphaState ? model->DrawAlpha(shaders) : model->DrawNoAlpha(shaders);
+            DrawPart(model, matrix, shaders);
     }
 
     AGE_API void vehTrailerInstance::Init(const char* basename, Vector3 const& unused, int variant)
@@ -279,9 +279,6 @@ namespace MM2
         if (this->GetGeomIndex() == 0)
             return;
 
-        //disable alpha drawing
-        bool alphaDrawing = false;
-
         //get shaders
         auto shaders = this->GetShader(this->Variant);
 
@@ -293,7 +290,7 @@ namespace MM2
         //draw the trailer
         auto trailerGeom = this->GetGeom(lod, 0);
         if (trailerGeom != nullptr)
-            trailerGeom->DrawNoAlpha(shaders);
+            trailerGeom->DrawNoGlass(shaders);
 
         //get wheels
         vehWheel* wheels[6] = { trailer->GetWheel(0), trailer->GetWheel(1), trailer->GetWheel(2), trailer->GetWheel(3), trailer->GetWheel(2), trailer->GetWheel(3) };
@@ -309,11 +306,11 @@ namespace MM2
             auto swhlGeom = this->GetGeom(lod, swhlId);
             if (fabs(wheel->GetRotationRate()) > BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
             {
-                DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders);
             }
             else
             {
-                DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
+                DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders);
             }
         }
     }
@@ -585,9 +582,6 @@ namespace MM2
         auto trailer = this->GetTrailer();
         auto trailerMatrix = trailer->GetInertialCS()->GetMatrix();
 
-        //enable alpha drawing
-        bool alphaDrawing = true;
-
         //get shaders
         auto shaders = this->GetShader(this->Variant);
 
@@ -597,29 +591,7 @@ namespace MM2
         //draw the trailer
         auto trailerGeom = this->GetGeom(lod, 0);
         if (trailerGeom != nullptr)
-            trailerGeom->DrawAlpha(shaders);
-
-        //get trailer wheels
-        vehWheel* wheels[6] = { trailer->GetWheel(0), trailer->GetWheel(1), trailer->GetWheel(2), trailer->GetWheel(3), trailer->GetWheel(2), trailer->GetWheel(3) };
-
-        //draw (s)whl0-5
-        for (int i = 0; i < 6; i++)
-        {
-            string_buf<16> swhl("tswhl%d", i);
-            string_buf<16> whl("twhl%d", i);
-            int swhlId = this->GetGeomId(swhl);
-            int whlId = this->GetGeomId(whl);
-            auto wheel = wheels[i];
-            auto swhlGeom = this->GetGeom(lod, swhlId);
-            if (fabs(wheel->GetRotationRate()) > BlurSpeed && swhlGeom != nullptr && vehCarModel::EnableSpinningWheels)
-            {
-                DrawPart(lod, swhlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
-            }
-            else
-            {
-                DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders, alphaDrawing);
-            }
-        }
+            trailerGeom->DrawGlass(shaders);
     }
 
     AGE_API unsigned int vehTrailerInstance::SizeOf(void)

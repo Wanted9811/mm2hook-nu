@@ -21,7 +21,7 @@ public:
     void DrawProps(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawMoverShadows(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawMovers(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
-    void DrawAlpha(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
+    void DrawGlass(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawLights(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawReflected(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);
     void DrawStaticGlass(const MM2::gfxViewport& viewport, const MM2::cityRoomRec* roomRecs, int numRooms);

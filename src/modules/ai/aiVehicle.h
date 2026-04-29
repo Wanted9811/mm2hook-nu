@@ -76,8 +76,8 @@ namespace MM2
         //helpers
         void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected);
         void DrawPartShadowed(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity);
-        void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders, bool alphaState);
-        void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders, bool alphaState);
+        void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders);
+        void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders);
         void DrawHeadlights();
         void InitBreakable(const char* basename, const char* breakableName);
 		bool HasDamageTextures();
