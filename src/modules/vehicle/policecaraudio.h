@@ -12,8 +12,17 @@ namespace MM2
     // Class definitions
 
     class vehPoliceCarAudio : public vehCarAudio {
+    private:
+		byte _buffer[0x118];
+    protected:
+		static hook::Field<0x138, AudSoundBase*> _explosionSound;
     public:
         static hook::Type<int> iNumCopsPursuingPlayer;
+
+        AudSoundBase* GetExplosionSound() const
+        {
+            return _explosionSound.get(this);
+		}
 
         AGE_API void StartSiren(int a1)                   { hook::Thunk<0x4D4B20>::Call<void>(this, a1); }
         AGE_API void StopSiren()                          { hook::Thunk<0x4D4C20>::Call<void>(this); }
@@ -27,4 +36,5 @@ namespace MM2
                 .endClass();
         }
     };
+	ASSERT_SIZEOF(vehPoliceCarAudio, 0x248);
 }

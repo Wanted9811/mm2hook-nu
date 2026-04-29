@@ -6,22 +6,14 @@ using namespace MM2;
     vehCarAudioContainerBugfixHandler
 */
 
-void vehCarAudioContainerBugfixHandler::StartSiren() {
-    auto policeAudio = get<vehCarAudioContainer>()->GetPoliceCarAudioPtr();
-
-    if (policeAudio != nullptr) {
-        // vehPoliceCarAudio::StartSiren
-        hook::Thunk<0x4D4B20>::ThisCall<void>(policeAudio, 0);
-    }
+void vehCarAudioContainerBugfixHandler::StartSiren()
+{
+	reinterpret_cast<vehCarAudioContainer*>(this)->StartSiren();
 }
 
-void vehCarAudioContainerBugfixHandler::StopSiren() {
-    auto policeAudio = get<vehCarAudioContainer>()->GetPoliceCarAudioPtr();
-
-    if (policeAudio != nullptr) {
-        // vehPoliceCarAudio::StopSiren
-        hook::Thunk<0x4D4C20>::ThisCall<void>(policeAudio);
-    }
+void vehCarAudioContainerBugfixHandler::StopSiren()
+{
+	reinterpret_cast<vehCarAudioContainer*>(this)->StopSiren();
 }
 
 void vehCarAudioContainerBugfixHandler::Install() {

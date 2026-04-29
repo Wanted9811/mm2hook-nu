@@ -12,14 +12,18 @@ static ConfigValue<bool> cfgMm1StyleFlipOver("MM1StyleFlipOver", false);
     mmPlayerHandler
 */
 
-void mmPlayerHandler::PlayExplosion() {
+void mmPlayerHandler::PlayExplosion()
+{
     auto player = reinterpret_cast<mmPlayer*>(this);
-    auto car = player->GetCar();
-    auto policeAudio = car->GetCarAudioContainerPtr()->GetPoliceCarAudioPtr();
-    auto explosionSound = *getPtr<AudSoundBase*>(policeAudio, 0x138);
-    if (explosionSound != nullptr) {
-        if (!explosionSound->IsPlaying())
-            explosionSound->PlayOnce(-1.f, -1.f);
+    auto policeAudio = player->GetCar()->GetCarAudioContainerPtr()->GetPoliceCarAudioPtr();
+    if (policeAudio != nullptr)
+    {
+        auto explosionSound = policeAudio->GetExplosionSound();
+        if (explosionSound != nullptr)
+        {
+            if (!explosionSound->IsPlaying())
+                explosionSound->PlayOnce();
+        }
     }
 }
 
@@ -39,39 +43,43 @@ void mmPlayerHandler::UpdateHOG()
     hook::Thunk<0x404920>::Call<void>(this); // call original UpdateHOG
 }
 
-void mmPlayerHandler::Update() {
+void mmPlayerHandler::Update()
+{
     auto player = reinterpret_cast<mmPlayer*>(this);
     auto car = player->GetCar();
     auto audio = car->GetCarAudioContainerPtr();
     auto siren = car->GetSiren();
-    auto carsim = car->GetCarSim();
-    auto engine = carsim->GetEngine();
+    auto engine = car->GetCarSim()->GetEngine();
     auto basename = player->GetCar()->GetCarDamage()->GetName();
-    auto flagsId = VehicleListPtr->GetVehicleInfo(basename)->GetFlags();
-    auto AIMAP = aiMap::GetInstance();
 
     //check if we're damaged out
-    if (cfgEnableExplosionSound.Get()) {
-        if (player->IsMaxDamaged()) {
+    if (cfgEnableExplosionSound.Get())
+    {
+        if (player->IsMaxDamaged())
+        {
             //turn off engine
-            audio->SilenceEngine(1);
+            audio->SilenceEngine(TRUE);
             engine->SetCurrentTorque(0.f);
             //play explosion sound if siren is activated
-            if (siren != nullptr && siren->IsActive()) {
+            if (siren != nullptr && siren->IsActive())
+            {
                 siren->SetActive(false);
                 audio->StopSiren();
                 PlayExplosion();
             }
         }
-        if (!player->IsMaxDamaged()) {
-            audio->SilenceEngine(0);
+        else
+        {
+            audio->SilenceEngine(FALSE);
         }
     }
 
     //check if dashboard model is missing
-    if (cfgEnableMissingDashboardFix.Get() && MMSTATE->DashEnabled) {
+    if (cfgEnableMissingDashboardFix.Get() && MMSTATE->DashEnabled)
+    {
         string_buf<80> buffer("%s_dash", basename);
-        if (!datAssetManager::Exists("geometry", buffer, "pkg")) {
+        if (!datAssetManager::Exists("geometry", buffer, "pkg"))
+        {
             player->GetHUD()->DeactivateDash();
             player->GetCamView()->SetCam(player->GetPovCam());
         }
@@ -81,7 +89,8 @@ void mmPlayerHandler::Update() {
     hook::Thunk<0x405760>::Call<void>(this);
 }
 
-void mmPlayerHandler::Reset() {
+void mmPlayerHandler::Reset()
+{
     // deactivate signal lights if they're active
     vehCarModel::HazardLightsState = false;
     vehCarModel::LeftSignalLightState = false;

@@ -28,8 +28,25 @@ AGE_API void vehCarAudioContainer::RegisterSemiNames(Stream* a1, LPCSTR a2)   { 
 AGE_API void vehCarAudioContainer::RegisterPoliceNames(Stream* a1, LPCSTR a2) { hook::StaticThunk<0x4D0F10>::Call<void>(a1, a2); }
 AGE_API void vehCarAudioContainer::SetSirenCSVName(LPCSTR name)               { hook::StaticThunk<0x4D0C80>::Call<void>(name); }
 AGE_API void vehCarAudioContainer::Set3D(bool a1)                             { hook::Thunk<0x4D1840>::Call<void>(this, a1); }
-AGE_API void vehCarAudioContainer::StartSiren()                               { hook::Thunk<0x4D18B0>::Call<void>(this); }
-AGE_API void vehCarAudioContainer::StopSiren()                                { hook::Thunk<0x4D18C0>::Call<void>(this); }
+
+AGE_API void vehCarAudioContainer::StartSiren()
+{
+    auto policeAudio = this->GetPoliceCarAudioPtr();
+    if (policeAudio != nullptr)
+    {
+        policeAudio->StartSiren(0);
+	}
+}
+
+AGE_API void vehCarAudioContainer::StopSiren()
+{
+    auto policeAudio = this->GetPoliceCarAudioPtr();
+    if (policeAudio != nullptr)
+    {
+        policeAudio->StopSiren();
+	}
+}
+
 AGE_API void vehCarAudioContainer::SilenceEngine(BOOL a1)                     { hook::Thunk<0x4D1910>::Call<void>(this, a1); }
 AGE_API vehPoliceCarAudio* vehCarAudioContainer::GetPoliceCarAudioPtr()       { return hook::Thunk<0x4D1790>::Call<vehPoliceCarAudio*>(this); }
 AGE_API vehSemiCarAudio* vehCarAudioContainer::GetSemiCarAudioPtr()           { return hook::Thunk<0x4D17A0>::Call<vehSemiCarAudio*>(this); }
