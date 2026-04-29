@@ -93,14 +93,15 @@ AGE_API void dgBangerInstance::Draw(int lod)
         Matrix34 dummyMatrix = Matrix34();
         Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
         gfxRenderState::SetWorldMatrix(bangerMatrix);
-        gfxRenderState::SetBlendSet(0, 0x80);
+        gfxRenderState::SetBlendSet(0);
 
         auto model = this->GetGeom(LOD, 0);
         if (model != nullptr)
         {
             if (data->BillFlags >= 0)
             {
-                model->DrawNoGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+                if (!(this->GetVariant() == 4 && strstr(data->GetName(), "vppanozgt_whl")))
+                    model->DrawNoGlass(this->GetShader(this->GetVariant()));
             }
             else
             {
@@ -108,7 +109,7 @@ AGE_API void dgBangerInstance::Draw(int lod)
                 gfxRenderState::SetAlphaRef((byte)sm_RefAlpha.get());
                 gfxRenderState::SetTouchedMask(false);
                 gfxRenderState::SetLighting(false);
-                model->DrawNoGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+                model->DrawNoGlass(this->GetShader(this->GetVariant()));
                 gfxRenderState::SetTouchedMask(true);
                 gfxRenderState::SetLighting(true);
                 gfxRenderState::SetAlphaRef(alphaRef);
@@ -199,14 +200,27 @@ AGE_API void dgBangerInstance::DrawReflectedParts(int lod)
         Matrix34 dummyMatrix = Matrix34();
         Matrix34 bangerMatrix = this->GetMatrix(dummyMatrix);
         gfxRenderState::SetWorldMatrix(bangerMatrix);
-        gfxRenderState::SetBlendSet(0, 0x80);
+        gfxRenderState::SetBlendSet(0);
 
         auto model = this->GetGeom(LOD, 0);
         if (model != nullptr)
         {
             if (data->BillFlags >= 0)
             {
-                model->DrawGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+                if (this->GetVariant() == 4 && strstr(data->GetName(), "vppanozgt_whl"))
+                {
+                    int prevAlphaRef = gfxRenderState::GetAlphaRef();
+                    int prevZWriteEnable = gfxRenderState::GetZWriteEnabled();
+                    gfxRenderState::SetAlphaRef(0);
+                    gfxRenderState::SetZWriteEnabled(false);
+                    model->DrawAlpha(this->GetShader(this->GetVariant()));
+                    gfxRenderState::SetZWriteEnabled(prevZWriteEnable);
+                    gfxRenderState::SetAlphaRef(prevAlphaRef);
+                }
+                else
+                {
+                    model->DrawGlass(this->GetShader(this->GetVariant()));
+                }
             }
             else
             {
@@ -214,7 +228,7 @@ AGE_API void dgBangerInstance::DrawReflectedParts(int lod)
                 gfxRenderState::SetAlphaRef((byte)sm_RefAlpha.get());
                 gfxRenderState::SetTouchedMask(false);
                 gfxRenderState::SetLighting(false);
-                model->DrawGlass(this->GetGeomBase()->pShaders[this->GetVariant()]);
+                model->DrawGlass(this->GetShader(this->GetVariant()));
                 gfxRenderState::SetTouchedMask(true);
                 gfxRenderState::SetLighting(true);
                 gfxRenderState::SetAlphaRef(alphaRef);
