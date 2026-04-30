@@ -367,7 +367,7 @@ int lvlInstance::GetVariantCount() const
 
 int lvlInstance::GetRandId() const
 {
-    return irand2((int)this);
+    return irandId((int)this);
 }
 
 AGE_API bool lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix)
