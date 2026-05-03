@@ -26,7 +26,6 @@ namespace MM2
         float Size;
         int Index;
         int FlatMode;
-        Vector2 FlatSize;
         Vector3 FlatRotation;
         Vector3 RotationSpeed;
         int EnableFade;

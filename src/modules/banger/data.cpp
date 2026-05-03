@@ -111,7 +111,6 @@ AGE_API bool dgBangerData::Save()
             writeTokenizer->PutToken("GlowColor ", glowData->Color);
             writeTokenizer->PutToken("GlowSize ", glowData->Size);
             writeTokenizer->PutToken("FlatMode ", glowData->FlatMode);
-            writeTokenizer->PutToken("FlatSize ", glowData->FlatSize);
             writeTokenizer->PutToken("FlatRotation ", glowData->FlatRotation);
             writeTokenizer->PutToken("RotationSpeed ", glowData->RotationSpeed);
             writeTokenizer->PutToken("EnableFade ", glowData->EnableFade);
@@ -254,7 +253,6 @@ AGE_API bool dgBangerData::Load()
                     readTokenizer->AddToken("GlowColor", glowData->Color);
                     readTokenizer->AddToken("GlowSize", glowData->Size);
                     readTokenizer->AddToken("FlatMode", glowData->FlatMode);
-                    readTokenizer->AddToken("FlatSize", glowData->FlatSize);
                     readTokenizer->AddToken("FlatRotation", glowData->FlatRotation);
                     readTokenizer->AddToken("RotationSpeed", glowData->RotationSpeed);
                     readTokenizer->AddToken("EnableFade", glowData->EnableFade);

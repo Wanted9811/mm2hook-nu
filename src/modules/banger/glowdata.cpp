@@ -17,7 +17,6 @@ dgBangerGlowData::dgBangerGlowData()
 	this->Size = 1.5f;
 	this->Index = 0;
 	this->FlatMode = 0;
-	this->FlatSize = Vector2(1.0f, 1.0f);
 	this->FlatRotation = Vector3(0.0f, 0.0f, 0.0f);
 	this->RotationSpeed = Vector3(0.0f, 0.0f, 0.0f);
 	this->EnableFade = 0;
