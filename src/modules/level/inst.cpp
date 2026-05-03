@@ -370,6 +370,11 @@ int lvlInstance::GetRandId() const
     return irandId((int)this);
 }
 
+float lvlInstance::GetFRandId(int index) const
+{
+    return frandId(index);
+}
+
 AGE_API bool lvlInstance::ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix)
 {
     return ComputeShadowMatrix(outMatrix, room, inMatrix, nullptr);
@@ -850,6 +855,7 @@ void lvlInstance::BindLua(LuaState L) {
 
         //functions
         .addStaticFunction("ComputeShadowMatrix", &computeShadowMatrixLua)
+        .addFunction("FRandId", &GetFRandId)
         .addFunction("GetName", &GetName)
         .addFunction("LoadBoundOnLastEntry", &LoadBoundOnLastEntry)
         .addFunction("GetBoundSphere", &GetBoundSphere)

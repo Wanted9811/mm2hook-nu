@@ -114,6 +114,7 @@ namespace MM2
         int GetShaderCount() const;
         int GetVariantCount() const;
         int GetRandId() const;
+        float GetFRandId(int index) const;
 
         static AGE_API bool ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix);
         static AGE_API bool ComputeShadowMatrix(Matrix34& outMatrix, int room, Matrix34 const& inMatrix, lvlInstance* ignoreInstance, float maxShadowHeight = 10.0f);
