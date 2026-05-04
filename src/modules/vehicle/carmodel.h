@@ -131,7 +131,7 @@ namespace MM2
         Matrix34 GetPartWobbleMatrix(const Matrix34& matrix, vehWheel* wheel, float wobbleMultiplier = 0.02f);
         Matrix34 GetWorldMatrix();
 
-        AGE_API void GetSurfaceColor(modStatic* model, Vector3* outVector);
+        AGE_API void GetSurfaceColor(modStatic* model, Vector3& outColor);
         AGE_API void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int index);
         void InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int index);
         AGE_API void InitSirenLight(const char* basename, const char* mtxName, int geomId);

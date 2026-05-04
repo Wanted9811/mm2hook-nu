@@ -315,8 +315,8 @@ namespace MM2
         return GetBodyWobbleMatrix(*this->carSim->GetWorldMatrix(), this->carSim->GetWheel(1));
     }
 
-    AGE_API void vehCarModel::GetSurfaceColor(modStatic* model, Vector3* outVector)
-                                                        { hook::Thunk<0x4CDF00>::Call<void>(this, model, outVector); }
+    AGE_API void vehCarModel::GetSurfaceColor(modStatic* model, Vector3& outColor)
+                                                        { hook::Thunk<0x4CDF00>::Call<void>(this, model, &outColor); }
     AGE_API void vehCarModel::InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int index)
                                                         { hook::Thunk<0x4CDC50>::Call<void>(this, manager, basename, breakableName, geomId, index); }
 
@@ -339,7 +339,7 @@ namespace MM2
             Matrix34 outMatrix;
 
             GetPivot(outMatrix, basename, mtxName);
-            this->GetSurfaceColor(sirenGeom, &outColor);
+            this->GetSurfaceColor(sirenGeom, outColor);
             siren->AddLight(outMatrix.GetRow(3), outColor);
         }    
     }
@@ -381,7 +381,7 @@ namespace MM2
             headlights[0].Color = Vector3(1.f, 1.f, 1.f);
             headlights[0].Type = 1;
             headlights[0].SpotExponent = 3.f;
-            this->GetSurfaceColor(headlight0geom, &headlights[0].Color);
+            this->GetSurfaceColor(headlight0geom, headlights[0].Color);
             this->headlightPositions[0] = Vector3(outMatrix.m30, outMatrix.m31, outMatrix.m32);
 
             if (headlight1geom != nullptr)
@@ -390,7 +390,7 @@ namespace MM2
                 headlights[1].Color = Vector3(1.f, 1.f, 1.f);
                 headlights[1].Type = 1;
                 headlights[1].SpotExponent = 3.f;
-                this->GetSurfaceColor(headlight1geom, &headlights[1].Color);
+                this->GetSurfaceColor(headlight1geom, headlights[1].Color);
                 this->headlightPositions[1] = outMatrix.GetRow(3);
             }
         }
@@ -419,7 +419,7 @@ namespace MM2
             extraHeadlights[i]->Color = Vector3(1.f, 1.f, 1.f);
             extraHeadlights[i]->Type = 1;
             extraHeadlights[i]->SpotExponent = 3.f;
-            this->GetSurfaceColor(headlightGeom, &extraHeadlights[i]->Color);
+            this->GetSurfaceColor(headlightGeom, extraHeadlights[i]->Color);
             this->extraHeadlightPositions[i] = outMatrix.GetRow(3);
         }
     }
