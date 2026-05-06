@@ -429,7 +429,7 @@ namespace MM2
             for (int i = 0; i < siren->GetLightCount(); i++)
             {
                 if ((siren->GetLightPosition(i) - localImpactPos).Mag2() < radius)
-                    siren->SetEnabledElectrics(i, false);
+                    siren->SetLightElectric(i, false);
             }
         }
     }
@@ -461,7 +461,7 @@ namespace MM2
         {
             for (int i = 0; i < siren->GetLightCount(); i++)
             {
-                siren->SetEnabledElectrics(i, true);
+                siren->SetLightElectric(i, true);
             }
         }
     }

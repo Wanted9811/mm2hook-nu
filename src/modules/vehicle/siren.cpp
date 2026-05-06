@@ -4,51 +4,114 @@
 
 using namespace MM2;
 
-bool vehSiren::IsActive() const      { return Active;}
-void vehSiren::SetActive(bool active) { Active = active; }
-bool vehSiren::GetHasLights() const  { return HasLights; }
-int vehSiren::GetLightCount() const  { return LightCount; }
+vehSiren::vehSiren()
+{
+    ltLight::GlowScale.set(0.2f);
+    this->HasLights = false;
+    this->Active = false;
+    this->LightCount = 0;
+    this->Light = nullptr;
+    this->LightPositions = nullptr;
+    this->RotationRate = 2.5f;
+    this->LensFlare = nullptr;
+    this->LightElectrics = nullptr;
+    ltLight::GlowIntensity.set(0.6f);
+}
+
+vehSiren::~vehSiren()
+{
+    if (this->Light != nullptr)
+    {
+        ltLight::ShutdownLights();
+        delete[] this->Light;
+        this->Light = nullptr;
+    }
+    if (this->LightPositions != nullptr)
+    {
+        delete[] this->LightPositions;
+        this->LightPositions = nullptr;
+    }
+    if (this->LightElectrics != nullptr)
+    {
+        delete[] this->LightElectrics;
+        this->LightElectrics = nullptr;
+    }
+    if (this->LensFlare != nullptr)
+    {
+        delete this->LensFlare;
+        this->LensFlare = nullptr;
+    }
+}
+
+bool vehSiren::IsActive() const
+{
+    return Active;
+}
+
+void vehSiren::SetActive(bool active)
+{
+    Active = active;
+}
+
+bool vehSiren::GetHasLights() const
+{
+    return HasLights;
+}
+
+int vehSiren::GetLightCount() const
+{
+    return LightCount;
+}
 
 ltLight* vehSiren::GetLight(int index) const
 {
     if (index < 0 || index >= LightCount)
         return nullptr;
-    return &ltLightPool[index];
+    return &Light[index];
 }
 
 Vector3 vehSiren::GetLightPosition(int index) const
 {
     if (index < 0 || index >= LightCount)
         return Vector3::ORIGIN;
-    return extraLightPositions[index];
+    return LightPositions[index];
 }
 
-void vehSiren::SetLightPosition(int index, Vector3 position)
+void vehSiren::SetLightPosition(int index, Vector3& position)
 {
     if (index < 0 || index >= LightCount)
         return;
-    extraLightPositions[index] = position;
+    LightPositions[index] = position;
 }
 
-void vehSiren::SetEnabledElectrics(int index, bool state)
+bool vehSiren::GetLightElectric(int index)
 {
-    enabledElectrics[index] = state;
+    if (index < 0 || index >= LightCount)
+        return false;
+    return LightElectrics[index];
+}
+
+void vehSiren::SetLightElectric(int index, bool state)
+{
+    if (index < 0 || index >= LightCount)
+        return;
+    LightElectrics[index] = state;
 }
 
 //member funcs
 AGE_API void vehSiren::Init(int lightCount)
 {
-    if (this->ltLightPool == nullptr)
+    if (this->Light == nullptr)
     {
-        this->ltLightPool = new ltLight[lightCount];
+        this->Light = new ltLight[lightCount];
     }
-    if (this->extraLightPositions == nullptr)
+    if (this->LightPositions == nullptr)
     {
-        this->extraLightPositions = new Vector3[lightCount];
+        this->LightPositions = new Vector3[lightCount];
     }
-    if (this->enabledElectrics == nullptr)
+    if (this->LightElectrics == nullptr)
     {
-        this->enabledElectrics = new bool[lightCount];
+        this->LightElectrics = new bool[lightCount];
     }
     if (this->LensFlare == nullptr)
     {
@@ -64,16 +127,16 @@ void vehSiren::RemoveAllLights()
 
 AGE_API void vehSiren::AddLight(Vector3 const& position, Vector3 const& color)
 {
-    if (this->ltLightPool == nullptr)
+    if (this->Light == nullptr)
         return;
 
     this->HasLights = true;
-    ltLightPool[LightCount].Type = 1;
-    ltLightPool[LightCount].Color = color;
-    extraLightPositions[LightCount] = position;
-    ltLightPool[LightCount].SpotExponent = 3.f;
-    ltLightPool[LightCount].Direction = Vector3(1.0f, 0.0f, 0.0f);
-    ltLightPool[LightCount].Direction.RotateY(LightCount * 1.5707964f);
+    Light[LightCount].Type = 1;
+    Light[LightCount].Color = color;
+    LightPositions[LightCount] = position;
+    Light[LightCount].SpotExponent = 3.0f;
+    Light[LightCount].Direction = Vector3(1.0f, 0.0f, 0.0f);
+    Light[LightCount].Direction.RotateY(LightCount * 1.5707964f);
     ++this->LightCount;
 }
 
@@ -86,18 +149,18 @@ AGE_API void vehSiren::Update()
 {
     float rotationAmount = vehSiren::SirenRotationSpeed;
 
-    if (this->ltLightPool != nullptr && this->Active)
+    if (this->Light != nullptr && this->Active)
     {
         for (int i = 0; i < this->LightCount; i++)
         {
-            this->ltLightPool[i].Direction.RotateY(datTimeManager::Seconds * this->RotationRate * rotationAmount);
+            this->Light[i].Direction.RotateY(datTimeManager::Seconds * this->RotationRate * rotationAmount);
         }
     }
 }
 
 AGE_API void vehSiren::Draw(Matrix34 const& mtx)
 {
-    if (this->ltLightPool == nullptr)
+    if (this->Light == nullptr)
         return;
 
     Vector3 camPosition = static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3));
@@ -105,12 +168,12 @@ AGE_API void vehSiren::Draw(Matrix34 const& mtx)
     ltLight::DrawGlowBegin();
     for (int i = 0; i < this->LightCount; i++)
     {
-        bool isSirenLightBroken = !(enabledElectrics[i]);
+        bool isSirenLightBroken = !(LightElectrics[i]);
         if (isSirenLightBroken)
             continue;
 
-        auto light = &this->ltLightPool[i];
-        auto lightPos = this->extraLightPositions[i];
+        auto light = &this->Light[i];
+        auto lightPos = this->LightPositions[i];
 
         light->Position = mtx.Transform(lightPos);
         light->DrawGlow(camPosition);
@@ -120,11 +183,11 @@ AGE_API void vehSiren::Draw(Matrix34 const& mtx)
     this->LensFlare->DrawBegin();
     for (int i = 0; i < this->LightCount; i++)
     {
-        bool isSirenLightBroken = !(enabledElectrics[i]);
+        bool isSirenLightBroken = !(LightElectrics[i]);
         if (isSirenLightBroken)
             continue;
 
-        auto light = &this->ltLightPool[i];
+        auto light = &this->Light[i];
         float intensity = light->ComputeIntensity(camPosition, 0.05f);
         this->LensFlare->Draw(light->Position, light->Color, intensity);
     }
@@ -143,6 +206,8 @@ void vehSiren::BindLua(LuaState L) {
         .addFunction("GetLight", &GetLight)
         .addFunction("GetLightPosition", &GetLightPosition)
         .addFunction("SetLightPosition", &SetLightPosition)
+        .addFunction("GetLightElectric", &GetLightElectric)
+        .addFunction("SetLightElectric", &SetLightElectric)
 
         //members
         .addFunction("Init", &Init)

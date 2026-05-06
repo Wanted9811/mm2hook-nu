@@ -6,21 +6,48 @@ using namespace MM2;
     vehSirenHandler
 */
 
-void vehSirenHandler::Update() {
+vehSiren* vehSirenHandler::Construct()
+{
+    auto siren = reinterpret_cast<vehSiren*>(this);
+	return new(siren) vehSiren();
+}
+
+void vehSirenHandler::Destruct()
+{
+    auto siren = reinterpret_cast<vehSiren*>(this);
+    siren->vehSiren::~vehSiren();
+}
+
+void vehSirenHandler::Update()
+{
     auto siren = reinterpret_cast<vehSiren*>(this);
     siren->vehSiren::Update();
 }
 
-void vehSirenHandler::Reset() {
+void vehSirenHandler::Reset()
+{
     auto siren = reinterpret_cast<vehSiren*>(this);
     siren->vehSiren::Reset();
 }
 
-void* vehSirenHandler::SizeOf() {
+void* vehSirenHandler::SizeOf()
+{
     return hook::StaticThunk<0x577360>::Call<void*>(sizeof(vehSiren));
 }
 
 void vehSirenHandler::Install() {
+    InstallCallback("vehSiren::Constructor", "Use our vehSiren constructor.",
+        &Construct, {
+            cb::call(0x42BE48),
+        }
+	);
+
+    InstallCallback("vehSiren::Destructor", "Use our vehSiren destructor.",
+        &Destruct, {
+            cb::call(0x42BD43),
+        }
+	);
+
     InstallCallback("vehSiren::Update", "Use our vehSiren update.",
         &Update, {
             cb::call(0x42C920),
@@ -38,19 +65,6 @@ void vehSirenHandler::Install() {
             cb::call(0x42BE30),
         }
     );
-
-    //jmp out ltLightPool destructor
-    InstallPatch({ 0xEB }, {
-        0x4D6638,
-    });
-
-    //don't draw Angels siren lights
-    InstallPatch({
-        0xE9, 0xD1, 0x0, 0x0, 0x0,
-        0x90,
-    }, {
-        0x4D68C1,
-    });
 
     ConfigValue<float> cfgSirenRotationSpeed("SirenRotationSpeed", 3.1415927f);
 

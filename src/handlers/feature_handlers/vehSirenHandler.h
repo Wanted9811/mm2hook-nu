@@ -5,6 +5,8 @@
 
 class vehSirenHandler {
 public:
+	MM2::vehSiren* Construct();
+	void Destruct();
     void Update();
     void Reset();
     void* SizeOf();
