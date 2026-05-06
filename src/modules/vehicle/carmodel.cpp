@@ -99,17 +99,24 @@ namespace MM2
 
     ltLight* vehCarModel::GetHeadlight(int index)
     {
-        //cap index
-        if (index < 0)
-            index = 0;
-        if (index >= 2)
-            index = 1;
-            
-        auto headlightLightsArray = this->headlights;
-        if (headlightLightsArray == nullptr)
-            return NULL;
-        return &headlightLightsArray[index];
+        if (this->headlights == nullptr)
+            return nullptr;
+        return &this->headlights[index];
     }
+
+    Vector3 vehCarModel::GetHeadlightPosition(int index)
+    {
+        if (this->headlightPositions == nullptr)
+            return Vector3::ORIGIN;
+		return this->headlightPositions[index];
+	}
+
+	bool vehCarModel::GetHeadlightElectric(int index)
+    {
+        if (this->headlightElectrics == nullptr)
+            return false;
+        return this->headlightElectrics[index];
+	}
 
     int vehCarModel::GetWheelBrokenStatus()
     {
@@ -354,8 +361,8 @@ namespace MM2
             siren->RemoveAllLights();
             for (int i = 0; i < lightCount; i++)
             {
-                string_buf<16> buffer("srn%d", i);
-                InitSirenLight(basename, buffer, this->GetGeomId(buffer));
+                string_buf<16> srn("srn%d", i);
+                InitSirenLight(basename, srn, this->GetGeomId(srn));
             }
         }
     }
@@ -365,79 +372,55 @@ namespace MM2
         Matrix34 outMatrix = Matrix34::I;
 
         // load headlights
-        auto headlight0geom = this->GetGeom(3, this->GetGeomId("headlight0"));
-        auto headlight1geom = this->GetGeom(3, this->GetGeomId("headlight1"));
+        int headlightCount = this->GetGeomCount("headlight");
 
         if (this->headlights)
         {
             delete[] this->headlights;
             this->headlights = nullptr;
         }
-        if (headlight0geom != nullptr)
+        if (this->headlightPositions)
         {
-            this->headlights = new ltLight[2];
-            
-            GetPivot(outMatrix, basename, "headlight0");
-            headlights[0].Color = Vector3(1.f, 1.f, 1.f);
-            headlights[0].Type = 1;
-            headlights[0].SpotExponent = 3.f;
-            this->GetSurfaceColor(headlight0geom, headlights[0].Color);
-            this->headlightPositions[0] = Vector3(outMatrix.m30, outMatrix.m31, outMatrix.m32);
+            delete[] this->headlightPositions;
+            this->headlightPositions = nullptr;
+		}
+        if (this->headlightElectrics)
+        {
+            delete[] this->headlightElectrics;
+            this->headlightElectrics = nullptr;
+		}
+        if (headlightCount > 0)
+        {
+            this->headlights = new ltLight[headlightCount];
+            this->headlightPositions = new Vector3[headlightCount];
+			this->headlightElectrics = new bool[headlightCount];
 
-            if (headlight1geom != nullptr)
+            for (int i = 0; i < headlightCount; i++)
             {
-                GetPivot(outMatrix, basename, "headlight1");
-                headlights[1].Color = Vector3(1.f, 1.f, 1.f);
-                headlights[1].Type = 1;
-                headlights[1].SpotExponent = 3.f;
-                this->GetSurfaceColor(headlight1geom, headlights[1].Color);
-                this->headlightPositions[1] = outMatrix.GetRow(3);
+				string_buf<16> headlight("headlight%d", i);
+				auto headlightGeom = this->GetGeom(3, this->GetGeomId(headlight));
+                if (headlightGeom == nullptr)
+					continue;
+
+                GetPivot(outMatrix, basename, headlight);
+                headlights[i].Color = Vector3(1.0f, 1.0f, 1.0f);
+                headlights[i].Type = 1;
+                headlights[i].SpotExponent = 3.0f;
+                this->GetSurfaceColor(headlightGeom, headlights[i].Color);
+                this->headlightPositions[i] = Vector3(outMatrix.m30, outMatrix.m31, outMatrix.m32);
             }
-        }
-
-        // load extra headlights
-        int EXTRA_HEADLIGHT_COUNT = 6; 
-        for (int i = 0; i < EXTRA_HEADLIGHT_COUNT; i++)
-        {
-            if (extraHeadlights[i])
-            {
-                delete extraHeadlights[i];
-                extraHeadlights[i] = nullptr;
-            }
-        }
-
-        for (int i = 0; i < EXTRA_HEADLIGHT_COUNT; i++)
-        {
-            string_buf<16> buffer("headlight%d", i + 2);
-            auto headlightGeom = this->GetGeom(3, this->GetGeomId(buffer));
-            if (headlightGeom == nullptr)
-                continue;
-
-            Matrix34 outMatrix;
-            GetPivot(outMatrix, basename, buffer);
-            extraHeadlights[i] = new ltLight();
-            extraHeadlights[i]->Color = Vector3(1.f, 1.f, 1.f);
-            extraHeadlights[i]->Type = 1;
-            extraHeadlights[i]->SpotExponent = 3.f;
-            this->GetSurfaceColor(headlightGeom, extraHeadlights[i]->Color);
-            this->extraHeadlightPositions[i] = outMatrix.GetRow(3);
         }
     }
 
     AGE_API void vehCarModel::BreakElectrics(const Vector3& localImpactPos)     
     {
         float radius = 0.25f;
+		int headlightCount = this->GetGeomCount("headlight");
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < headlightCount; i++)
         {
             if ((this->headlightPositions[i] - localImpactPos).Mag2() < radius)
-                this->enabledElectrics[i + 2] = false;
-        }
-
-        for (int i = 0; i < 6; i++)
-        {
-            if ((this->extraHeadlightPositions[i] - localImpactPos).Mag2() < radius)
-                this->enabledExtraElectrics[i] = false;
+                this->headlightElectrics[i] = false;
         }
 
         auto siren = this->car->GetSiren();
@@ -451,7 +434,7 @@ namespace MM2
         }
     }
     
-    AGE_API void vehCarModel::ClearDamage()                          
+    AGE_API void vehCarModel::ClearDamage()
     {
         genBreakableMgr->Reset();
         wheelBreakableMgr->Reset();
@@ -466,17 +449,12 @@ namespace MM2
         
         this->hasEjectedOneshot = false;
         this->wheelBrokenStatus = 0xFFFFFFFF;
-        this->enabledElectrics[0] = true;
-        this->enabledElectrics[1] = true;
-        this->enabledElectrics[2] = true;
-        this->enabledElectrics[3] = true;
-        
-        this->enabledExtraElectrics[0] = true;
-        this->enabledExtraElectrics[1] = true;
-        this->enabledExtraElectrics[2] = true;
-        this->enabledExtraElectrics[3] = true;
-        this->enabledExtraElectrics[4] = true;
-        this->enabledExtraElectrics[5] = true;
+
+		int headlightCount = this->GetGeomCount("headlight");
+        for (int i = 0; i < headlightCount; i++)
+        {
+			this->headlightElectrics[i] = true;
+        }
 
         auto siren = this->car->GetSiren();
         if (siren != nullptr)
@@ -581,26 +559,24 @@ namespace MM2
         if (this->headlights == nullptr)
             return;
 
-        if (rotate)
-        {
-            this->headlights[0].Direction.RotateY(datTimeManager::Seconds * vehCarModel::HeadlightFlashingSpeed);
-            this->headlights[1].Direction.RotateY(datTimeManager::Seconds * -vehCarModel::HeadlightFlashingSpeed);
-        }
-        else
-        {
-            auto carMatrix = &this->GetWorldMatrix();
-            this->headlights[0].Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
-            this->headlights[1].Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
-        }
-
-        bool bothLightsBroken = !(enabledElectrics[2] || enabledElectrics[3]);
-        if (bothLightsBroken)
-            return;
+        int headlightCount = this->GetGeomCount("headlight");
+        float rotationAmount = vehCarModel::HeadlightFlashingSpeed;
 
         ltLight::DrawGlowBegin();
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < headlightCount; i++)
         {
-            bool isHeadlightBroken = !(enabledElectrics[i + 2]);
+            if (rotate)
+            {
+                this->headlights[i].Direction.RotateY(datTimeManager::Seconds * rotationAmount);
+                rotationAmount *= -1.f;
+            }
+            else
+            {
+                auto carMatrix = &this->GetWorldMatrix();
+                this->headlights[i].Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
+            }
+
+            bool isHeadlightBroken = !(headlightElectrics[i]);
             if (isHeadlightBroken)
                 continue;
 
@@ -614,39 +590,6 @@ namespace MM2
         ltLight::DrawGlowEnd();
     }
 
-    AGE_API void vehCarModel::DrawExtraHeadlights(bool rotate)
-    {
-        float rotationAmount = vehCarModel::HeadlightFlashingSpeed;
-
-        ltLight::DrawGlowBegin();
-        for (int i = 0; i < 6; i++)
-        {
-            string_buf<16> buffer("headlight%d", i + 2);
-            modStatic* headlightEntry = this->GetGeomEntry(this->GetGeomId(buffer));
-            if (headlightEntry == nullptr || !(enabledExtraElectrics[i]))
-                continue;
-
-            if (rotate)
-            {
-                this->extraHeadlights[i]->Direction.RotateY(datTimeManager::Seconds * rotationAmount);
-                rotationAmount *= -1.f;
-            }
-            else
-            {
-                auto carMatrix = &this->GetWorldMatrix();
-                this->extraHeadlights[i]->Direction = Vector3(-carMatrix->m20, -carMatrix->m21, -carMatrix->m22);
-            }
-
-            auto light = this->extraHeadlights[i];
-            auto lightPos = this->extraHeadlightPositions[i];
-            auto carMatrix = &this->GetWorldMatrix();
-
-            light->Position = carMatrix->Transform(lightPos);
-            light->DrawGlow(static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3)));
-        }
-        ltLight::DrawGlowEnd();
-    }
-        
     AGE_API void vehCarModel::DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders)
     {
         gfxRenderState::SetWorldMatrix(matrix);
@@ -1464,26 +1407,13 @@ namespace MM2
             if (vehCarModel::HeadlightType == 0 || vehCarModel::HeadlightType == 2)
             {
                 //MM2 headlights
-                if (vehCarModel::EnableHeadlightFlashing)
+                if (siren != nullptr && siren->IsActive() && vehCarModel::EnableHeadlightFlashing)
                 {
-                    if (siren != nullptr && siren->IsActive())
-                    {
-                        this->DrawHeadlights(true);
-                        this->DrawExtraHeadlights(true);
-                    }
-                    else if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
-                    {
-                        this->DrawHeadlights(false);
-                        this->DrawExtraHeadlights(false);
-                    }
+                    this->DrawHeadlights(true);
                 }
-                else
+                else if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
                 {
-                    if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
-                    {
-                        this->DrawHeadlights(false);
-                        this->DrawExtraHeadlights(false);
-                    }
+                    this->DrawHeadlights(false);
                 }
             }
             if (vehCarModel::HeadlightType == 1 || vehCarModel::HeadlightType == 2)
@@ -1964,6 +1894,8 @@ namespace MM2
             .addFunction("EjectOneshot", &EjectOneshot)
 
             .addFunction("GetHeadlight", &GetHeadlight)
+            .addFunction("GetHeadlightPosition", &GetHeadlightPosition)
+            .addFunction("GetHeadlightElectric", &GetHeadlightElectric)
 
 
         .endClass();

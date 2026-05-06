@@ -90,16 +90,13 @@ namespace MM2
         int wheelBrokenStatus;
         vehBreakableMgr* wheelBreakableMgr;
         ltLight* headlights;
-        Vector3 headlightPositions[2];
+		Vector3* headlightPositions; // This used to be an array of 2 positions, but the hook expands it to be as big as needed
         //EXTRA FIELDS. The hook expands on this class, this is only possible because it's only used like a pointer in the original MM code
-        //These are the position differences from (FNDR2-WHL2) and (FNDR3-WHL3) / (FNDR4-WHL4) and (FNDR5-WHL5)
+        bool* headlightElectrics;
         Vector3 fndr2offset;
         Vector3 fndr3offset;
         Vector3 fndr4offset;
         Vector3 fndr5offset;
-        ltLight* extraHeadlights[6]; //HEADLIGHT2-7
-        Vector3 extraHeadlightPositions[6];
-        bool enabledExtraElectrics[6];
         fxDamage3D* damage3D;
         mmDamage* mm1Damage;
         mmLightDamage* lightDamage;
@@ -113,6 +110,8 @@ namespace MM2
         vehCar* GetCar();
         int GetVariant();
         ltLight* GetHeadlight(int index);
+        Vector3 GetHeadlightPosition(int index);
+		bool GetHeadlightElectric(int index);
         int GetWheelBrokenStatus();
         Vector3 GetTrailerHitchOffset();
         fxTexelDamage* GetTexelDamage();
@@ -143,7 +142,6 @@ namespace MM2
         AGE_API bool GetVisible();
         AGE_API void SetVisible(bool visible);
         AGE_API void DrawHeadlights(bool rotate);
-        AGE_API void DrawExtraHeadlights(bool rotate);
         AGE_API void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders);
         AGE_API void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders);
         void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected);
