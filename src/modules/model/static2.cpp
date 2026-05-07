@@ -239,6 +239,7 @@ void modStatic::DrawGlass(modShader* shaders) const
 {
 	gfxRenderState::FlushMasked();
 	bool lastAlphaEnable = gfxRenderState::GetAlphaEnabled();
+	bool lastZWriteEnable = gfxRenderState::GetZWriteEnabled();
 	bool alphaEnabled = false;
 
 	for (int i = 0; i < this->PacketCount; i++)
@@ -260,11 +261,13 @@ void modStatic::DrawGlass(modShader* shaders) const
 				alphaEnabled = true;
 			}
 
+			gfxRenderState::SetZWriteEnabled(false);
 			gfxRenderState::FlushMasked();
 		}
 
 		auto list = this->ppPacketLists[i];
 		gfxPacket::DrawList(list);
+		gfxRenderState::SetZWriteEnabled(lastZWriteEnable);
 	}
 
 	gfxRenderState::SetAlphaEnabled(lastAlphaEnable);
