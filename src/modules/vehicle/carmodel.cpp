@@ -1891,6 +1891,7 @@ namespace MM2
             .addPropertyReadOnly("Breakables", &GetGenBreakableMgr)
             .addPropertyReadOnly("WheelBreakables", &GetMechBreakableMgr)
             .addPropertyReadOnly("TrailerHitchOffset", &GetTrailerHitchOffset)
+            .addPropertyReadOnly("WorldMatrix", &GetWorldMatrix)
             .addProperty("Variant", &GetVariant, &SetVariant)
             .addProperty("Visible", &GetVisible, &SetVisible)
             .addProperty("CustomGlowState", &GetCustomGlowState, &SetCustomGlowState)
