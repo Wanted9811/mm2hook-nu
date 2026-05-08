@@ -7,12 +7,14 @@ namespace MM2
 {
     const float BlurSpeed = 26.0f;
 
-    AGE_API vehCarModel::vehCarModel() {
+    AGE_API vehCarModel::vehCarModel()
+    {
         scoped_vtable x(this);
         hook::Thunk<0x4CCF20>::Call<void>(this);
     }
 
-    AGE_API vehCarModel::~vehCarModel() {
+    AGE_API vehCarModel::~vehCarModel()
+    {
         scoped_vtable x(this);
         hook::Thunk<0x4CCF80>::Call<void>(this);
     }
@@ -32,7 +34,7 @@ namespace MM2
         return this->car;
     }
 
-    int vehCarModel::GetVariant()
+    int vehCarModel::GetVariant() const
     {
         return this->variant;
     }
@@ -118,12 +120,12 @@ namespace MM2
         return this->headlightElectrics[index];
 	}
 
-    int vehCarModel::GetWheelBrokenStatus()
+    int vehCarModel::GetWheelBrokenStatus() const
     {
         return this->wheelBrokenStatus;
     }
 
-    Vector3 vehCarModel::GetTrailerHitchOffset()
+    Vector3 vehCarModel::GetTrailerHitchOffset() const
     {
         return this->trailerHitchPosition;
     }
@@ -148,7 +150,7 @@ namespace MM2
         return lightDamage;
     }
 
-    bool vehCarModel::GetPrevSplashState()
+    bool vehCarModel::GetPrevSplashState() const
     {
         return prevSplashState;
     }
