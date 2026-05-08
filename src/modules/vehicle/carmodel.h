@@ -102,6 +102,8 @@ namespace MM2
         mmLightDamage* lightDamage;
         bool prevSplashState;
         bool customGlowState;
+    private:
+        Vector3 getSurfaceColorLua(modStatic* model);
     public:
         AGE_API vehCarModel();
         AGE_API ~vehCarModel();

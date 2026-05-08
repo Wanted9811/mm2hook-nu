@@ -332,6 +332,13 @@ namespace MM2
         return GetBodyWobbleMatrix(*this->carSim->GetWorldMatrix(), this->carSim->GetWheel(1));
     }
 
+    Vector3 vehCarModel::getSurfaceColorLua(modStatic* model)
+    {
+        Vector3 outColor = Vector3::ORIGIN;
+        GetSurfaceColor(model, outColor);
+        return outColor;
+	}
+
     AGE_API void vehCarModel::GetSurfaceColor(modStatic* model, Vector3& outColor)
                                                         { hook::Thunk<0x4CDF00>::Call<void>(this, model, &outColor); }
     AGE_API void vehCarModel::InitBreakable(vehBreakableMgr* manager, const char* basename, const char* breakableName, int geomId, int index)
@@ -1892,7 +1899,7 @@ namespace MM2
             .addStaticVariableRef("HazardLightsState", &vehCarModel::HazardLightsState)
 
             //lua functions
-
+            .addFunction("GetSurfaceColor", &getSurfaceColorLua)
 
             //functions
             .addFunction("Reset", &Reset)
