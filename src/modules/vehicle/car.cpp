@@ -152,6 +152,8 @@ void vehCar::BindLua(LuaState L) {
 		.addPropertyReadOnly("Instance", &GetModel)
 		.addPropertyReadOnly("IsPlayer", &IsPlayer)
 
+		.addStaticProperty("DrawHeadlights", []() { return vehCar::sm_DrawHeadlights.get(); }, [](bool state) { vehCar::sm_DrawHeadlights.set(state); })
+
 		//functions
 		.addFunction("Init", &Init)
 		.addFunction("InitAudio", &InitAudio)
