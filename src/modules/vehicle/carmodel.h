@@ -54,7 +54,7 @@ namespace MM2
         static bool Enable3DDamage;
         static bool Enable3DDynamicDamage;
     private:
-        bool enabledElectrics[4]; //0/1 are back, 2/3 are front
+        bool lightElectrics[4]; //0/1 are back, 2/3 are front
         vehCar* car;
         vehCarSim* carSim;
         fxTexelDamage* texelDamage;

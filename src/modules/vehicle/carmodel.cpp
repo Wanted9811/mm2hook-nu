@@ -1263,12 +1263,10 @@ namespace MM2
         auto shaders = this->GetShader(this->GetVariant());
 
         //get car stuff we use to determine what to darw
-        auto car = this->GetCar();
-        auto carsim = this->carSim;
         auto siren = car->GetSiren();
         auto curDamage = car->GetCarDamage()->GetCurDamage();
         auto maxDamage = car->GetCarDamage()->GetMaxDamage();
-        int gear = carsim->GetTransmission()->GetGear();
+        int gear = carSim->GetTransmission()->GetGear();
         if (curDamage >= maxDamage && vehCarModel::MWStyleTotaledCar)
             return;
 
@@ -1313,7 +1311,7 @@ namespace MM2
                 if (tslight0 != nullptr)
                 {
                     //draw brake copy
-                    if (carsim->GetBrake() > 0.1)
+                    if (carSim->GetBrake() > 0.1)
                         tslight0->Draw(shaders);
                     //draw headlight copy
                     if (vehCarModel::ShowHeadlights)
@@ -1325,7 +1323,7 @@ namespace MM2
                 if (tslight1 != nullptr)
                 {
                     //draw brake copy
-                    if (carsim->GetBrake() > 0.1)
+                    if (carSim->GetBrake() > 0.1)
                         tslight1->Draw(shaders);
                     //draw headlight copy
                     if (vehCarModel::ShowHeadlights)
@@ -1340,7 +1338,7 @@ namespace MM2
             if (tslight0 != nullptr)
             {
                 //draw brake copy
-                if (carsim->GetBrake() > 0.1)
+                if (carSim->GetBrake() > 0.1)
                     tslight0->Draw(shaders);
                 //draw headlight copy
                 if (vehCar::sm_DrawHeadlights)
@@ -1349,7 +1347,7 @@ namespace MM2
             if (tslight1 != nullptr)
             {
                 //draw brake copy
-                if (carsim->GetBrake() > 0.1)
+                if (carSim->GetBrake() > 0.1)
                     tslight1->Draw(shaders);
                 //draw headlight copy
                 if (vehCar::sm_DrawHeadlights)
@@ -1362,7 +1360,7 @@ namespace MM2
         if (tlight != nullptr)
         {
             //draw brake copy
-            if (carsim->GetBrake() > 0.1)
+            if (carSim->GetBrake() > 0.1)
                 tlight->Draw(shaders);
             //draw headlight copy
             if (car->IsPlayer() && vehCarModel::ShowHeadlights || !car->IsPlayer() && vehCar::sm_DrawHeadlights)
@@ -1374,7 +1372,7 @@ namespace MM2
         if (blight != nullptr)
         {
             //draw brake copy
-            if (carsim->GetBrake() > 0.1)
+            if (carSim->GetBrake() > 0.1)
                 blight->Draw(shaders);
         }
 
@@ -1382,9 +1380,9 @@ namespace MM2
         modStatic* rlight = lightDamage != nullptr ? lightDamage->GetLightModel(mmLightDamage::RLIGHT) : this->GetGeomEntry(this->GetGeomId("rlight"));
         if (MM1StyleTransmission)
         {
-            auto throttle = carsim->GetEngine()->GetThrottleInput();
-            auto speedMPH = carsim->GetSpeedMPH();
-            auto transmission = carsim->GetTransmission();
+            auto throttle = carSim->GetEngine()->GetThrottleInput();
+            auto speedMPH = carSim->GetSpeedMPH();
+            auto transmission = carSim->GetTransmission();
 
             if (rlight != nullptr && gear == 0)
             {
@@ -1878,8 +1876,6 @@ namespace MM2
 
     AGE_API unsigned int vehCarModel::SizeOf()              { return sizeof(vehCarModel); }
 
-
-
     void vehCarModel::BindLua(LuaState L) {
         LuaBinding(L).beginExtendClass<vehCarModel, lvlInstance>("vehCarModel")
             //properties
@@ -1894,9 +1890,9 @@ namespace MM2
             .addStaticVariableRef("LeftSignalLightState", &vehCarModel::LeftSignalLightState)
             .addStaticVariableRef("RightSignalLightState", &vehCarModel::RightSignalLightState)
             .addStaticVariableRef("HazardLightsState", &vehCarModel::HazardLightsState)
-                
+
             //lua functions
-                
+
 
             //functions
             .addFunction("Reset", &Reset)
