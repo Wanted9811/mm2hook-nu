@@ -451,6 +451,9 @@ namespace MM2
                     siren->SetLightElectric(i, false);
             }
         }
+
+		// Hook to allow for custom car lights damage
+		MM2Lua::OnBreakElectrics(car, localImpactPos, radius);
     }
     
     AGE_API void vehCarModel::ClearDamage()
@@ -483,6 +486,9 @@ namespace MM2
                 siren->SetLightElectric(i, true);
             }
         }
+
+        // Hook to allow for custom car damage clearing
+        MM2Lua::OnClearDamage(car);
     }
 
     AGE_API void vehCarModel::EjectOneshot()
@@ -874,6 +880,9 @@ namespace MM2
             GetPivot(outMatrix, basename, "trailer_hitch");
             this->trailerHitchPosition = Vector3(outMatrix.m30, outMatrix.m31, outMatrix.m32);
         }
+
+        // Hook to allow for custom car initializing
+        MM2Lua::OnCarInit(car, basename);
     }
         
     /*
@@ -1102,6 +1111,9 @@ namespace MM2
                     DrawPart(lod, this->GetGeomId("engine"), *engineMatrixPtr, shaders);
             }
         }
+
+        // Hook to allow for custom car drawing
+        MM2Lua::OnDraw(car, lod);
     }
 
     AGE_API void vehCarModel::DrawShadow()
@@ -1251,6 +1263,9 @@ namespace MM2
                         }
                     }
                 }
+
+                // Hook to allow for custom car shadow drawing
+                MM2Lua::OnDrawShadow(car, shadowMatrix, intensity);
             }
         }
 
@@ -1470,6 +1485,9 @@ namespace MM2
                 }
             }
         }
+
+        // Hook to allow for custom car lights drawing
+        MM2Lua::OnDrawGlow(car);
     }
 
     AGE_API void vehCarModel::DrawReflected(float intensity)
@@ -1650,6 +1668,9 @@ namespace MM2
             if (engineMatrixPtr != nullptr)
                 DrawPartReflected(3, this->GetGeomId("engine"), *engineMatrixPtr, shaders, intensity, vehCarModel::PartReflections);
         }
+
+        // Hook to allow for custom car reflection drawing
+        MM2Lua::OnDrawReflected(car, intensity);
     }
 
     AGE_API void vehCarModel::DrawReflectedParts(int lod)
@@ -1903,6 +1924,10 @@ namespace MM2
 
             //lua functions
             .addFunction("GetSurfaceColor", &getSurfaceColorLua)
+            .addFunction("DrawPart", static_cast<void (vehCarModel::*)(int, int, const Matrix34&, modShader*)>(&DrawPart))
+            .addFunction("DrawPartReflected", &DrawPartReflected)
+            .addFunction("DrawPartShadowed", &DrawPartShadowed)
+            .addFunction("DrawHeadlights", &DrawHeadlights)
 
             //functions
             .addFunction("Reset", &Reset)

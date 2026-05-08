@@ -149,7 +149,7 @@ namespace MM2
         AGE_API void DrawHeadlights(bool rotate);
         AGE_API void DrawPart(modStatic* model, const Matrix34& matrix, modShader* shaders);
         AGE_API void DrawPart(int lod, int geomId, const Matrix34& matrix, modShader* shaders);
-        void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected);
+        void DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected = true);
         void DrawPartShadowed(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity);
         void Init(vehCar* car, const char* basename, int variant);
         

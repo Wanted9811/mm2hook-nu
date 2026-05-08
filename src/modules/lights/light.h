@@ -57,6 +57,7 @@ namespace MM2
         AGE_API void Random();
         AGE_API void Draw(float scale);
         AGE_API void DrawGlow(Vector3 const& cameraPosition);
+        AGE_API void DrawCustomGlow(Vector3 const& cameraPosition, Matrix34 const& modelMatrix, float size, bool enableFade = false, bool flatMode = false);
         AGE_API void DrawHighlight(Vector3* a1, Matrix34* a2);
         AGE_API void SetUpGfxLight();
         AGE_API bool SetGfxLight(gfxLight* a1, Vector3* a2);

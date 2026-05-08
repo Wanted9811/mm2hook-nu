@@ -390,8 +390,64 @@ void MM2Lua::Initialize() {
 
 void MM2Lua::Reset()
 {
-    if(IsInitialized())
+    if (IsInitialized())
         luaSetGlobals();
+}
+
+void MM2Lua::OnBreakElectrics(vehCar* car, const Vector3& impactPosition, float damageRadius)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onBreakElectrics");
+        TryCallFunction<void>(func, car, impactPosition, damageRadius);
+    }
+}
+
+void MM2Lua::OnCarInit(vehCar* car, const char* basename)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onCarInit");
+        TryCallFunction<void>(func, car, basename);
+    }
+}
+
+void MM2Lua::OnClearDamage(vehCar* car)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onClearDamage");
+        TryCallFunction<void>(func, car);
+    }
+}
+
+void MM2Lua::OnDraw(vehCar* car, int lod)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onDraw");
+        TryCallFunction<void>(func, car, lod);
+    }
+}
+
+void MM2Lua::OnDrawShadow(vehCar* car, const MM2::Matrix34& shadowMatrix, float intensity)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onDrawShadow");
+        TryCallFunction<void>(func, car, shadowMatrix, intensity);
+    }
+}
+
+void MM2Lua::OnDrawGlow(vehCar* car)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onDrawGlow");
+        TryCallFunction<void>(func, car);
+    }
+}
+
+void MM2Lua::OnDrawReflected(vehCar* car, float intensity)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onDrawReflected");
+        TryCallFunction<void>(func, car, intensity);
+    }
 }
 
 void MM2Lua::OnRenderHudmap()
@@ -523,7 +579,7 @@ void MM2Lua::OnStartup()
 
 void MM2Lua::OnShutdown()
 {
-    if(IsInitialized()) {
+    if (IsInitialized()) {
         {
             LuaRef func(L, "shutdown");
             TryCallFunction(func);

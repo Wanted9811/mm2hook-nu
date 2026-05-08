@@ -44,7 +44,7 @@ namespace MM2
     extern void tglDrawRotatedParticle(const Vector3 &p1, float p2, float p3, const Vector4 &p4);
     extern void tglDrawShadowedParticle(const Matrix34& matrix, float size, const Vector4 &color);
     extern void tglDrawProjectionParticle(const Matrix34& matrix, dgBangerGlowData* glowData);
-    extern void tglDrawFlatParticle(const Matrix34& matrix, const Vector3& position, const Vector4 &color, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture);
+    extern void tglDrawFlatParticle(const Matrix34& matrix, const Vector3& position, float size, const Vector4 &color, dgBangerGlowData* glowData = nullptr, gfxTexture* defaultGlowTexture = nullptr);
     extern void tglDrawCustomParticle(const Matrix34& matrix, dgBangerGlowData* glowData, gfxTexture* defaultGlowTexture, lvlInstance* instance);
     extern void tglDrawCustomProjection(const Matrix34& matrix, dgBangerGlowData* glowData, lvlInstance* instance);
     extern void tglDrawCustomShadowedParticle(const Matrix34& matrix, const Vector3& position, dgBangerGlowData* glowData, lvlInstance* instance);

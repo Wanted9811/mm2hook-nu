@@ -27,19 +27,37 @@ ltLight* ltLight::GetClosestLight() { return hook::StaticThunk<0x59B410>::Call<l
 void ltLight::Default() { hook::Thunk<0x59ABF0>::Call<void>(this); }
 void ltLight::Random() { hook::Thunk<0x59AC40>::Call<void>(this); }
 void ltLight::Draw(float scale) { hook::Thunk<0x59ACB0>::Call<void>(this, scale); }
-void ltLight::DrawGlow(Vector3 const & cameraPosition) 
+void ltLight::DrawGlow(Vector3 const& cameraPosition) 
 {
     if (this->Type != 2)
     {
         float intensity = this->ComputeIntensity(cameraPosition, 0.0f);
-        auto positionDifference = (cameraPosition - this->Position);
+        Vector3 positionDifference = (cameraPosition - this->Position);
         Vector3 drawPosition = Vector3(this->Position);
 
         Vector3 color = Vector3(this->Color.X, this->Color.Y, this->Color.Z) * ltLight::GlowIntensity.get();
         float size =  sqrtf(intensity * positionDifference.Mag2()) * ltLight::GlowScale.get();
 
-        //tglDrawParticle(drawPosition, size, Vector4(color.X, color.Y, color.Z, 1.0f));
         tglDrawParticleClipAdjusted(drawPosition, size, Vector4(color.X, color.Y, color.Z, 1.0f));
+    }
+}
+
+void ltLight::DrawCustomGlow(Vector3 const& cameraPosition, Matrix34 const& modelMatrix, float size, bool enableFade, bool flatMode)
+{
+    if (this->Type != 2)
+    {
+        float computedIntensity = this->ComputeIntensity(cameraPosition, 0.0f);
+        Vector3 positionDifference = (cameraPosition - this->Position);
+        Vector3 drawPosition = Vector3(this->Position);
+
+        float intensity = enableFade ? sqrtf(computedIntensity * positionDifference.Mag2()) * ltLight::GlowScale.get() : 1.0f;
+        Vector3 adjustedColor = Vector3(this->Color.X, this->Color.Y, this->Color.Z) * intensity;
+		Vector4 color = Vector4(adjustedColor.X, adjustedColor.Y, adjustedColor.Z, 1.0f);
+
+        if (flatMode)
+            tglDrawFlatParticle(modelMatrix, drawPosition, size, color);
+        else
+            tglDrawParticleClipAdjusted(drawPosition, size, color);
     }
 }
 
@@ -84,6 +102,7 @@ void ltLight::BindLua(LuaState L) {
 
         //statics
         .addStaticVariable("PGC", &ltLight::PreventGeometryClipping)
+        .addStaticProperty("GlowTexture", []() -> gfxTexture* { return ltLight::GlowTexture.get(); }, [](gfxTexture* texture) { ltLight::GlowTexture.set(texture); })
 
         .addStaticFunction("ShutdownLights", &ShutdownLights)
         .addStaticFunction("DrawGlowBegin", &DrawGlowBegin)
@@ -99,6 +118,7 @@ void ltLight::BindLua(LuaState L) {
         .addFunction("Random", &Random)
         .addFunction("Draw", &Draw)
         .addFunction("DrawGlow", &DrawGlow)
+        .addFunction("DrawCustomGlow", &DrawCustomGlow)
         .addFunction("DrawHighlight", &DrawHighlight)
         .addFunction("ComputeDistance", &ComputeDistance)
         .addFunction("ComputeIntensity", &ComputeIntensity)

@@ -70,6 +70,13 @@ public:
     static void MarkForCleanupOnShutdown(MM2::Base* object);
 
     //events
+    static void OnBreakElectrics(MM2::vehCar* car, const MM2::Vector3& impactPosition, float damageRadius);
+    static void OnCarInit(MM2::vehCar* car, const char* basename);
+    static void OnClearDamage(MM2::vehCar* car);
+    static void OnDraw(MM2::vehCar* car, int lod);
+    static void OnDrawShadow(MM2::vehCar* car, const MM2::Matrix34& shadowMatrix, float intensity);
+    static void OnDrawGlow(MM2::vehCar* car);
+    static void OnDrawReflected(MM2::vehCar* car, float intensity);
     static void OnRenderHudmap();
     static void OnChatMessage(const char* message);
     static void OnReset();
