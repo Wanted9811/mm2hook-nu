@@ -220,6 +220,11 @@ void vehCarHandler::Update()
         }
     }
 
+    // Disable headlights flashing for non-police cars
+	auto policeAudio = audio->GetPoliceCarAudioPtr();
+    if (policeAudio == nullptr && siren != nullptr)
+		siren->SetActive(false);
+
     if (vehCarModel::MM1StyleTransmission)
     {
         vehCarHandler::Mm1StyleTransmission();
