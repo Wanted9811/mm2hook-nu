@@ -25,6 +25,7 @@ namespace MM2
         ltLensFlare* LensFlare;
         //EXTRA FIELD. The hook expands on this class, this is only possible because it's only used like a pointer in the original MM code
         bool *LightElectrics;
+		bool CustomGlowState;
     public:
 		ANGEL_ALLOCATOR
 
@@ -40,6 +41,8 @@ namespace MM2
         void SetLightPosition(int index, Vector3& position);
         bool GetLightElectric(int index);
         void SetLightElectric(int index, bool state);
+        bool GetCustomGlowState() const;
+		void SetCustomGlowState(bool state);
 
         //member funcs
         AGE_API void Init(int lightCount);

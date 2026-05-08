@@ -158,6 +158,16 @@ namespace MM2
         prevSplashState = state;
     }
 
+    bool vehCarModel::GetCustomGlowState() const
+    {
+        return customGlowState;
+    }
+
+    void vehCarModel::SetCustomGlowState(bool state)
+    {
+        customGlowState = state;
+    }
+
     Matrix34 vehCarModel::GetWheelMatrix(int num)
     {
         Matrix34 whlMatrix = Matrix34();
@@ -556,7 +566,7 @@ namespace MM2
         
     AGE_API void vehCarModel::DrawHeadlights(bool rotate)
     {
-        if (this->headlights == nullptr)
+        if (this->headlights == nullptr || this->GetCustomGlowState())
             return;
 
         int headlightCount = this->GetGeomCount("headlight");
@@ -1085,7 +1095,7 @@ namespace MM2
         }
     }
 
-    AGE_API void vehCarModel::DrawShadow()                  
+    AGE_API void vehCarModel::DrawShadow()
     {
         if (vehCarModel::Enable3DShadows <= 1
             || MMSTATE->TimeOfDay == 3
@@ -1407,7 +1417,7 @@ namespace MM2
             if (vehCarModel::HeadlightType == 0 || vehCarModel::HeadlightType == 2)
             {
                 //MM2 headlights
-                if (siren != nullptr && siren->IsActive() && vehCarModel::EnableHeadlightFlashing)
+                if (siren != nullptr && siren->IsActive() && !siren->GetCustomGlowState() && vehCarModel::EnableHeadlightFlashing)
                 {
                     this->DrawHeadlights(true);
                 }
@@ -1878,7 +1888,8 @@ namespace MM2
             .addPropertyReadOnly("TrailerHitchOffset", &GetTrailerHitchOffset)
             .addProperty("Variant", &GetVariant, &SetVariant)
             .addProperty("Visible", &GetVisible, &SetVisible)
-                
+            .addProperty("CustomGlowState", &GetCustomGlowState, &SetCustomGlowState)
+
             .addStaticVariableRef("ShowHeadlights", &vehCarModel::ShowHeadlights)
             .addStaticVariableRef("LeftSignalLightState", &vehCarModel::LeftSignalLightState)
             .addStaticVariableRef("RightSignalLightState", &vehCarModel::RightSignalLightState)

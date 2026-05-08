@@ -98,6 +98,16 @@ void vehSiren::SetLightElectric(int index, bool state)
     LightElectrics[index] = state;
 }
 
+bool vehSiren::GetCustomGlowState() const
+{
+    return CustomGlowState;
+}
+
+void vehSiren::SetCustomGlowState(bool state)
+{
+    CustomGlowState = state;
+}
+
 //member funcs
 AGE_API void vehSiren::Init(int lightCount)
 {
@@ -160,7 +170,7 @@ AGE_API void vehSiren::Update()
 
 AGE_API void vehSiren::Draw(Matrix34 const& mtx)
 {
-    if (this->Light == nullptr)
+    if (this->Light == nullptr || this->CustomGlowState)
         return;
 
     Vector3 camPosition = static_cast<Vector3>(gfxRenderState::GetCameraMatrix().GetRow(3));
@@ -200,6 +210,7 @@ void vehSiren::BindLua(LuaState L) {
         .addPropertyReadOnly("HasLights", &GetHasLights)
         .addPropertyReadOnly("LightCount", &GetLightCount)
         .addProperty("Active", &IsActive, &SetActive)
+        .addProperty("CustomGlowState", &GetCustomGlowState, &SetCustomGlowState)
         .addVariable("RotationRate", &vehSiren::RotationRate)
 
         //lua members

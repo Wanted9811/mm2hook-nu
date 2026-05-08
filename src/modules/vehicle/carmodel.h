@@ -101,6 +101,7 @@ namespace MM2
         mmDamage* mm1Damage;
         mmLightDamage* lightDamage;
         bool prevSplashState;
+        bool customGlowState;
     public:
         AGE_API vehCarModel();
         AGE_API ~vehCarModel();
@@ -120,6 +121,8 @@ namespace MM2
         mmLightDamage* GetLightDamage();
         bool GetPrevSplashState();
         void SetPrevSplashState(bool state);
+        bool GetCustomGlowState() const;
+        void SetCustomGlowState(bool state);
 
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetFenderMatrix(int num);
