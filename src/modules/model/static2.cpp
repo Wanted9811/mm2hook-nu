@@ -372,5 +372,6 @@ void modStatic::BindLua(LuaState L)
 		.addFunction("GetShaderIndex", &GetShaderIndex)
 		.addFunction("GetTriCount", &GetTriCount)
 		.addFunction("GetAdjunctCount", &GetAdjunctCount)
+		.addFunction("Draw", &Draw)
 		.endClass();
 }
