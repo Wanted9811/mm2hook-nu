@@ -1,6 +1,7 @@
 #pragma once
 #include "mm2_common.h"
 #include "mm2_network.h"
+#include <modules\level\inst.h>
 #include <map>
 #include <string>
 
@@ -70,13 +71,13 @@ public:
     static void MarkForCleanupOnShutdown(MM2::Base* object);
 
     //events
-    static void OnBreakElectrics(MM2::vehCar* car, const MM2::Vector3& impactPosition, float damageRadius);
-    static void OnCarInit(MM2::vehCar* car, const char* basename);
-    static void OnClearDamage(MM2::vehCar* car);
-    static void OnDraw(MM2::vehCar* car, int lod);
-    static void OnDrawShadow(MM2::vehCar* car, const MM2::Matrix34& shadowMatrix, float intensity);
-    static void OnDrawGlow(MM2::vehCar* car);
-    static void OnDrawReflected(MM2::vehCar* car, float intensity);
+    static void OnBreakElectrics(MM2::lvlInstance* instance, const MM2::Vector3& impactPosition, float damageRadius, int instanceType = 0);
+    static void OnInitInstance(MM2::lvlInstance* instance, const char* basename, int instanceType = 0);
+    static void OnClearDamage(MM2::lvlInstance* instance, int instanceType = 0);
+    static void OnDraw(MM2::lvlInstance* instance, int lod, int instanceType = 0);
+    static void OnDrawShadow(MM2::lvlInstance* instance, const MM2::Matrix34& shadowMatrix, float intensity, int instanceType = 0);
+    static void OnDrawGlow(MM2::lvlInstance* instance, int instanceType = 0);
+    static void OnDrawReflected(MM2::lvlInstance* instance, float intensity, int instanceType = 0);
     static void OnRenderHudmap();
     static void OnChatMessage(const char* message);
     static void OnReset();

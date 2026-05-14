@@ -453,7 +453,7 @@ namespace MM2
         }
 
 		// Hook to allow for custom car lights damage
-		MM2Lua::OnBreakElectrics(car, localImpactPos, radius);
+		MM2Lua::OnBreakElectrics(this, localImpactPos, radius);
     }
     
     AGE_API void vehCarModel::ClearDamage()
@@ -488,7 +488,7 @@ namespace MM2
         }
 
         // Hook to allow for custom car damage clearing
-        MM2Lua::OnClearDamage(car);
+        MM2Lua::OnClearDamage(this);
     }
 
     AGE_API void vehCarModel::EjectOneshot()
@@ -881,8 +881,8 @@ namespace MM2
             this->trailerHitchPosition = Vector3(outMatrix.m30, outMatrix.m31, outMatrix.m32);
         }
 
-        // Hook to allow for custom car initializing
-        MM2Lua::OnCarInit(car, basename);
+        // Hook to allow for custom car initialization
+        MM2Lua::OnInitInstance(this, basename);
     }
         
     /*
@@ -1113,7 +1113,7 @@ namespace MM2
         }
 
         // Hook to allow for custom car drawing
-        MM2Lua::OnDraw(car, lod);
+        MM2Lua::OnDraw(this, lod);
     }
 
     AGE_API void vehCarModel::DrawShadow()
@@ -1265,7 +1265,7 @@ namespace MM2
                 }
 
                 // Hook to allow for custom car shadow drawing
-                MM2Lua::OnDrawShadow(car, shadowMatrix, intensity);
+                MM2Lua::OnDrawShadow(this, shadowMatrix, intensity);
             }
         }
 
@@ -1487,7 +1487,7 @@ namespace MM2
         }
 
         // Hook to allow for custom car lights drawing
-        MM2Lua::OnDrawGlow(car);
+        MM2Lua::OnDrawGlow(this);
     }
 
     AGE_API void vehCarModel::DrawReflected(float intensity)
@@ -1670,7 +1670,7 @@ namespace MM2
         }
 
         // Hook to allow for custom car reflection drawing
-        MM2Lua::OnDrawReflected(car, intensity);
+        MM2Lua::OnDrawReflected(this, intensity);
     }
 
     AGE_API void vehCarModel::DrawReflectedParts(int lod)

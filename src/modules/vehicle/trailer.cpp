@@ -255,6 +255,9 @@ namespace MM2
             GetPivot(outMatrix, basename, "trailer_hitch");
             this->HitchOffset = outMatrix.GetRow(3);
         }
+
+		// Hook to allow for custom trailer initialization
+		MM2Lua::OnInitInstance(this, basename, 2);
     }
 
     AGE_API const Vector3& vehTrailerInstance::GetPosition()
@@ -313,6 +316,9 @@ namespace MM2
                 DrawPart(lod, whlId, this->GetWheelMatrix(i), shaders);
             }
         }
+
+		// Hook to allow for custom trailer drawing
+		MM2Lua::OnDraw(this, lod, 2);
     }
 
     AGE_API void vehTrailerInstance::DrawShadow()
@@ -379,6 +385,9 @@ namespace MM2
                         }
                     }
                 }
+
+                // Hook to allow for custom trailer shadow drawing
+                MM2Lua::OnDrawShadow(this, shadowMatrix, intensity, 2);
             }
         }
 
@@ -536,6 +545,9 @@ namespace MM2
             else if (sirenStage == 1 && siren1 != nullptr)
                 siren1->Draw(shaders);
         }
+
+		// Hook to allow for custom trailer lights drawing
+		MM2Lua::OnDrawGlow(this, 2);
     }
 
     AGE_API void vehTrailerInstance::DrawReflected(float intensity)
@@ -575,6 +587,9 @@ namespace MM2
                 DrawPartReflected(3, whlId, this->GetWheelMatrix(i), shaders, intensity, vehCarModel::WheelReflections);
             }
         }
+
+		// Hook to allow for custom trailer reflection drawing
+		MM2Lua::OnDrawReflected(this, intensity, 2);
     }
 
     AGE_API void vehTrailerInstance::DrawReflectedParts(int lod)

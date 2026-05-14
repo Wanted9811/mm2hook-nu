@@ -273,6 +273,9 @@ namespace MM2
                 }
             }
         }
+
+        // Hook to allow for custom car initialization
+        MM2Lua::OnInitInstance(this, basename, 1);
     }
 
     //overrides
@@ -366,6 +369,9 @@ namespace MM2
                 }
             }
         }
+
+        // Hook to allow for custom car drawing
+        MM2Lua::OnDraw(this, lod, 1);
     }
 
     AGE_API void aiVehicleInstance::DrawShadow()
@@ -433,6 +439,9 @@ namespace MM2
                         DrawPartShadowed(3, whlGeomId, this->GetWheelShadowMatrix(i, shadowMatrix), shaders, intensity);
                     }
                 }
+
+                // Hook to allow for custom car shadow drawing
+                MM2Lua::OnDrawShadow(this, shadowMatrix, intensity, 1);
             }
         }
 
@@ -553,6 +562,9 @@ namespace MM2
                     hlight->Draw(shaders);
             }
         }
+
+        // Hook to allow for custom car lights drawing
+        MM2Lua::OnDrawGlow(this, 1);
     }
 
     AGE_API void aiVehicleInstance::DrawReflected(float intensity)
@@ -603,6 +615,9 @@ namespace MM2
                 DrawPartReflected(3, whlId, this->GetWheelMatrix(i), shaders, intensity, vehCarModel::WheelReflections);
             }
         }
+
+        // Hook to allow for custom car reflection drawing
+        MM2Lua::OnDrawReflected(this, intensity, 1);
     }
 
     AGE_API void aiVehicleInstance::DrawReflectedParts(int lod)

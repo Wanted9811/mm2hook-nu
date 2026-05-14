@@ -394,59 +394,150 @@ void MM2Lua::Reset()
         luaSetGlobals();
 }
 
-void MM2Lua::OnBreakElectrics(vehCar* car, const Vector3& impactPosition, float damageRadius)
+void MM2Lua::OnBreakElectrics(lvlInstance* instance, const Vector3& impactPosition, float damageRadius, int instanceType)
 {
     if (IsInitialized()) {
         LuaRef func(L, "onBreakElectrics");
-        TryCallFunction<void>(func, car, impactPosition, damageRadius);
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance, impactPosition, damageRadius);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance, impactPosition, damageRadius);
+            break;
+        case 2:
+            TryCallFunction<void>(func, (vehTrailerInstance*)instance, impactPosition, damageRadius);
+            break;
+        default:
+            break;
+        }
     }
 }
 
-void MM2Lua::OnCarInit(vehCar* car, const char* basename)
+void MM2Lua::OnInitInstance(lvlInstance* instance, const char* basename, int instanceType)
 {
     if (IsInitialized()) {
-        LuaRef func(L, "onCarInit");
-        TryCallFunction<void>(func, car, basename);
+        LuaRef func(L, "onInitInstance");
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance, basename);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance, basename);
+            break;
+		case 2:
+			TryCallFunction<void>(func, (vehTrailerInstance*)instance, basename);
+			break;
+        default:
+			break;
+        }
     }
 }
 
-void MM2Lua::OnClearDamage(vehCar* car)
+void MM2Lua::OnClearDamage(lvlInstance* instance, int instanceType)
 {
     if (IsInitialized()) {
         LuaRef func(L, "onClearDamage");
-        TryCallFunction<void>(func, car);
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance);
+            break;
+        case 2:
+            TryCallFunction<void>(func, (vehTrailerInstance*)instance);
+            break;
+        default:
+            break;
+        }
     }
 }
 
-void MM2Lua::OnDraw(vehCar* car, int lod)
+void MM2Lua::OnDraw(lvlInstance* instance, int lod, int instanceType)
 {
     if (IsInitialized()) {
         LuaRef func(L, "onDraw");
-        TryCallFunction<void>(func, car, lod);
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance, lod);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance, lod);
+            break;
+        case 2:
+            TryCallFunction<void>(func, (vehTrailerInstance*)instance, lod);
+            break;
+        default:
+            break;
+        }
     }
 }
 
-void MM2Lua::OnDrawShadow(vehCar* car, const MM2::Matrix34& shadowMatrix, float intensity)
+void MM2Lua::OnDrawShadow(lvlInstance* instance, const MM2::Matrix34& shadowMatrix, float intensity, int instanceType)
 {
     if (IsInitialized()) {
         LuaRef func(L, "onDrawShadow");
-        TryCallFunction<void>(func, car, shadowMatrix, intensity);
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance, shadowMatrix, intensity);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance, shadowMatrix, intensity);
+            break;
+        case 2:
+            TryCallFunction<void>(func, (vehTrailerInstance*)instance, shadowMatrix, intensity);
+            break;
+        default:
+            break;
+        }
     }
 }
 
-void MM2Lua::OnDrawGlow(vehCar* car)
+void MM2Lua::OnDrawGlow(lvlInstance* instance, int instanceType)
 {
     if (IsInitialized()) {
         LuaRef func(L, "onDrawGlow");
-        TryCallFunction<void>(func, car);
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance);
+            break;
+		case 2:
+			TryCallFunction<void>(func, (vehTrailerInstance*)instance);
+			break;
+        default:
+            break;
+        }
     }
 }
 
-void MM2Lua::OnDrawReflected(vehCar* car, float intensity)
+void MM2Lua::OnDrawReflected(lvlInstance* instance, float intensity, int instanceType)
 {
     if (IsInitialized()) {
         LuaRef func(L, "onDrawReflected");
-        TryCallFunction<void>(func, car, intensity);
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance, intensity);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance, intensity);
+            break;
+        case 2:
+            TryCallFunction<void>(func, (vehTrailerInstance*)instance, intensity);
+            break;
+        default:
+            break;
+        }
     }
 }
 
