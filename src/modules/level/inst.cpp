@@ -1,5 +1,6 @@
 #pragma once
 #include "inst.h"
+#include "mm2_lua.h"
 #include <modules\data\hash.h>
 #include <modules\model\package.h>
 #include <modules\model\shader.h>
@@ -9,6 +10,7 @@
 using namespace MM2;
 
 static ConfigValue<int> cfgInstanceShadows("3DShadows", 0);
+static bool GeomExists;
 
 extern class lvlFixedAny;
 extern class lvlFixedRotY;
@@ -575,166 +577,20 @@ int lvlInstance::GetGeomCount(const char* geomGroup) const
     return geomCount;
 }
 
-char* lvlInstance::GetGroupGeomNames(const char* group, int nameId)
+void lvlInstance::AddGeometry(const char* basename, const char* geomName)
 {
-    if (!_strcmpi(group, "player"))
-    {
-        static const int geomCount = 62;
-        char* groupGeoms[geomCount] = {
-            "shadow",
-            "hlight",
-            "tlight",
-            "rlight",
-            "slight0",
-            "slight1",
-            "blight",
-            "bodydamage",
-            "siren0",
-            "siren1",
-            "decal",
-            "driver",
-            "shock0",
-            "shock1",
-            "shock2",
-            "shock3",
-            "arm0",
-            "arm1",
-            "arm2",
-            "arm3",
-            "shaft2",
-            "shaft3",
-            "axle0",
-            "axle1",
-            "engine",
-            "whl0",
-            "whl1",
-            "whl2",
-            "whl3",
-            "break0",
-            "break1",
-            "break2",
-            "break3",
-            "break01",
-            "break12",
-            "break23",
-            "break03",
-            "hub0",
-            "hub1",
-            "hub2",
-            "hub3",
-            "trailer_hitch",
-            "srn0",
-            "srn1",
-            "srn2",
-            "srn3",
-            "headlight0",
-            "headlight1",
-            "fndr0",
-            "fndr1",
-            "whl4",
-            "whl5",
-
-            //NEW MM2HOOK GEOMS
-            "plighton",
-            "plightoff",
-            "swhl0",
-            "swhl1",
-            "swhl2",
-            "swhl3",
-            "swhl4",
-            "swhl5",
-            "tslight0",
-            "tslight1"
-        };
-        return (nameId < 0 || nameId >= geomCount) ? NULL : groupGeoms[nameId];
-    }
-
-    if (!_strcmpi(group, "ambient"))
-    {
-        static const int geomCount = 32;
-        char* groupGeoms[geomCount] = {
-            "shadow",
-            "hlight",
-            "tlight",
-            "slight0",
-            "slight1",
-            "whl0",
-            "whl1",
-            "whl2",
-            "whl3",
-            "break0",
-            "break1",
-            "break2",
-            "break3",
-            "headlight0",
-            "headlight1",
-            "whl4",
-            "whl5",
-
-            //NEW MM2HOOK GEOMS
-            "blight",
-            "break01",
-            "break12",
-            "break23",
-            "break03",
-            "plighton",
-            "plightoff",
-            "swhl0",
-            "swhl1",
-            "swhl2",
-            "swhl3",
-            "swhl4",
-            "swhl5",
-            "tslight0",
-            "tslight1"
-        };
-        return (nameId < 0 || nameId >= geomCount) ? NULL : groupGeoms[nameId];
-    }
-
-    if (!_strcmpi(group, "trailer"))
-    {
-        static const int geomCount = 24;
-        char* groupGeoms[geomCount] = {
-            "shadow",
-            "tlight",
-            "twhl0",
-            "twhl1",
-            "twhl2",
-            "twhl3",
-            "trailer_hitch",
-
-            //NEW MM2HOOK GEOMS
-            "rlight",
-            "blight",
-            "hlight",
-            "slight0",
-            "slight1",
-            "siren0",
-            "siren1",
-            "twhl4",
-            "twhl5",
-            "tswhl0",
-            "tswhl1",
-            "tswhl2",
-            "tswhl3",
-            "tswhl4",
-            "tswhl5",
-            "tslight0",
-            "tslight1"
-        };
-        return (nameId < 0 || nameId >= geomCount) ? NULL : groupGeoms[nameId];
-    }
-    return NULL;
+    AddGeom(basename, geomName, 0);
+    GeomExists = true;
 }
 
-void lvlInstance::AddGeoms(const char* basename, const char* group, bool useGroupGeoms)
+void lvlInstance::AddGeoms(const char* basename, int instanceType)
 {
     auto PKG = *(modPackage**)0x651740;
     while (_strcmpi(PKG->GetCurrentFileName(), "shaders"))
     {
         int flagId = 0;
         int nameId = 0;
-        bool geomExists = false;
+        GeomExists = false;
 
         char curGeomName[64];
         strcpy_s(curGeomName, PKG->GetCurrentFileName());
@@ -748,34 +604,8 @@ void lvlInstance::AddGeoms(const char* basename, const char* group, bool useGrou
         {
             *find = '\0';
 
-            //if (strstr(curGeomName, "whl"))
-                //flagId = 4;
-
-            if (strstr(curGeomName, "break") ||
-                strstr(curGeomName, "engine") ||
-                strstr(curGeomName, "variant") ||
-                strstr(curGeomName, "lightbar"))
-            {
-                flagId = 2;
-            }
-
-            if (useGroupGeoms)
-            {
-                while (char* groupGeomName = GetGroupGeomNames(group, nameId))
-                {
-                    if (!_strcmpi(curGeomName, groupGeomName))
-                    {
-                        AddGeom(basename, curGeomName, flagId);
-                        geomExists = true;
-                    }
-                    ++nameId;
-                }
-            }
-            else // Add all PKG geoms
-            {
-                AddGeom(basename, curGeomName, flagId);
-                geomExists = true;
-            }
+            // Hook to allow for custom geometry addition
+            MM2Lua::OnAddGeometry(this, basename, curGeomName, instanceType);
         }
         else
         {
@@ -783,7 +613,7 @@ void lvlInstance::AddGeoms(const char* basename, const char* group, bool useGrou
             break;
         }
 
-        if (!geomExists)
+        if (!GeomExists)
         {
             PKG->Skip();
         }
@@ -871,6 +701,7 @@ void lvlInstance::BindLua(LuaState L) {
         .addFunction("InitGhost", &InitGhost)
         .addStaticFunction("CreateTempBounds", &CreateTempBounds)
         .addStaticFunction("DeleteTempBounds", &DeleteTempBounds)
+        .addFunction("AddGeometry", &AddGeometry)
         .addFunction("PreLoadShader", &PreLoadShader)
         .addFunction("Optimize", &Optimize)
         .addFunction("GetGeom", &GetGeom)

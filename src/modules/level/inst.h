@@ -144,8 +144,8 @@ namespace MM2
         bool BeginGeomWithGroup(const char* basename, const char* geomName, const char* group, int flags);
         int GetGeomId(const char* geomName) const;
         int GetGeomCount(const char* geomGroup) const;
-        void AddGeoms(const char* basename, const char* group, bool useGroupGeoms = false);
-        char* GetGroupGeomNames(const char* group, int nameId);
+        void AddGeoms(const char* basename, int instanceType = 0);
+        void AddGeometry(const char* basename, const char* geomName);
 
         /*
             lvlInstance virtuals

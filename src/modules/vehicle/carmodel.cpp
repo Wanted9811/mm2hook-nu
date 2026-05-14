@@ -666,7 +666,7 @@ namespace MM2
 
         if (lvlInstance::BeginGeomWithGroup(basename, "body", "player", 0xC)) 
         {
-            lvlInstance::AddGeoms(basename, "player");
+            lvlInstance::AddGeoms(basename);
             lvlInstance::EndGeom();
             hasGeometry = true;
         }

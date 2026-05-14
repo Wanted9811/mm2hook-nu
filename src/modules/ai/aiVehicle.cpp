@@ -212,7 +212,7 @@ namespace MM2
 
         if (lvlInstance::BeginGeom(basename, "body", 5))
         {
-            lvlInstance::AddGeoms(basename, "ambient", true);
+            lvlInstance::AddGeoms(basename, 1);
             lvlInstance::EndGeom();
         }
 

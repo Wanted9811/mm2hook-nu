@@ -71,6 +71,7 @@ public:
     static void MarkForCleanupOnShutdown(MM2::Base* object);
 
     //events
+	static void OnAddGeometry(MM2::lvlInstance* instance, const char* basename, const char* geomName, int instanceType = 0);
     static void OnBreakElectrics(MM2::lvlInstance* instance, const MM2::Vector3& impactPosition, float damageRadius, int instanceType = 0);
     static void OnInitInstance(MM2::lvlInstance* instance, const char* basename, int instanceType = 0);
     static void OnClearDamage(MM2::lvlInstance* instance, int instanceType = 0);

@@ -394,6 +394,27 @@ void MM2Lua::Reset()
         luaSetGlobals();
 }
 
+void MM2Lua::OnAddGeometry(lvlInstance* instance, const char* basename, const char* geomName, int instanceType)
+{
+    if (IsInitialized()) {
+        LuaRef func(L, "onAddGeometry");
+        switch (instanceType)
+        {
+        case 0:
+            TryCallFunction<void>(func, (vehCarModel*)instance, basename, geomName);
+            break;
+        case 1:
+            TryCallFunction<void>(func, (aiVehicleInstance*)instance, basename, geomName);
+            break;
+        case 2:
+            TryCallFunction<void>(func, (vehTrailerInstance*)instance, basename, geomName);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void MM2Lua::OnBreakElectrics(lvlInstance* instance, const Vector3& impactPosition, float damageRadius, int instanceType)
 {
     if (IsInitialized()) {

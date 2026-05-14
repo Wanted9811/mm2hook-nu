@@ -237,7 +237,7 @@ namespace MM2
 
         if (lvlInstance::BeginGeom(basename, "trailer", 0xD))
         {
-            lvlInstance::AddGeoms(basename, "trailer");
+            lvlInstance::AddGeoms(basename, 2);
             lvlInstance::EndGeom();
             hasGeometry = true;
         }
