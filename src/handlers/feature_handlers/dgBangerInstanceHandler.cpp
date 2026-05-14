@@ -21,10 +21,10 @@ void dgBangerInstanceHandler::Draw(int lod)
     banger->dgBangerInstance::Draw(lod);
 }
 
-void dgBangerInstanceHandler::DrawReflectedParts(int lod)
+void dgBangerInstanceHandler::DrawShadow()
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
-    banger->dgBangerInstance::DrawReflectedParts(lod);
+    banger->dgBangerInstance::DrawShadow();
 }
 
 void dgBangerInstanceHandler::DrawGlow()
@@ -33,10 +33,16 @@ void dgBangerInstanceHandler::DrawGlow()
     banger->dgBangerInstance::DrawGlow();
 }
 
-void dgBangerInstanceHandler::DrawShadow()
+void dgBangerInstanceHandler::DrawReflected(float intensity)
 {
     auto banger = reinterpret_cast<dgBangerInstance*>(this);
-    banger->dgBangerInstance::DrawShadow();
+    banger->dgBangerInstance::DrawReflected(intensity);
+}
+
+void dgBangerInstanceHandler::DrawReflectedParts(int lod)
+{
+    auto banger = reinterpret_cast<dgBangerInstance*>(this);
+    banger->dgBangerInstance::DrawReflectedParts(lod);
 }
 
 bool dgBangerInstanceHandler::Save()
@@ -71,6 +77,13 @@ void dgBangerInstanceHandler::Install()
         }
     );
 
+    InstallCallback("dgBangerInstance::Init", "Hook BeginGeom to set instance shadowing flag.",
+        &dgBangerInstance_BeginGeom, {
+            cb::call(0x53C7DE), // aiTrafficLightInstance::Init
+            cb::call(0x441C86), // dgUnhitBangerInstance::Init
+        }
+    );
+
     InstallVTableHook("dgBangerInstance::Draw",
         &Draw, {
             0x5B14C0,
@@ -81,18 +94,17 @@ void dgBangerInstanceHandler::Install()
         }
     );
 
-    InstallVTableHook("dgBangerInstance::DrawReflectedParts",
-        &DrawReflectedParts, {
-            0x5B14D4,
-            0x5B154C,
-            0x5B15F8,
-            0x5B1668,
-            0x5B54EC,
-            0x5B5714,
-            0x5B57D8,
-            0x5B5FCC,
-            0x5B6114,
-            0x5B61C0
+    InstallVTableHook("dgBangerInstance::DrawShadow",
+        &DrawShadow, {
+            0x5B14C4,
+            0x5B153C,
+            0x5B15E8,
+            0x5B1658,
+            0x5B5704,
+            0x5B57C8,
+            0x5B5FBC,
+            0x5B6104,
+            0x5B61B0
         }
     );
 
@@ -110,6 +122,35 @@ void dgBangerInstanceHandler::Install()
         }
     );
 
+    InstallVTableHook("dgBangerInstance::DrawReflected",
+        &DrawReflected, {
+            0x5B14D0,
+            0x5B1548,
+            0x5B15F4,
+            0x5B54E8,
+            0x5B5710,
+            0x5B57D4,
+            0x5B5FC8,
+            0x5B6110,
+            0x5B61BC
+        }
+	);
+
+    InstallVTableHook("dgBangerInstance::DrawReflectedParts",
+        &DrawReflectedParts, {
+            0x5B14D4,
+            0x5B154C,
+            0x5B15F8,
+            0x5B1668,
+            0x5B54EC,
+            0x5B5714,
+            0x5B57D8,
+            0x5B5FCC,
+            0x5B6114,
+            0x5B61C0
+        }
+    );
+
     InstallVTableHook("dgBangerData::Save",
         &Save, {
             0x5B1484
@@ -123,26 +164,5 @@ void dgBangerInstanceHandler::Install()
     );
 
     GameEventDispatcher::RegisterStateEndCallback(Reset);
-
-    InstallVTableHook("dgBangerInstance::DrawShadow",
-        &DrawShadow, {
-            0x5B14C4,
-            0x5B153C,
-            0x5B15E8,
-            0x5B1658,
-            0x5B5704,
-            0x5B57C8,
-            0x5B5FBC,
-            0x5B6104,
-            0x5B61B0
-        }
-    );
-
-    InstallCallback("dgBangerInstance::Init", "Hook BeginGeom to set instance shadowing flag.",
-        &dgBangerInstance_BeginGeom, {
-            cb::call(0x53C7DE), // aiTrafficLightInstance::Init
-            cb::call(0x441C86), // dgUnhitBangerInstance::Init
-        }
-    );
 }
 

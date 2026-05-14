@@ -10,9 +10,10 @@ public:
     bool Load();
 
     void Draw(int lod);
-    void DrawReflectedParts(int lod);
-    void DrawGlow();
     void DrawShadow();
+    void DrawGlow();
+	void DrawReflected(float intensity);
+    void DrawReflectedParts(int lod);
     static void Reset();
     static void Install();
 };

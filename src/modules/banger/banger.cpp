@@ -185,7 +185,11 @@ AGE_API void dgBangerInstance::DrawGlow()
     ltLight::DrawGlowEnd();
 }
 
-AGE_API void dgBangerInstance::DrawReflected(float intensity)                    { hook::Thunk<0x4417B0>::Call<void>(this, intensity); }
+AGE_API void dgBangerInstance::DrawReflected(float intensity)
+{
+	// Hook to allow for custom prop reflection drawing
+	MM2Lua::OnDrawReflected(this, intensity, 3);
+}
 
 AGE_API void dgBangerInstance::DrawReflectedParts(int lod)
 {

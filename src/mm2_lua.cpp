@@ -535,6 +535,9 @@ void MM2Lua::OnDrawReflected(lvlInstance* instance, float intensity, int instanc
         case 2:
             TryCallFunction<void>(func, (vehTrailerInstance*)instance, intensity);
             break;
+        case 3:
+            TryCallFunction<void>(func, (dgBangerInstance*)instance, intensity);
+            break;
         default:
             break;
         }
