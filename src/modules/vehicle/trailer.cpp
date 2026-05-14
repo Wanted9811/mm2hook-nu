@@ -323,12 +323,29 @@ namespace MM2
 
     AGE_API void vehTrailerInstance::DrawShadow()
     {
+        //get trailer
+        auto trailer = this->GetTrailer();
+
+        Matrix34 shadowMatrix = Matrix34();
+        Matrix34 trailerMatrix = trailer->GetInertialCS()->GetMatrix();
+
+        //get shaders
+        auto shaders = this->GetShader(this->Variant);
+
         if (vehCarModel::Enable3DShadows <= 1
             || MMSTATE->TimeOfDay == 3
             || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
         {
             // draw drop shadow
-            hook::Thunk<0x4D81F0>::Call<void>(this);
+            modStatic* shadow = this->GetGeom(3, this->GetGeomId("shadow"));
+            if (shadow != nullptr)
+            {
+                if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), trailerMatrix))
+                {
+                    gfxRenderState::SetWorldMatrix(shadowMatrix);
+                    shadow->Draw(shaders);
+                }
+            }
             return;
         }
 
@@ -340,20 +357,11 @@ namespace MM2
         auto prevCullMode = gfxRenderState::GetCullMode();
         gfxRenderState::SetCullMode(D3DCULL_CCW);
 
-        //get trailer
-        auto trailer = this->GetTrailer();
-
-        //get shaders
-        auto shaders = this->GetShader(this->Variant);
-
         //get model
         modStatic* model = this->GetGeomBase()->GetHighestLOD();
 
         if (model != nullptr)
         {
-            Matrix34 shadowMatrix = Matrix34();
-            Matrix34 trailerMatrix = trailer->GetInertialCS()->GetMatrix();
-
             if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, this->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, trailerMatrix, this))
             {
                 gfxRenderState::SetWorldMatrix(shadowMatrix);

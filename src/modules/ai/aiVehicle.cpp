@@ -376,13 +376,27 @@ namespace MM2
 
     AGE_API void aiVehicleInstance::DrawShadow()
     {
+        Matrix34 shadowMatrix = Matrix34();
+        Matrix34 vehicleMatrix = this->Spline->GetMatrix();
+
+        //get shaders
+        auto shaders = this->GetShader(this->Variant);
+
         if (vehCarModel::Enable3DShadows <= 2
             || MMSTATE->TimeOfDay == 3
             || MMSTATE->WeatherType != 0
             || lvlLevel::GetSingleton()->GetRoomInfo(this->GetRoomId())->Flags & static_cast<int>(RoomFlags::Subterranean))
         {
             // draw drop shadow
-            hook::Thunk<0x552CC0>::Call<void>(this);
+            modStatic* shadow = this->GetGeom(3, this->GetGeomId("shadow"));
+            if (shadow != nullptr)
+            {
+                if (lvlInstance::ComputeShadowMatrix(shadowMatrix, this->GetRoomId(), vehicleMatrix))
+                {
+                    gfxRenderState::SetWorldMatrix(shadowMatrix);
+                    shadow->Draw(shaders);
+                }
+            }
             return;
         }
 
@@ -393,9 +407,6 @@ namespace MM2
         //invert model faces
         auto prevCullMode = gfxRenderState::GetCullMode();
         gfxRenderState::SetCullMode(D3DCULL_CCW);
-
-        //get shaders
-        auto shaders = this->GetShader(this->Variant);
 
         //get clean shaders if we have damage textures
         if (this->HasDamageTex)
@@ -408,9 +419,6 @@ namespace MM2
 
         if (model != nullptr)
         {
-            Matrix34 shadowMatrix = Matrix34();
-            Matrix34 vehicleMatrix = this->Spline->GetMatrix();
-
             if (lvlInstance::ComputeShadowProjectionMatrix(shadowMatrix, this->GetRoomId(), timeWeather->KeyPitch, timeWeather->KeyHeading, vehicleMatrix, this))
             {
                 gfxRenderState::SetWorldMatrix(shadowMatrix);
