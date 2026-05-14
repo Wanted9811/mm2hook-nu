@@ -1909,6 +1909,7 @@ namespace MM2
     void vehCarModel::BindLua(LuaState L) {
         LuaBinding(L).beginExtendClass<vehCarModel, lvlInstance>("vehCarModel")
             //properties
+            .addPropertyReadOnly("Car", &GetCar)
             .addPropertyReadOnly("Breakables", &GetGenBreakableMgr)
             .addPropertyReadOnly("WheelBreakables", &GetMechBreakableMgr)
             .addPropertyReadOnly("TrailerHitchOffset", &GetTrailerHitchOffset)
