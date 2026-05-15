@@ -28,16 +28,6 @@ namespace MM2
         return this->Variant;
     }
 
-    bool aiVehicleInstance::GetIsEmergency() const
-    {
-        return this->IsEmergency;
-    }
-
-    void aiVehicleInstance::SetEmergency(bool emergency)
-    {
-        this->IsEmergency = emergency;
-    }
-
     void aiVehicleInstance::DrawPartReflected(int lod, int geomId, const Matrix34& matrix, modShader* shaders, float intensity, bool reflected)
     {
         if (reflected)
@@ -668,10 +658,14 @@ namespace MM2
     //lua
     void aiVehicleInstance::BindLua(LuaState L) {
         LuaBinding(L).beginExtendClass<aiVehicleInstance, lvlInstance>("aiVehicleInstance")
-            //members
+            //properties
             .addPropertyReadOnly("Breakables", &GetGenBreakableMgr)
-            .addProperty("IsEmergency", &GetIsEmergency, &SetEmergency)
             .addProperty("Variant", &GetVariant, &SetVariant)
+
+            //variables
+            .addVariableRef("IsEmergency", &aiVehicleInstance::IsEmergency)
+
+            //functions
             .addFunction("GetData", &GetData)
             .endClass();
     }

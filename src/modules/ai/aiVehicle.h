@@ -36,9 +36,9 @@ namespace MM2
         Vector3 HeadlightPosition;
         Vector3 VehiclePosition;
     public:
-		bool IsEmergency;
-		bool HasDamageTex;
         mmDamage* Damage;
+		bool HasDamageTex;
+        bool IsEmergency;
     public:
         ANGEL_ALLOCATOR
 
@@ -81,8 +81,6 @@ namespace MM2
         void DrawHeadlights();
         void InitBreakable(const char* basename, const char* breakableName);
 		bool HasDamageTextures();
-		bool GetIsEmergency() const;
-		void SetEmergency(bool emergency);
         Matrix34 GetWheelMatrix(int num);
         Matrix34 GetWheelShadowMatrix(int num, const Matrix34& shadowMatrix);
 
