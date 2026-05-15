@@ -102,6 +102,7 @@ namespace MM2
         mmLightDamage* lightDamage;
         bool prevSplashState;
         bool customGlowState;
+        bool doubleSidedCulling;
     private:
         Vector3 getSurfaceColorLua(modStatic* model);
     public:

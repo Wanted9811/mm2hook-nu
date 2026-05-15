@@ -318,6 +318,11 @@ namespace MM2
 			shaders = this->Damage->GetCleanShaders();
         }
 
+        //get cull mode
+        auto prevCullMode = gfxRenderState::GetCullMode();
+        if (DoubleSidedCulling)
+            gfxRenderState::SetCullMode(D3DCULL_NONE);
+
         //setup renderer
         Matrix34 vehicleMatrix = this->Spline->GetMatrix();
         gfxRenderState::SetWorldMatrix(vehicleMatrix);
@@ -362,6 +367,10 @@ namespace MM2
 
         // Hook to allow for custom car drawing
         MM2Lua::OnDraw(this, lod, 1);
+
+        // Set back previous cull mode
+        if (DoubleSidedCulling)
+            gfxRenderState::SetCullMode(prevCullMode);
     }
 
     AGE_API void aiVehicleInstance::DrawShadow()
@@ -576,6 +585,11 @@ namespace MM2
             shaders = this->Damage->GetCleanShaders();
         }
 
+        //get cull mode
+        auto prevCullMode = gfxRenderState::GetCullMode();
+        if (DoubleSidedCulling)
+            gfxRenderState::SetCullMode(D3DCULL_NONE);
+
         //setup renderer
         Matrix34 vehicleMatrix = this->Spline->GetMatrix();
         gfxRenderState::SetWorldMatrix(vehicleMatrix);
@@ -616,6 +630,10 @@ namespace MM2
 
         // Hook to allow for custom car reflection drawing
         MM2Lua::OnDrawReflected(this, intensity, 1);
+
+        // Set back previous cull mode
+        if (DoubleSidedCulling)
+            gfxRenderState::SetCullMode(prevCullMode);
     }
 
     AGE_API void aiVehicleInstance::DrawReflectedParts(int lod)
@@ -634,6 +652,11 @@ namespace MM2
             shaders = this->Damage->GetCleanShaders();
         }
 
+        //get cull mode
+        auto prevCullMode = gfxRenderState::GetCullMode();
+        if (DoubleSidedCulling)
+            gfxRenderState::SetCullMode(D3DCULL_NONE);
+
         //setup renderer
         Matrix34 vehicleMatrix = this->Spline->GetMatrix();
         gfxRenderState::SetWorldMatrix(vehicleMatrix);
@@ -642,6 +665,10 @@ namespace MM2
         modStatic* bodyGeom = this->GetGeom(lod, 0);
         if (bodyGeom != nullptr)
             bodyGeom->DrawGlass(shaders);
+
+        // Set back previous cull mode
+        if (DoubleSidedCulling)
+            gfxRenderState::SetCullMode(prevCullMode);
     }
 
     AGE_API unsigned int aiVehicleInstance::SizeOf()                     { return sizeof(aiVehicleInstance); };
@@ -664,6 +691,7 @@ namespace MM2
 
             //variables
             .addVariableRef("IsEmergency", &aiVehicleInstance::IsEmergency)
+            .addVariableRef("DoubleSidedCulling", &aiVehicleInstance::DoubleSidedCulling)
 
             //functions
             .addFunction("GetData", &GetData)

@@ -39,6 +39,7 @@ namespace MM2
         mmDamage* Damage;
 		bool HasDamageTex;
         bool IsEmergency;
+        bool DoubleSidedCulling;
     public:
         ANGEL_ALLOCATOR
 

@@ -939,6 +939,11 @@ namespace MM2
             }
         }
 
+        //get cull mode
+        auto prevCullMode = gfxRenderState::GetCullMode();
+        if (doubleSidedCulling)
+            gfxRenderState::SetCullMode(D3DCULL_NONE);
+
         //setup renderer
         gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
@@ -1114,6 +1119,10 @@ namespace MM2
 
         // Hook to allow for custom car drawing
         MM2Lua::OnDraw(this, lod);
+
+        // Set back previous cull mode
+        if (doubleSidedCulling)
+            gfxRenderState::SetCullMode(prevCullMode);
     }
 
     AGE_API void vehCarModel::DrawShadow()
@@ -1530,6 +1539,11 @@ namespace MM2
             }
         }
 
+        //get cull mode
+        auto prevCullMode = gfxRenderState::GetCullMode();
+        if (doubleSidedCulling)
+            gfxRenderState::SetCullMode(D3DCULL_NONE);
+
         //setup renderer
         gfxRenderState::SetWorldMatrix(this->GetWorldMatrix());
 
@@ -1682,6 +1696,10 @@ namespace MM2
 
         // Hook to allow for custom car reflection drawing
         MM2Lua::OnDrawReflected(this, intensity);
+
+        // Set back previous cull mode
+        if (doubleSidedCulling)
+            gfxRenderState::SetCullMode(prevCullMode);
     }
 
     AGE_API void vehCarModel::DrawReflectedParts(int lod)
@@ -1719,11 +1737,19 @@ namespace MM2
         int prevAlphaRef = gfxRenderState::GetAlphaRef();
         int prevZWriteEnable = gfxRenderState::GetZWriteEnabled();
 
+        //get cull mode
+        auto prevCullMode = gfxRenderState::GetCullMode();
+
 		bool secretShadow = this->GetVariant() == 4 && !strcmp(this->GetName(), "vppanozgt_body");
         if (secretShadow)
         {
             gfxRenderState::SetAlphaRef(0);
             gfxRenderState::SetZWriteEnabled(false);
+        }
+        else
+        {
+            if (doubleSidedCulling)
+                gfxRenderState::SetCullMode(D3DCULL_NONE);
         }
 
         //setup renderer
@@ -1773,7 +1799,12 @@ namespace MM2
         }
 
         if (!secretShadow)
+        {
+            // Set back previous cull mode
+            if (doubleSidedCulling)
+                gfxRenderState::SetCullMode(prevCullMode);
             return;
+        }
 
         //draw breakables
         this->genBreakableMgr->Draw(this->GetWorldMatrix(), shaders, lod);
@@ -1929,6 +1960,8 @@ namespace MM2
             .addProperty("Visible", &GetVisible, &SetVisible)
             .addProperty("CustomGlowState", &GetCustomGlowState, &SetCustomGlowState)
 
+            //variables
+            .addVariableRef("DoubleSidedCulling", &vehCarModel::doubleSidedCulling)
             .addStaticVariableRef("ShowHeadlights", &vehCarModel::ShowHeadlights)
             .addStaticVariableRef("LeftSignalLightState", &vehCarModel::LeftSignalLightState)
             .addStaticVariableRef("RightSignalLightState", &vehCarModel::RightSignalLightState)
