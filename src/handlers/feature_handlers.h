@@ -45,6 +45,7 @@
 #include "feature_handlers/mmCityListHandler.h"
 #include "feature_handlers/mmDashViewHandler.h"
 #include "feature_handlers/mmDirSndHandler.h"
+#include "feature_handlers/MMDMusicManagerHandler.h"
 #include "feature_handlers/mmExternalViewHandler.h"
 #include "feature_handlers/mmGameHandler.h"
 #include "feature_handlers/mmGameMusicDataHandler.h"

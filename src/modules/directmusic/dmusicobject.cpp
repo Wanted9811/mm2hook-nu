@@ -10,7 +10,7 @@ namespace MM2
             .addFunction("PlayMotif", &PlayMotif)
             .addFunction("PlaySegment", &PlaySegment)
             .addFunction("SetGrooveLevel", &SetGrooveLevel)
-            .addFunction("SegmentSwitch", &SegmentSwitch)
+            .addFunction("SegmentSwitch", static_cast<int (DMusicObject::*)(int,int,int)>(&SegmentSwitch))
             .endClass();
     }
 }

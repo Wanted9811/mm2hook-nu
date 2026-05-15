@@ -225,6 +225,7 @@
     <ClInclude Include="src\handlers\feature_handlers\mmCityListHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmDashViewHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmDirSndHandler.h" />
+    <ClInclude Include="src\handlers\feature_handlers\MMDMusicManagerHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmExternalViewHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmGameHandler.h" />
     <ClInclude Include="src\handlers\feature_handlers\mmGameMultiHandler.h" />
@@ -755,6 +756,7 @@
     <ClCompile Include="src\handlers\feature_handlers\mmCityListHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmDashViewHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmDirSndHandler.cpp" />
+    <ClCompile Include="src\handlers\feature_handlers\MMDMusicManagerHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmExternalViewHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmGameHandler.cpp" />
     <ClCompile Include="src\handlers\feature_handlers\mmGameMultiHandler.cpp" />

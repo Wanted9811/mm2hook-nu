@@ -18,46 +18,38 @@ namespace MM2
         static hook::Field<0x3C, int> _chaseSegmentIndex;
         static hook::Field<0x40, int> _resultsSegmentIndex;
         static hook::Field<0x44, int> _startSegmentIndex;
+        static hook::Field<0x4C, int> _numCopsPursuingPlayer;
         static hook::Field<0x50, bool> _disableIdleSegmentSwitch;
+        static hook::Field<0x51, bool> _isAirBorne;
     public:
         static hook::Type<MMDMusicManager*> Instance;
 
-        int GetFinalLapSegmentIndex() const         { return _finalLapSegmentIndex.get(this); }
-        int GetIdleSegmentIndex() const             { return _idleSegmentIndex.get(this); }
-        int GetIdleChaseSegmentIndex() const        { return _idleChaseSegmentIndex.get(this); }
-        int GetPauseSegmentIndex() const            { return _pauseSegmentIndex.get(this); }
-        int GetReturnSegmentIndex() const           { return _returnSegmentIndex.get(this); }
-        int GetChaseSegmentIndex() const            { return _chaseSegmentIndex.get(this); }
-        int GetResultsSegmentIndex() const          { return _resultsSegmentIndex.get(this); }
-        int GetStartSegmentIndex() const            { return _startSegmentIndex.get(this); }
+        int GetFinalLapSegmentIndex() const;
+        int GetIdleSegmentIndex() const;
+        int GetIdleChaseSegmentIndex() const;
+        int GetPauseSegmentIndex() const;
+        int GetReturnSegmentIndex() const;
+        int GetChaseSegmentIndex() const;
+        int GetResultsSegmentIndex() const;
+        int GetStartSegmentIndex() const;
 
-        bool GetIdleSegmentSwitchEnabled() const       { return !_disableIdleSegmentSwitch.get(this); }
-        void SetIdleSegmentSwitchEnabled(bool enabled) { _disableIdleSegmentSwitch.set(this, !enabled); }
+        int GetNumCopsPursuingPlayer() const;
+        void SetNumCopsPursuingPlayer(int numCops);
 
-        void EchoOn(float delay, float volumeScale)
-        {
-            hook::Thunk<0x51A2D0>::Call<void>(this, delay, volumeScale);
-        }
+        bool GetIdleSegmentSwitchEnabled() const;
+        void SetIdleSegmentSwitchEnabled(bool enabled);
 
-        void EchoOff()
-        {
-            hook::Thunk<0x51A3A0>::Call<void>(this);
-        }
+        bool GetIsAirBorne() const;
+        void SetIsAirBorne(bool isAirBorne);
 
-        static void BindLua(LuaState L) {
-            LuaBinding(L).beginExtendClass<MMDMusicManager, DMusicManager>("MMDMusicManager")
-            .addPropertyReadOnly("FinalLapSegmentIndex", &GetFinalLapSegmentIndex)
-            .addPropertyReadOnly("IdleSegmentIndex", &GetIdleSegmentIndex)
-            .addPropertyReadOnly("IdleChaseSegmentIndex", &GetIdleChaseSegmentIndex)
-            .addPropertyReadOnly("PauseSegmentIndex", &GetPauseSegmentIndex)
-            .addPropertyReadOnly("ReturnSegmentIndex", &GetReturnSegmentIndex)
-            .addPropertyReadOnly("ChaseSegmentIndex", &GetChaseSegmentIndex)
-            .addPropertyReadOnly("ResultsSegmentIndex", &GetResultsSegmentIndex)
-            .addPropertyReadOnly("StartSegmentIndex", &GetStartSegmentIndex)
-            .addProperty("EnableIdleSegmentSwitch", &GetIdleSegmentIndex, &SetIdleSegmentSwitchEnabled)
-            .addFunction("EchoOn", &EchoOn)
-            .addFunction("EchoOn", &EchoOff)
-            .endClass();
-        }
+        void EchoOn(float delay, float volumeScale);
+
+        void EchoOff();
+
+        void MatchMusicToPlayerSpeed(float speed);
+
+        void UpdateMusic(float speed, int numCops, bool isAirBorne);
+
+        static void BindLua(LuaState L);
     };
 }

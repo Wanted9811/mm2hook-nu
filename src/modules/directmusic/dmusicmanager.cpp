@@ -3,7 +3,6 @@
 
 namespace MM2
 {
-    //declfield(datTimeManager::Seconds)(0x5CE820);
     void DMusicManager::SetPan(float pan)
     {
         hook::Thunk<0x517540>::Call<void>(this, pan);
