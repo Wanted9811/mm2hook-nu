@@ -8,6 +8,7 @@
 class aiPathHandler {
 public:
     void UpdatePedestrians();
+    void UpdateAmbients();
 
     static void Install();
 };

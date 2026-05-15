@@ -282,6 +282,11 @@ namespace MM2
         hook::Thunk<0x544150>::Call<void>(this); 
     }
 
+    AGE_API void aiPath::UpdateAmbients()
+    {
+        hook::Thunk<0x543FC0>::Call<void>(this);
+    }
+
     AGE_API int aiPath::RoadVertice(Vector3 const& position, int side) const
     {
         return hook::Thunk<0x5485E0>::Call<int>(this, &position, side);
